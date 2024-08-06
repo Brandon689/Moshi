@@ -1,0 +1,6 @@
+@Moshi.Ecommerce_HostAddress = http://localhost:5247
+
+###GET {{Moshi.Ecommerce_HostAddress}}/weatherforecast/
+###Accept: application/json
+
+###

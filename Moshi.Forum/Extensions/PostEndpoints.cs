@@ -1,0 +1,46 @@
+using Moshi.Forums.Models;
+using Moshi.Forums.Services;
+
+namespace Moshi.Forums.Extensions;
+
+public static class PostEndpoints
+{
+    public static void MapPostEndpoints(this WebApplication app)
+    {
+        app.MapGet("/api/posts", async (PostService service) =>
+            await service.GetAllPostsAsync())
+        .WithName("GetAllPosts")
+        .WithOpenApi();
+
+        app.MapGet("/api/posts/{id}", async (int id, PostService service) =>
+            await service.GetPostByIdAsync(id) is Post post
+                ? Results.Ok(post)
+                : Results.NotFound())
+        .WithName("GetPostById")
+        .WithOpenApi();
+
+        app.MapPost("/api/posts", async (Post post, PostService service) =>
+        {
+            var id = await service.CreatePostAsync(post);
+            return Results.Created($"/api/posts/{id}", post);
+        })
+        .WithName("CreatePost")
+        .WithOpenApi();
+
+        app.MapPut("/api/posts/{id}", async (int id, Post post, PostService service) =>
+        {
+            var updatedPost = await service.UpdatePostAsync(id, post);
+            return updatedPost is not null ? Results.Ok(updatedPost) : Results.NotFound();
+        })
+        .WithName("UpdatePost")
+        .WithOpenApi();
+
+        app.MapDelete("/api/posts/{id}", async (int id, PostService service) =>
+        {
+            var result = await service.DeletePostAsync(id);
+            return result ? Results.Ok() : Results.NotFound();
+        })
+        .WithName("DeletePost")
+        .WithOpenApi();
+    }
+}
