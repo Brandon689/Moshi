@@ -36,12 +36,17 @@ public class DatabaseInitializer
                 Title TEXT NOT NULL,
                 ForumId INTEGER NOT NULL,
                 UserId INTEGER NOT NULL,
-                CreatedAt DATETIME NOT NULL,
-                UpdatedAt DATETIME NOT NULL,
+                CreatedAt TEXT NOT NULL,
+                UpdatedAt TEXT NOT NULL,
                 ViewCount INTEGER NOT NULL DEFAULT 0,
                 ReplyCount INTEGER NOT NULL DEFAULT 0,
+                LastPostId INTEGER,
+                LastPostAt TEXT,
+                IsLocked BOOLEAN NOT NULL DEFAULT 0,
+                IsPinned BOOLEAN NOT NULL DEFAULT 0,
                 FOREIGN KEY (ForumId) REFERENCES Forums(Id),
-                FOREIGN KEY (UserId) REFERENCES Users(Id)
+                FOREIGN KEY (UserId) REFERENCES Users(Id),
+                FOREIGN KEY (LastPostId) REFERENCES Posts(Id)
             );
 
             CREATE TABLE IF NOT EXISTS Posts (
@@ -49,8 +54,9 @@ public class DatabaseInitializer
                 ThreadId INTEGER NOT NULL,
                 UserId INTEGER NOT NULL,
                 Content TEXT NOT NULL,
-                CreatedAt DATETIME NOT NULL,
-                UpdatedAt DATETIME NOT NULL,
+                CreatedAt TEXT NOT NULL,
+                UpdatedAt TEXT NOT NULL,
+                IsDeleted BOOLEAN NOT NULL DEFAULT 0,
                 FOREIGN KEY (ThreadId) REFERENCES Threads(Id),
                 FOREIGN KEY (UserId) REFERENCES Users(Id)
             );

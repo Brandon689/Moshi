@@ -33,9 +33,24 @@ public static class PostEndpoints
 
         app.MapPost("/api/posts", async (Post post, PostService service) =>
         {
-            var id = await service.CreatePostAsync(post);
-            return Results.Created($"/api/posts/{id}", post);
+            try
+            {
+                Console.WriteLine(post);
+                var createdPost = await service.CreatePostAsync(post);
+                return Results.Created($"/api/posts/{createdPost.Id}", createdPost);
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex);
+                return Results.BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return Results.StatusCode(500);
+            }
         })
+        .RequireAuthorization()
         .WithName("CreatePost")
         .WithOpenApi();
 

@@ -17,7 +17,12 @@ public class ThreadService
 
     public async Task<ForumThread> GetThreadByIdAsync(int id)
     {
-        return await _repository.GetByIdAsync(id);
+        var thread = await _repository.GetByIdAsync(id);
+        if (thread != null)
+        {
+            await _repository.IncrementViewCountAsync(id);
+        }
+        return thread;
     }
 
     public async Task<int> CreateThreadAsync(ForumThread thread)
@@ -57,5 +62,25 @@ public class ThreadService
     public async Task<IEnumerable<ForumThread>> GetThreadsByForumIdAsync(int forumId)
     {
         return await _repository.GetThreadsByForumIdAsync(forumId);
+    }
+
+    public async Task LockThreadAsync(int threadId)
+    {
+        await _repository.LockThreadAsync(threadId);
+    }
+
+    public async Task UnlockThreadAsync(int threadId)
+    {
+        await _repository.UnlockThreadAsync(threadId);
+    }
+
+    public async Task PinThreadAsync(int threadId)
+    {
+        await _repository.PinThreadAsync(threadId);
+    }
+
+    public async Task UnpinThreadAsync(int threadId)
+    {
+        await _repository.UnpinThreadAsync(threadId);
     }
 }

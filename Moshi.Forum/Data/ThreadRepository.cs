@@ -57,6 +57,62 @@ public class ThreadRepository
         return affectedRows > 0;
     }
 
+    public async Task IncrementViewCountAsync(int threadId)
+    {
+        using var connection = new SqliteConnection(_connectionString);
+        await connection.ExecuteAsync(
+            "UPDATE Threads SET ViewCount = ViewCount + 1 WHERE Id = @Id",
+            new { Id = threadId });
+    }
+
+    public async Task IncrementReplyCountAsync(int threadId)
+    {
+        using var connection = new SqliteConnection(_connectionString);
+        await connection.ExecuteAsync(
+            "UPDATE Threads SET ReplyCount = ReplyCount + 1 WHERE Id = @Id",
+            new { Id = threadId });
+    }
+
+    public async Task UpdateLastPostAsync(int threadId, int postId, DateTime postCreatedAt)
+    {
+        using var connection = new SqliteConnection(_connectionString);
+        await connection.ExecuteAsync(
+            "UPDATE Threads SET LastPostId = @PostId, LastPostAt = @PostCreatedAt, UpdatedAt = @UpdatedAt WHERE Id = @Id",
+            new { Id = threadId, PostId = postId, PostCreatedAt = postCreatedAt, UpdatedAt = DateTime.UtcNow });
+    }
+
+    public async Task LockThreadAsync(int threadId)
+    {
+        using var connection = new SqliteConnection(_connectionString);
+        await connection.ExecuteAsync(
+            "UPDATE Threads SET IsLocked = 1 WHERE Id = @Id",
+            new { Id = threadId });
+    }
+
+    public async Task UnlockThreadAsync(int threadId)
+    {
+        using var connection = new SqliteConnection(_connectionString);
+        await connection.ExecuteAsync(
+            "UPDATE Threads SET IsLocked = 0 WHERE Id = @Id",
+            new { Id = threadId });
+    }
+
+    public async Task PinThreadAsync(int threadId)
+    {
+        using var connection = new SqliteConnection(_connectionString);
+        await connection.ExecuteAsync(
+            "UPDATE Threads SET IsPinned = 1 WHERE Id = @Id",
+            new { Id = threadId });
+    }
+
+    public async Task UnpinThreadAsync(int threadId)
+    {
+        using var connection = new SqliteConnection(_connectionString);
+        await connection.ExecuteAsync(
+            "UPDATE Threads SET IsPinned = 0 WHERE Id = @Id",
+            new { Id = threadId });
+    }
+
     public async Task<IEnumerable<ThreadSearchResult>> SearchAsync(string query)
     {
         using var connection = new SqliteConnection(_connectionString);
@@ -87,37 +143,5 @@ public class ThreadRepository
         return await connection.ExecuteScalarAsync<int>(
             "SELECT COUNT(*) FROM Threads WHERE ForumId = @ForumId",
             new { ForumId = forumId });
-    }
-
-    public async Task IncrementViewCountAsync(int id)
-    {
-        using var connection = new SqliteConnection(_connectionString);
-        await connection.ExecuteAsync(
-            "UPDATE Threads SET ViewCount = ViewCount + 1 WHERE Id = @Id",
-            new { Id = id });
-    }
-
-    public async Task IncrementReplyCountAsync(int id)
-    {
-        using var connection = new SqliteConnection(_connectionString);
-        await connection.ExecuteAsync(
-            "UPDATE Threads SET ReplyCount = ReplyCount + 1, UpdatedAt = @UpdatedAt WHERE Id = @Id",
-            new { Id = id, UpdatedAt = DateTime.UtcNow });
-    }
-
-    public async Task<bool> LockThreadAsync(int threadId)
-    {
-        using var connection = new SqliteConnection(_connectionString);
-        var sql = "UPDATE Threads SET IsLocked = 1 WHERE Id = @Id";
-        var affectedRows = await connection.ExecuteAsync(sql, new { Id = threadId });
-        return affectedRows > 0;
-    }
-
-    public async Task<bool> UnlockThreadAsync(int threadId)
-    {
-        using var connection = new SqliteConnection(_connectionString);
-        var sql = "UPDATE Threads SET IsLocked = 0 WHERE Id = @Id";
-        var affectedRows = await connection.ExecuteAsync(sql, new { Id = threadId });
-        return affectedRows > 0;
     }
 }

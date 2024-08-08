@@ -10,21 +10,18 @@ function Login() {
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const { login } = useAuth();
-
-    // In both Login.js and Register.js
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const response = await api.post('/auth/login', { username, password });
-            // or for Register: const response = await api.post('/auth/register', { username, email, password });
+            console.log(response);
             login({ token: response.data.token, ...response.data.user });
             navigate('/');
         } catch (error) {
             setError(error.response?.data?.message || 'Authentication failed');
         }
     };
-
-
 
     return (
         <Container component="main" maxWidth="xs">
