@@ -7,11 +7,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Data\SampleContent\ForumDescriptions.txt" />
+    <None Remove="Data\SampleContent\ForumNames.txt" />
+    <None Remove="Data\SampleContent\PostContents.txt" />
+    <None Remove="Data\SampleContent\ThreadTitles.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Data\SampleContent\ForumDescriptions.txt" />
+    <EmbeddedResource Include="Data\SampleContent\ForumNames.txt" />
+    <EmbeddedResource Include="Data\SampleContent\PostContents.txt" />
+    <EmbeddedResource Include="Data\SampleContent\ThreadTitles.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Bogus" Version="35.6.0" />
     <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.7" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.7" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.1" />
   </ItemGroup>
 
 </Project>

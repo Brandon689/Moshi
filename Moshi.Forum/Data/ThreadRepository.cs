@@ -57,6 +57,22 @@ public class ThreadRepository
         return affectedRows > 0;
     }
 
+    public async Task<IEnumerable<ThreadSearchResult>> SearchAsync(string query)
+    {
+        using var connection = new SqliteConnection(_connectionString);
+        var sql = @"
+            SELECT t.*, u.Username, f.Name as ForumName
+            FROM Threads t
+            JOIN Users u ON t.UserId = u.Id
+            JOIN Forums f ON t.ForumId = f.Id
+            WHERE t.Title LIKE @Query
+            ORDER BY t.CreatedAt DESC
+            LIMIT 50";
+
+        var results = await connection.QueryAsync<ThreadSearchResult>(sql, new { Query = $"%{query}%" });
+        return results;
+    }
+
     public async Task<IEnumerable<ForumThread>> GetThreadsByForumIdAsync(int forumId)
     {
         using var connection = new SqliteConnection(_connectionString);
@@ -87,5 +103,21 @@ public class ThreadRepository
         await connection.ExecuteAsync(
             "UPDATE Threads SET ReplyCount = ReplyCount + 1, UpdatedAt = @UpdatedAt WHERE Id = @Id",
             new { Id = id, UpdatedAt = DateTime.UtcNow });
+    }
+
+    public async Task<bool> LockThreadAsync(int threadId)
+    {
+        using var connection = new SqliteConnection(_connectionString);
+        var sql = "UPDATE Threads SET IsLocked = 1 WHERE Id = @Id";
+        var affectedRows = await connection.ExecuteAsync(sql, new { Id = threadId });
+        return affectedRows > 0;
+    }
+
+    public async Task<bool> UnlockThreadAsync(int threadId)
+    {
+        using var connection = new SqliteConnection(_connectionString);
+        var sql = "UPDATE Threads SET IsLocked = 0 WHERE Id = @Id";
+        var affectedRows = await connection.ExecuteAsync(sql, new { Id = threadId });
+        return affectedRows > 0;
     }
 }

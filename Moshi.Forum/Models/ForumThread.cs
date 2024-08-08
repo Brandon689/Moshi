@@ -1,4 +1,5 @@
 namespace Moshi.Forums.Models;
+
 public class ForumThread
 {
     public int Id { get; set; }
@@ -9,9 +10,10 @@ public class ForumThread
     public DateTime UpdatedAt { get; set; }
     public int ViewCount { get; set; }
     public int ReplyCount { get; set; }
+    public bool IsLocked { get; set; }
 
     // Navigation properties
-    // public virtual Forum Forum { get; set; }
-    // public virtual User User { get; set; }
-    // public virtual ICollection<Post> Posts { get; set; }
+    public Forum Forum { get; set; }
+    public User User { get; set; }
+    public ICollection<Post> Posts { get; set; }
 }

@@ -37,5 +37,10 @@ namespace Moshi.Blog.Services
         {
             return await _postRepository.DeletePost(id);
         }
+
+        public async Task<(IEnumerable<Post> Posts, int TotalCount)> GetPaginatedPosts(int page, int pageSize)
+        {
+            return await _postRepository.GetPaginatedPosts(page, pageSize);
+        }
     }
 }

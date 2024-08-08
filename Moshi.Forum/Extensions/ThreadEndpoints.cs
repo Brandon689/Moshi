@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Mvc;
 using Moshi.Forums.Models;
 using Moshi.Forums.Services;
+using System.Security.Claims;
 
 namespace Moshi.Forums.Extensions;
 
@@ -7,10 +9,21 @@ public static class ThreadEndpoints
 {
     public static void MapThreadEndpoints(this WebApplication app)
     {
-        app.MapGet("/api/threads", async (ThreadService service) =>
-            await service.GetAllThreadsAsync())
-        .WithName("GetAllThreads")
-        .WithOpenApi();
+        app.MapGet("/api/threads", async ([FromQuery] int? forumId, ThreadService service) =>
+        {
+            if (forumId.HasValue)
+            {
+                var threads = await service.GetThreadsByForumIdAsync(forumId.Value);
+                return Results.Ok(threads);
+            }
+            else
+            {
+                var allThreads = await service.GetAllThreadsAsync();
+                return Results.Ok(allThreads);
+            }
+        })
+       .WithName("GetThreads")
+       .WithOpenApi();
 
         app.MapGet("/api/threads/{id}", async (int id, ThreadService service) =>
             await service.GetThreadByIdAsync(id) is ForumThread thread
@@ -42,5 +55,12 @@ public static class ThreadEndpoints
         })
         .WithName("DeleteThread")
         .WithOpenApi();
+
+        //app.MapPost("/threads/{threadId}/lock", async (int threadId, ThreadService threadService, HttpContext context) =>
+        //{
+        //    var userId = int.Parse(context.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+        //    var result = await threadService.LockThread(threadId, userId);
+        //    return result ? Results.Ok() : Results.BadRequest(new { Message = "Failed to lock thread" });
+        //}).RequireAuthorization(policy => policy.RequireRole("Moderator", "Admin"));
     }
 }

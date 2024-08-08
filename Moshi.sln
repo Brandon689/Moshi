@@ -5,11 +5,23 @@ VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.Ecommerce", "Moshi.Ecommerce\Moshi.Ecommerce.csproj", "{11B2B583-A35B-4BDD-8D15-6F42236276B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moshi.Blog", "Moshi.Blog\Moshi.Blog.csproj", "{6C1E064C-FBF7-4914-BC94-5E9C79D793C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.Blog", "Moshi.Blog\Moshi.Blog.csproj", "{6C1E064C-FBF7-4914-BC94-5E9C79D793C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moshi.Blog.Tests", "Moshi.Blog.Tests\Moshi.Blog.Tests.csproj", "{B2A30139-E3AB-49FB-8A50-046F0A3D755D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.Blog.Tests", "Moshi.Blog.Tests\Moshi.Blog.Tests.csproj", "{B2A30139-E3AB-49FB-8A50-046F0A3D755D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moshi.Forums", "Moshi.Forum\Moshi.Forums.csproj", "{5D75C7D5-9D2B-4CFF-99F3-4F592B1F592C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.Forums", "Moshi.Forum\Moshi.Forums.csproj", "{5D75C7D5-9D2B-4CFF-99F3-4F592B1F592C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.WPF", "Moshi.WPF\Moshi.WPF.csproj", "{7E30016F-1217-4781-8959-6BA7C242EE44}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.Explorer", "Moshi.Explorer\Moshi.Explorer.csproj", "{3592C6DC-A4FD-4D9D-BAE2-38EA6E95B8D3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontends", "Frontends", "{9BE595FB-436E-43FF-90EF-669C21504FF3}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "moshi.blog.react", "Frontends\Moshi.Blog.React\moshi.blog.react.esproj", "{9ADC4790-8149-4997-BDCD-D73B940F03BD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.FrontendShell", "Moshi.FrontendShell\Moshi.FrontendShell.csproj", "{31D83F0B-BBFC-441F-AE75-295484F9FE11}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "moshi.forums.react", "Frontends\moshi.forums.react\moshi.forums.react.esproj", "{FD5BBD89-D73F-46FF-A172-CA3151265632}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +45,38 @@ Global
 		{5D75C7D5-9D2B-4CFF-99F3-4F592B1F592C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D75C7D5-9D2B-4CFF-99F3-4F592B1F592C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D75C7D5-9D2B-4CFF-99F3-4F592B1F592C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E30016F-1217-4781-8959-6BA7C242EE44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E30016F-1217-4781-8959-6BA7C242EE44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E30016F-1217-4781-8959-6BA7C242EE44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E30016F-1217-4781-8959-6BA7C242EE44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3592C6DC-A4FD-4D9D-BAE2-38EA6E95B8D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3592C6DC-A4FD-4D9D-BAE2-38EA6E95B8D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3592C6DC-A4FD-4D9D-BAE2-38EA6E95B8D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3592C6DC-A4FD-4D9D-BAE2-38EA6E95B8D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9ADC4790-8149-4997-BDCD-D73B940F03BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ADC4790-8149-4997-BDCD-D73B940F03BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ADC4790-8149-4997-BDCD-D73B940F03BD}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{9ADC4790-8149-4997-BDCD-D73B940F03BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ADC4790-8149-4997-BDCD-D73B940F03BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9ADC4790-8149-4997-BDCD-D73B940F03BD}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{31D83F0B-BBFC-441F-AE75-295484F9FE11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31D83F0B-BBFC-441F-AE75-295484F9FE11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31D83F0B-BBFC-441F-AE75-295484F9FE11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31D83F0B-BBFC-441F-AE75-295484F9FE11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD5BBD89-D73F-46FF-A172-CA3151265632}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD5BBD89-D73F-46FF-A172-CA3151265632}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD5BBD89-D73F-46FF-A172-CA3151265632}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{FD5BBD89-D73F-46FF-A172-CA3151265632}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD5BBD89-D73F-46FF-A172-CA3151265632}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD5BBD89-D73F-46FF-A172-CA3151265632}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9ADC4790-8149-4997-BDCD-D73B940F03BD} = {9BE595FB-436E-43FF-90EF-669C21504FF3}
+		{31D83F0B-BBFC-441F-AE75-295484F9FE11} = {9BE595FB-436E-43FF-90EF-669C21504FF3}
+		{FD5BBD89-D73F-46FF-A172-CA3151265632} = {9BE595FB-436E-43FF-90EF-669C21504FF3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5931C01C-4D46-42FD-B0F8-3D2431823527}

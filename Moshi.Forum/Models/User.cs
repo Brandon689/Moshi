@@ -1,4 +1,5 @@
 namespace Moshi.Forums.Models;
+
 public class User
 {
     public int Id { get; set; }
@@ -7,8 +8,13 @@ public class User
     public string PasswordHash { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? LastLoginAt { get; set; }
+    public bool IsBanned { get; set; }
+    public DateTime? BanExpiresAt { get; set; }
 
     // Navigation properties
-    // public virtual ICollection<Thread> Threads { get; set; }
-    // public virtual ICollection<Post> Posts { get; set; }
+    public ICollection<UserRole> Roles { get; set; }
+    public ICollection<Subscription> Subscriptions { get; set; }
+    public ICollection<Notification> Notifications { get; set; }
+    public ICollection<ForumThread> Threads { get; set; }
+    public ICollection<Post> Posts { get; set; }
 }

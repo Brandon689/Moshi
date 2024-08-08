@@ -52,5 +52,30 @@ namespace Moshi.Blog.Data
             var affectedRows = await connection.ExecuteAsync("DELETE FROM Posts WHERE Id = @Id", new { Id = id });
             return affectedRows > 0;
         }
+
+        public async Task<(IEnumerable<Post> Posts, int TotalCount)> GetPaginatedPosts(int page, int pageSize)
+        {
+            using var connection = new SqliteConnection(_connectionString);
+            var offset = (page - 1) * pageSize;
+
+            var sql = @"
+                SELECT * FROM Posts 
+                ORDER BY CreatedAt DESC
+                LIMIT @PageSize OFFSET @Offset;
+                
+                SELECT COUNT(*) FROM Posts;";
+
+            using var multi = await connection.QueryMultipleAsync(sql, new { PageSize = pageSize, Offset = offset });
+            var posts = await multi.ReadAsync<Post>();
+            var totalCount = await multi.ReadSingleAsync<int>();
+
+            return (posts, totalCount);
+        }
+
+        public async Task<int> GetPostCount()
+        {
+            using var connection = new SqliteConnection(_connectionString);
+            return await connection.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM Posts");
+        }
     }
 }

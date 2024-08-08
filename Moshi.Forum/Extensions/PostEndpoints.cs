@@ -1,5 +1,6 @@
 using Moshi.Forums.Models;
 using Moshi.Forums.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Moshi.Forums.Extensions;
 
@@ -7,9 +8,20 @@ public static class PostEndpoints
 {
     public static void MapPostEndpoints(this WebApplication app)
     {
-        app.MapGet("/api/posts", async (PostService service) =>
-            await service.GetAllPostsAsync())
-        .WithName("GetAllPosts")
+        app.MapGet("/api/posts", async ([FromQuery] int? threadId, PostService service) =>
+        {
+            if (threadId.HasValue)
+            {
+                var posts = await service.GetPostsByThreadIdAsync(threadId.Value);
+                return Results.Ok(posts);
+            }
+            else
+            {
+                var allPosts = await service.GetAllPostsAsync();
+                return Results.Ok(allPosts);
+            }
+        })
+        .WithName("GetPosts")
         .WithOpenApi();
 
         app.MapGet("/api/posts/{id}", async (int id, PostService service) =>

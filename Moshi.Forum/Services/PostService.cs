@@ -53,4 +53,9 @@ public class PostService
         await _repository.DeleteAsync(id);
         return true;
     }
+
+    public async Task<IEnumerable<Post>> GetPostsByThreadIdAsync(int threadId)
+    {
+        return await _repository.GetPostsByThreadIdAsync(threadId);
+    }
 }

@@ -55,6 +55,23 @@ public class PostRepository
         return affectedRows > 0;
     }
 
+    public async Task<IEnumerable<PostSearchResult>> SearchAsync(string query)
+    {
+        using var connection = new SqliteConnection(_connectionString);
+        var sql = @"
+            SELECT p.*, u.Username, t.Title as ThreadTitle, f.Id as ForumId, f.Name as ForumName
+            FROM Posts p
+            JOIN Users u ON p.UserId = u.Id
+            JOIN Threads t ON p.ThreadId = t.Id
+            JOIN Forums f ON t.ForumId = f.Id
+            WHERE p.Content LIKE @Query
+            ORDER BY p.CreatedAt DESC
+            LIMIT 50";
+
+        var results = await connection.QueryAsync<PostSearchResult>(sql, new { Query = $"%{query}%" });
+        return results;
+    }
+
     public async Task<IEnumerable<Post>> GetPostsByThreadIdAsync(int threadId)
     {
         using var connection = new SqliteConnection(_connectionString);

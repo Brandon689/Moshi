@@ -12,6 +12,17 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Moshi Blog API", Version = "v1" });
 });
 
+// Add CORS services
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
 // Configure SQLite
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=blog.db";
 
@@ -35,18 +46,22 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 
-    // Initialize the database and generate sample data
+    // Initialize the database and generate sample data if needed
     using (var scope = app.Services.CreateScope())
     {
         var dbInitializer = scope.ServiceProvider.GetRequiredService<DatabaseInitializer>();
         dbInitializer.Initialize();
 
         var sampleDataGenerator = scope.ServiceProvider.GetRequiredService<SampleDataGenerator>();
-        await sampleDataGenerator.GenerateSampleData();
+        await sampleDataGenerator.GenerateSampleDataIfNeeded();
     }
 }
 
+
 app.UseHttpsRedirection();
+
+// Use the CORS policy
+app.UseCors("AllowAll");
 
 // Map API endpoints
 app.MapUserEndpoints();

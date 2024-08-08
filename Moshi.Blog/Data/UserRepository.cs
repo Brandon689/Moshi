@@ -51,5 +51,11 @@ namespace Moshi.Blog.Data
             var affectedRows = await connection.ExecuteAsync("DELETE FROM Users WHERE Id = @Id", new { Id = id });
             return affectedRows > 0;
         }
+
+        public async Task<int> GetUserCount()
+        {
+            using var connection = new SqliteConnection(_connectionString);
+            return await connection.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM Users");
+        }
     }
 }

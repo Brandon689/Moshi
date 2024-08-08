@@ -53,4 +53,9 @@ public class ThreadService
         await _repository.DeleteAsync(id);
         return true;
     }
+
+    public async Task<IEnumerable<ForumThread>> GetThreadsByForumIdAsync(int forumId)
+    {
+        return await _repository.GetThreadsByForumIdAsync(forumId);
+    }
 }
