@@ -4,6 +4,12 @@ A set of templates of common web applications, using a ASP CRUD API. And fronten
 * Blog App (React)
 * Forums App (React)
 
+## Integration Examples
+* Dapper Sqlite
+* SupaBase
+* Auth0
+* JWT tokens
+
 # todo
 * booking system
 * game achievements server
@@ -22,7 +28,3 @@ A set of templates of common web applications, using a ASP CRUD API. And fronten
 * reddit style forum
 * codepen clone
 * gist clone
-
-== components ==
-- oauth 0 (very easy)
-- supabase
