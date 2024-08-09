@@ -1,0 +1,6 @@
+@SupaBaseDemo_HostAddress = http://localhost:5026
+
+GET {{SupaBaseDemo_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

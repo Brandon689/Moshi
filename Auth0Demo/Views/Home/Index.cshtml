@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Welcome</h5>
+                <p class="card-text">This is a simple example of an ASP.NET Core application with Auth0 integration.</p>
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <a asp-controller="Account" asp-action="Login" class="btn btn-primary">Login</a>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Features</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">User Authentication</li>
+                    <li class="list-group-item">Profile Management</li>
+                    <li class="list-group-item">Secure Login/Logout</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Auth0 Integration</h5>
+                <p class="card-text">This application demonstrates how to integrate Auth0 with ASP.NET Core for secure authentication.</p>
+                <a href="https://auth0.com/docs/quickstart/webapp/aspnet-core" class="btn btn-secondary" target="_blank">Learn More</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Welcome, @User.Identity.Name!</h5>
+                    <p class="card-text">You are now logged in. Check out your profile for more details.</p>
+                    <a asp-controller="Account" asp-action="Profile" class="btn btn-info">View Profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
