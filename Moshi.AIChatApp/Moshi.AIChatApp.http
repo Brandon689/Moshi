@@ -1,0 +1,6 @@
+@Moshi.AIChatApp_HostAddress = http://localhost:5062
+
+GET {{Moshi.AIChatApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,6 @@
+@Moshi.DiscussionBoards_HostAddress = http://localhost:5136
+
+GET {{Moshi.DiscussionBoards_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

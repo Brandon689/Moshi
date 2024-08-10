@@ -34,3 +34,74 @@
         <TextBox Name="LogTextBox" Grid.Column="1" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
     </Grid>
 </Window>
+    
+    <!--<Window x:Class="Moshi.WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Moshi.WPF"
+        mc:Ignorable="d"
+        Title="Project Manager" Height="600" Width="1000">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <TabControl Grid.Column="0">
+            <TabItem Header="APIs">
+                <ListView Name="ApiListView">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="Start" Click="StartProject_Click" Width="50" Margin="5,0"/>
+                                    <Button Content="Stop" Click="StopProject_Click" Width="50" Margin="5,0"/>
+                                    <TextBlock>
+                                        <Hyperlink NavigateUri="{Binding SwaggerUrl}" RequestNavigate="Hyperlink_RequestNavigate">
+                                            Swagger
+                                        </Hyperlink>
+                                    </TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </TabItem>
+            <TabItem Header="Frontends">
+                <ListView Name="FrontendListView">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="Start" Click="StartFrontend_Click" Width="50" Margin="5,0"/>
+                                    <Button Content="Stop" Click="StopFrontend_Click" Width="50" Margin="5,0"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </TabItem>
+            <TabItem Header="Demo">
+                <ListView Name="DemoListView">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="Start" Click="StartDemo_Click" Width="50" Margin="5,0"/>
+                                    <Button Content="Stop" Click="StopDemo_Click" Width="50" Margin="5,0"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </TabItem>
+        </TabControl>
+
+        <TextBox Name="LogTextBox" Grid.Column="1" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
+    </Grid>
+</Window>-->

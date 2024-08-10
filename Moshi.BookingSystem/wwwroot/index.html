@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking System</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input, button {
+            margin: 5px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+        #loginForm, #logoutButton {
+            margin-bottom: 20px;
+        }
+
+        #bookingSection {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Booking System</h1>
+
+    <h1>Booking System</h1>
+
+    <div id="loginForm">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button onclick="login()">Login</button>
+    </div>
+
+    <button id="logoutButton" style="display: none;" onclick="logout()">Logout</button>
+
+    <form id="bookingForm">
+        <input type="text" id="customerName" placeholder="Customer Name" required>
+        <input type="datetime-local" id="bookingDate" required>
+        <input type="text" id="resource" placeholder="Resource" required>
+        <button type="submit">Create Booking</button>
+    </form>
+
+    <table id="bookingsTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Customer Name</th>
+                <th>Booking Date</th>
+                <th>Resource</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        $(document).ready(function () {
+            const apiUrl = 'https://localhost:7027';
+            let jwtToken = localStorage.getItem('jwtToken');
+
+            function updateUIBasedOnAuth() {
+                if (jwtToken) {
+                    $('#loginForm').hide();
+                    $('#logoutButton').show();
+                    $('#bookingSection').show();
+                    loadBookings();
+                } else {
+                    $('#loginForm').show();
+                    $('#logoutButton').hide();
+                    $('#bookingSection').hide();
+                }
+            }
+
+            window.login = function () {
+                const username = $('#username').val();
+                const password = $('#password').val();
+
+                $.ajax({
+                    url: `${apiUrl}/login`,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ username, password }),
+                    success: function (result) {
+                        jwtToken = result.token;
+                        localStorage.setItem('jwtToken', jwtToken);
+                        updateUIBasedOnAuth();
+                    },
+                    error: function () {
+                        alert('Login failed. Please try again.');
+                    }
+                });
+            }
+
+            window.logout = function () {
+                jwtToken = null;
+                localStorage.removeItem('jwtToken');
+                updateUIBasedOnAuth();
+            }
+
+            function loadBookings() {
+                $.ajax({
+                    url: `${apiUrl}/bookings`,
+                    type: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${jwtToken}`
+                    },
+                    success: function (data) {
+                        const tbody = $('#bookingsTable tbody');
+                        tbody.empty();
+                        data.items.forEach(booking => {
+                            tbody.append(`
+                                        <tr>
+                                            <td>${booking.id}</td>
+                                            <td>${booking.customerName}</td>
+                                            <td>${new Date(booking.bookingDate).toLocaleString()}</td>
+                                            <td>${booking.resource}</td>
+                                            <td>${booking.status}</td>
+                                            <td><button onclick="deleteBooking(${booking.id})">Delete</button></td>
+                                        </tr>
+                                    `);
+                        });
+                    },
+                    error: function () {
+                        alert('Failed to load bookings. Please try logging in again.');
+                        logout();
+                    }
+                });
+            }
+
+            $('#bookingForm').submit(function (e) {
+                e.preventDefault();
+                const booking = {
+                    customerName: $('#customerName').val(),
+                    bookingDate: $('#bookingDate').val(),
+                    resource: $('#resource').val()
+                };
+
+                $.ajax({
+                    url: `${apiUrl}/bookings`,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(booking),
+                    headers: {
+                        'Authorization': `Bearer ${jwtToken}`
+                    },
+                    success: function (result) {
+                        alert('Booking created successfully');
+                        loadBookings();
+                        $('#bookingForm')[0].reset();
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Error creating booking: ' + error);
+                    }
+                });
+            });
+
+            window.deleteBooking = function (id) {
+                if (confirm('Are you sure you want to delete this booking?')) {
+                    $.ajax({
+                        url: `${apiUrl}/bookings/${id}`,
+                        type: 'DELETE',
+                        headers: {
+                            'Authorization': `Bearer ${jwtToken}`
+                        },
+                        success: function (result) {
+                            alert('Booking deleted successfully');
+                            loadBookings();
+                        },
+                        error: function (xhr, status, error) {
+                            alert('Error deleting booking: ' + error);
+                        }
+                    });
+                }
+            }
+
+            updateUIBasedOnAuth();
+        });
+    </script>
+</body>
+</html>
