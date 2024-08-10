@@ -1,6 +1,6 @@
+using Microsoft.AspNetCore.Mvc;
 using Moshi.Forums.Models;
 using Moshi.Forums.Services;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Moshi.Forums.Extensions;
 

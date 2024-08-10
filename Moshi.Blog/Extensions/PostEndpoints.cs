@@ -1,6 +1,6 @@
+using Microsoft.AspNetCore.Mvc;
 using Moshi.Blog.Models;
 using Moshi.Blog.Services;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Moshi.Blog.Extensions
 {

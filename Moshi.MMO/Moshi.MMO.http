@@ -1,0 +1,6 @@
+@Moshi.MMO_HostAddress = http://localhost:5221
+
+###GET {{Moshi.MMO_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

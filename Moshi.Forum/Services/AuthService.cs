@@ -1,13 +1,10 @@
-﻿using System;
+﻿using Microsoft.IdentityModel.Tokens;
+using Moshi.Forums.Data;
+using Moshi.Forums.Models;
+using Moshi.Forums.Models.DTOs;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using Moshi.Forums.Models;
-using Moshi.Forums.Data;
-using BCrypt.Net;
-using Moshi.Forums.Models.DTOs;
 
 namespace Moshi.Forums.Services
 {

@@ -69,7 +69,8 @@ public class AnimeDatabase
     private void BulkInsertSeasons(SqliteConnection connection, List<MoshiAnime> animes)
     {
         var seasons = animes.Where(a => a.AnimeSeason != null && !string.IsNullOrEmpty(a.AnimeSeason.Season) && a.AnimeSeason.Season != "UNDEFINED")
-                            .Select(a => new {
+                            .Select(a => new
+                            {
                                 AnimeTitle = a.Title,
                                 Season = a.AnimeSeason.Season,
                                 Year = a.AnimeSeason.Year.HasValue ? (object)a.AnimeSeason.Year.Value : DBNull.Value
@@ -297,7 +298,8 @@ public class AnimeDatabase
 
         var seasons = animeBatch
             .Where(a => a.AnimeSeason != null && !string.IsNullOrEmpty(a.AnimeSeason.Season) && a.AnimeSeason.Season != "UNDEFINED")
-            .Select(a => new {
+            .Select(a => new
+            {
                 AnimeTitle = a.Title,
                 Season = a.AnimeSeason.Season,
                 Year = a.AnimeSeason.Year.HasValue ? (object)a.AnimeSeason.Year.Value : DBNull.Value

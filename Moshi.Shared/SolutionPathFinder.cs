@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace Moshi.Shared;
+﻿namespace Moshi.Shared;
 
 public static class SolutionPathFinder
 {

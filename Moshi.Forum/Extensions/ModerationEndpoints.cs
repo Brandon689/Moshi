@@ -1,7 +1,4 @@
-﻿using Moshi.Forums.Services;
-using System.Security.Claims;
-
-namespace Moshi.Forums.Extensions;
+﻿namespace Moshi.Forums.Extensions;
 
 public static class ModerationEndpoints
 {

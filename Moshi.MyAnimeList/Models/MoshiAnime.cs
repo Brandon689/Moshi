@@ -4,6 +4,7 @@ namespace Moshi.MyAnimeList.Models;
 
 public class MoshiAnime
 {
+    public int AnimeID { get; set; }
     [JsonPropertyName("sources")]
     public List<string> Sources { get; set; } = new List<string>();
 

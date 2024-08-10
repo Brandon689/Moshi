@@ -1,5 +1,5 @@
-﻿using Moshi.Forums.Services;
-using Moshi.Forums.Models.DTOs;
+﻿using Moshi.Forums.Models.DTOs;
+using Moshi.Forums.Services;
 
 namespace Moshi.Forums.Extensions;
 

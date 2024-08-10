@@ -1,9 +1,7 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Data.Sqlite;
-using System.Diagnostics;
 using Moshi.MyAnimeList;
+using Moshi.MyAnimeList.Models;
+using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +25,15 @@ builder.Services.AddScoped<SqliteConnection>(sp =>
 
 // Register AnimeQueries as a scoped service
 builder.Services.AddScoped<AnimeQueries>();
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -38,6 +44,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAll");
 
 // Define API endpoints
 app.MapGet("/", () => "Welcome to the Anime Database API!");
@@ -61,7 +68,7 @@ app.MapGet("/anime", async (AnimeQueries queries) =>
 
 app.MapGet("/anime/{id}", async (int id, AnimeQueries queries) =>
 {
-    var anime = await queries.GetAnimeByIdAsync(id);
+    MoshiAnime anime = await queries.GetAnimeByIdAsync(id);
     if (anime == null)
         return Results.NotFound();
     return Results.Ok(anime);
@@ -69,13 +76,13 @@ app.MapGet("/anime/{id}", async (int id, AnimeQueries queries) =>
 
 app.MapGet("/anime/search", async (string title, AnimeQueries queries) =>
 {
-    var anime = await queries.SearchAnimeAsync(title);
+    IEnumerable<MoshiAnime> anime = await queries.SearchAnimeAsync(title);
     return Results.Ok(anime);
 });
 
 app.MapGet("/anime/{id}/full", async (int id, AnimeQueries queries) =>
 {
-    var animeWithRelatedData = await queries.GetAnimeWithRelatedDataAsync(id);
+    AnimeWithRelatedData animeWithRelatedData = await queries.GetAnimeWithRelatedDataAsync(id);
     if (animeWithRelatedData == null)
         return Results.NotFound();
     return Results.Ok(animeWithRelatedData);
@@ -98,31 +105,29 @@ app.MapPost("/create-indexes", (AnimeDatabase db) =>
     return Results.Ok("Indexes created successfully");
 });
 
-// ... (existing code)
-
 // Get Anime by Season
 app.MapGet("/anime/season/{season}/{year}", async (string season, int year, int? limit, AnimeQueries queries) =>
 {
-    var anime = await queries.GetAnimeBySeason(season, year, limit ?? 100);
+    IEnumerable<AnimeWithRelatedData> anime = await queries.GetAnimeBySeason(season, year, limit ?? 100);
     return Results.Ok(anime);
 });
 
 app.MapGet("/anime/tags", async (string tags, int? limit, AnimeQueries queries) =>
 {
     var tagList = tags.Split(',').ToList();
-    var anime = await queries.SearchAnimeByTags(tagList, limit ?? 100);
+    IEnumerable<AnimeWithRelatedData> anime = await queries.SearchAnimeByTags(tagList, limit ?? 100);
     return Results.Ok(anime);
 });
 
 app.MapGet("/anime/type/{type}", async (string type, int? limit, AnimeQueries queries) =>
 {
-    var anime = await queries.GetAnimeByType(type, limit ?? 100);
+    IEnumerable<AnimeWithRelatedData> anime = await queries.GetAnimeByType(type, limit ?? 100);
     return Results.Ok(anime);
 });
 
 app.MapGet("/anime/years", async (int startYear, int endYear, int? limit, AnimeQueries queries) =>
 {
-    var anime = await queries.GetAnimeByYearRange(startYear, endYear, limit ?? 100);
+    IEnumerable<AnimeWithRelatedData> anime = await queries.GetAnimeByYearRange(startYear, endYear, limit ?? 100);
     return Results.Ok(anime);
 });
 
@@ -131,7 +136,7 @@ app.MapGet("/anime/status/{status}", async (string status, int? limit, AnimeQuer
 {
     try
     {
-        var anime = await queries.GetAnimeByStatus(status, limit ?? 100);
+        IEnumerable<AnimeWithRelatedData> anime = await queries.GetAnimeByStatus(status, limit ?? 100);
         if (!anime.Any())
             return Results.NotFound($"No anime found with status '{status}'");
         return Results.Ok(anime);
@@ -141,7 +146,6 @@ app.MapGet("/anime/status/{status}", async (string status, int? limit, AnimeQuer
         return Results.Problem($"An error occurred: {ex.Message}");
     }
 });
-
 
 // Get Related Anime
 //app.MapGet("/anime/{id}/related", async (int id, AnimeQueries queries) =>
@@ -163,8 +167,5 @@ app.MapGet("/anime/most-episodes", async (int limit, AnimeQueries queries) =>
     var anime = await queries.GetAnimeWithMostEpisodes(limit);
     return Results.Ok(anime);
 });
-
-// ... (existing code)
-
 
 app.Run();

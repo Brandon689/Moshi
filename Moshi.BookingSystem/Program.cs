@@ -194,35 +194,35 @@ app.MapDelete("/bookings/{id}", async (int id, BookingDbContext db) =>
 
 app.MapPost("/login", (UserCredentials credentials) =>
 {
-// TODO: Validate credentials against your user store
-if (IsValidUser(credentials))
-{
-var token = GenerateJwtToken(credentials.Username);
-return Results.Ok(new { Token = token });
-}
-return Results.Unauthorized();
+    // TODO: Validate credentials against your user store
+    if (IsValidUser(credentials))
+    {
+        var token = GenerateJwtToken(credentials.Username);
+        return Results.Ok(new { Token = token });
+    }
+    return Results.Unauthorized();
 });
 
 // Helper methods (implement these based on your needs)
 bool IsValidUser(UserCredentials credentials)
 {
-// TODO: Implement user validation logic
-return credentials.Username == "test" && credentials.Password == "moshi123";
+    // TODO: Implement user validation logic
+    return credentials.Username == "test" && credentials.Password == "moshi123";
 }
 
 string GenerateJwtToken(string username)
 {
-var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]));
-var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]));
+    var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-var token = new JwtSecurityToken(
-    issuer: builder.Configuration["Jwt:Issuer"],
-    audience: builder.Configuration["Jwt:Audience"],
-    claims: new[] { new Claim(ClaimTypes.Name, username) },
-    expires: DateTime.Now.AddHours(1),
-    signingCredentials: credentials);
+    var token = new JwtSecurityToken(
+        issuer: builder.Configuration["Jwt:Issuer"],
+        audience: builder.Configuration["Jwt:Audience"],
+        claims: new[] { new Claim(ClaimTypes.Name, username) },
+        expires: DateTime.Now.AddHours(1),
+        signingCredentials: credentials);
 
-return new JwtSecurityTokenHandler().WriteToken(token);
+    return new JwtSecurityTokenHandler().WriteToken(token);
 }
 
 

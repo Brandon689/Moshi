@@ -50,7 +50,7 @@ public class AnimeQueries
         var anime = await multi.ReadFirstOrDefaultAsync<AnimeWithRelatedData>();
         if (anime == null) return null;
 
-        anime.Seasons = (await multi.ReadAsync<AnimeSeason>()).ToList();
+        anime.Seasons = (await multi.ReadAsync<MoshiAnimeSeason>()).ToList();
         anime.Sources = (await multi.ReadAsync<string>()).ToList();
         anime.Synonyms = (await multi.ReadAsync<string>()).ToList();
         anime.RelatedAnime = (await multi.ReadAsync<string>()).ToList();
@@ -167,15 +167,4 @@ public class AnimeQueries
         var sql = "SELECT * FROM Anime ORDER BY Episodes DESC LIMIT @Limit";
         return await _db.QueryAsync<AnimeWithRelatedData>(sql, new { Limit = limit });
     }
-}
-
-public class AnimeWithRelatedData : MoshiAnime
-{
-    public List<AnimeSeason> Seasons { get; set; }
-}
-
-public class AnimeSeason
-{
-    public string Season { get; set; }
-    public int Year { get; set; }
 }

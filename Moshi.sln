@@ -35,13 +35,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.MyAnimeList", "Moshi.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.TCG", "Moshi.TCG\Moshi.TCG.csproj", "{E05B9126-B904-464D-BA0A-388E763AAC04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moshi.BookingSystem", "Moshi.BookingSystem\Moshi.BookingSystem.csproj", "{6ECCAA75-1903-409A-8202-358A083BD3DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.BookingSystem", "Moshi.BookingSystem\Moshi.BookingSystem.csproj", "{6ECCAA75-1903-409A-8202-358A083BD3DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moshi.DiscussionBoards", "Moshi.DiscussionBoards\Moshi.DiscussionBoards.csproj", "{8459E89A-F6C5-4681-8A13-0DFBAB07C368}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.DiscussionBoards", "Moshi.DiscussionBoards\Moshi.DiscussionBoards.csproj", "{8459E89A-F6C5-4681-8A13-0DFBAB07C368}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moshi.ThirdPartyMarketplace", "Moshi.ThirdPartyMarketplace\Moshi.ThirdPartyMarketplace.csproj", "{24CDB932-EC54-4DAC-B6E5-FBC4BE91DF0C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.ThirdPartyMarketplace", "Moshi.ThirdPartyMarketplace\Moshi.ThirdPartyMarketplace.csproj", "{24CDB932-EC54-4DAC-B6E5-FBC4BE91DF0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moshi.AIChatApp", "Moshi.AIChatApp\Moshi.AIChatApp.csproj", "{3A430A2A-B4F6-4736-B66C-572BAEFABE0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.AIChatApp", "Moshi.AIChatApp\Moshi.AIChatApp.csproj", "{3A430A2A-B4F6-4736-B66C-572BAEFABE0A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "moshi.myanimelist.wpf", "moshi.myanimelist.wpf\moshi.myanimelist.wpf.csproj", "{EF066719-6787-455E-9CED-7B58C18AF45B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moshi.MMO", "Moshi.MMO\Moshi.MMO.csproj", "{DF14D79C-FB42-44EA-9811-180EA4CAD2E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -125,6 +129,14 @@ Global
 		{3A430A2A-B4F6-4736-B66C-572BAEFABE0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A430A2A-B4F6-4736-B66C-572BAEFABE0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A430A2A-B4F6-4736-B66C-572BAEFABE0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF066719-6787-455E-9CED-7B58C18AF45B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF066719-6787-455E-9CED-7B58C18AF45B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF066719-6787-455E-9CED-7B58C18AF45B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF066719-6787-455E-9CED-7B58C18AF45B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF14D79C-FB42-44EA-9811-180EA4CAD2E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF14D79C-FB42-44EA-9811-180EA4CAD2E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF14D79C-FB42-44EA-9811-180EA4CAD2E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF14D79C-FB42-44EA-9811-180EA4CAD2E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -135,6 +147,7 @@ Global
 		{FD5BBD89-D73F-46FF-A172-CA3151265632} = {9BE595FB-436E-43FF-90EF-669C21504FF3}
 		{0389D33D-C5E1-4EDD-BEE3-ED0A622EA509} = {E763AA3F-C650-48DE-B950-786223C75EFB}
 		{ACEC05B5-F893-40DE-9BE2-183C0E32E641} = {E763AA3F-C650-48DE-B950-786223C75EFB}
+		{EF066719-6787-455E-9CED-7B58C18AF45B} = {9BE595FB-436E-43FF-90EF-669C21504FF3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5931C01C-4D46-42FD-B0F8-3D2431823527}
