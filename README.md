@@ -3,6 +3,7 @@ A set of templates of common web applications, using a ASP CRUD API. And fronten
 
 * Blog App (React)
 * Forums App (React)
+* Booking system (HTML JQuery)
 
 ## Integration Examples
 * Dapper Sqlite
