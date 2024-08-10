@@ -37,38 +37,41 @@ public class AnimeQueries
     {
         await _db.OpenAsync();
         var sql = @"
-        SELECT * FROM Anime WHERE AnimeID = @Id;
-        SELECT s.Season, s.Year FROM AnimeSeason AS1
-        JOIN Season s ON AS1.SeasonID = s.SeasonID
-        WHERE AS1.AnimeID = @Id;
-        SELECT URL FROM Sources WHERE AnimeID = @Id;
-        SELECT Synonym FROM Synonyms WHERE AnimeID = @Id;
-        SELECT RelatedAnimeURL FROM RelatedAnime WHERE AnimeID = @Id;
-        SELECT Tag FROM Tags WHERE AnimeID = @Id;";
+    SELECT * FROM Anime WHERE AnimeID = @Id;
+    SELECT s.Season, s.Year FROM AnimeSeason AS1
+    JOIN Season s ON AS1.SeasonID = s.SeasonID
+    WHERE AS1.AnimeID = @Id;
+    SELECT URL FROM Sources WHERE AnimeID = @Id;
+    SELECT Synonym FROM Synonyms WHERE AnimeID = @Id;
+    SELECT RelatedAnimeURL FROM RelatedAnime WHERE AnimeID = @Id;
+    SELECT Tag FROM Tags WHERE AnimeID = @Id;";
 
         using var multi = await _db.QueryMultipleAsync(sql, new { Id = id });
-        var anime = await multi.ReadFirstOrDefaultAsync<AnimeWithRelatedData>();
-        if (anime == null) return null;
+        var animeData = await multi.ReadFirstOrDefaultAsync<MoshiAnime>();
+        if (animeData == null) return null;
 
-        anime.Seasons = (await multi.ReadAsync<MoshiAnimeSeason>()).ToList();
-        anime.Sources = (await multi.ReadAsync<string>()).ToList();
-        anime.Synonyms = (await multi.ReadAsync<string>()).ToList();
-        anime.RelatedAnime = (await multi.ReadAsync<string>()).ToList();
-        anime.Tags = (await multi.ReadAsync<string>()).ToList();
+        var seasons = (await multi.ReadAsync<MoshiAnimeSeason>()).ToList();
+        var sources = (await multi.ReadAsync<string>()).ToList();
+        var synonyms = (await multi.ReadAsync<string>()).ToList();
+        var relatedAnime = (await multi.ReadAsync<string>()).ToList();
+        var tags = (await multi.ReadAsync<string>()).ToList();
 
-        // Remove empty collections
-        if (!anime.Seasons.Any()) anime.Seasons = null;
-        if (!anime.Sources.Any()) anime.Sources = null;
-        if (!anime.Synonyms.Any()) anime.Synonyms = null;
-        if (!anime.RelatedAnime.Any()) anime.RelatedAnime = null;
-        if (!anime.Tags.Any()) anime.Tags = null;
-
-        // Set AnimeSeason if Seasons is not null
-        if (anime.Seasons != null && anime.Seasons.Any())
+        var anime = new AnimeWithRelatedData
         {
-            var firstSeason = anime.Seasons.First();
-            anime.AnimeSeason = new MoshiAnimeSeason { Season = firstSeason.Season, Year = firstSeason.Year };
-        }
+            AnimeID = animeData.AnimeID,
+            Title = animeData.Title,
+            Type = animeData.Type,
+            Episodes = animeData.Episodes,
+            Status = animeData.Status,
+            Picture = animeData.Picture,
+            Thumbnail = animeData.Thumbnail,
+            Seasons = seasons.Any() ? seasons : null,
+            Sources = sources.Any() ? sources : null,
+            Synonyms = synonyms.Any() ? synonyms : null,
+            RelatedAnime = relatedAnime.Any() ? relatedAnime : null,
+            Tags = tags.Any() ? tags : null,
+            AnimeSeason = seasons.Any() ? new MoshiAnimeSeason { Season = seasons.First().Season, Year = seasons.First().Year } : null
+        };
 
         return anime;
     }

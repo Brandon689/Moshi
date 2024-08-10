@@ -1,3 +1,5 @@
+using JikanDotNet;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Data.Sqlite;
 using Moshi.MyAnimeList;
 using Moshi.MyAnimeList.Models;
@@ -62,23 +64,28 @@ app.MapPost("/import", async (AnimeDatabase db, IConfiguration config) =>
 
 app.MapGet("/anime", async (AnimeQueries queries) =>
 {
-    var anime = await queries.GetAllAnimeAsync();
+    IEnumerable<MoshiAnime> anime = await queries.GetAllAnimeAsync();
     return Results.Ok(anime);
 });
 
-app.MapGet("/anime/{id}", async (int id, AnimeQueries queries) =>
+app.MapGet("/anime/{id}", async Task<Results<Ok<MoshiAnime>, NotFound>> (int id, AnimeQueries queries) =>
 {
-    MoshiAnime anime = await queries.GetAnimeByIdAsync(id);
-    if (anime == null)
-        return Results.NotFound();
-    return Results.Ok(anime);
-});
+    var anime = await queries.GetAnimeByIdAsync(id);
+    return anime is null ? TypedResults.NotFound() : TypedResults.Ok(anime);
+})
+.WithName("GetAnimeById")
+.WithTags("Anime")
+.WithOpenApi();
 
-app.MapGet("/anime/search", async (string title, AnimeQueries queries) =>
+
+app.MapGet("/anime/search", async Task<Ok<IEnumerable<MoshiAnime>>> ([AsParameters] AnimeSearchParams searchParams, AnimeQueries queries) =>
 {
-    IEnumerable<MoshiAnime> anime = await queries.SearchAnimeAsync(title);
-    return Results.Ok(anime);
-});
+    var anime = await queries.SearchAnimeAsync(searchParams.Title);
+    return TypedResults.Ok(anime);
+})
+.WithName("SearchAnime")
+.WithTags("Anime")
+.WithOpenApi();
 
 app.MapGet("/anime/{id}/full", async (int id, AnimeQueries queries) =>
 {
@@ -105,19 +112,24 @@ app.MapPost("/create-indexes", (AnimeDatabase db) =>
     return Results.Ok("Indexes created successfully");
 });
 
-// Get Anime by Season
-app.MapGet("/anime/season/{season}/{year}", async (string season, int year, int? limit, AnimeQueries queries) =>
+app.MapGet("/anime/season/{season}/{year}", async Task<Ok<IEnumerable<AnimeWithRelatedData>>> (string season, int year, int? limit, AnimeQueries queries) =>
 {
-    IEnumerable<AnimeWithRelatedData> anime = await queries.GetAnimeBySeason(season, year, limit ?? 100);
-    return Results.Ok(anime);
-});
+    var anime = await queries.GetAnimeBySeason(season, year, limit ?? 100);
+    return TypedResults.Ok(anime);
+})
+.WithName("GetAnimeBySeason")
+.WithTags("Anime")
+.WithOpenApi();
 
-app.MapGet("/anime/tags", async (string tags, int? limit, AnimeQueries queries) =>
+app.MapGet("/anime/tags", async Task<Ok<IEnumerable<AnimeWithRelatedData>>> ([AsParameters] AnimeTagsParams tagsParams, AnimeQueries queries) =>
 {
-    var tagList = tags.Split(',').ToList();
-    IEnumerable<AnimeWithRelatedData> anime = await queries.SearchAnimeByTags(tagList, limit ?? 100);
-    return Results.Ok(anime);
-});
+    var tagList = tagsParams.Tags.Split(',').ToList();
+    var anime = await queries.SearchAnimeByTags(tagList, tagsParams.Limit ?? 100);
+    return TypedResults.Ok(anime);
+})
+.WithName("SearchAnimeByTags")
+.WithTags("Anime")
+.WithOpenApi();
 
 app.MapGet("/anime/type/{type}", async (string type, int? limit, AnimeQueries queries) =>
 {
@@ -169,3 +181,5 @@ app.MapGet("/anime/most-episodes", async (int limit, AnimeQueries queries) =>
 });
 
 app.Run();
+public record AnimeSearchParams(string Title);
+public record AnimeTagsParams(string Tags, int? Limit);
