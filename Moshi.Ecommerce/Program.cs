@@ -36,5 +36,6 @@ dbInitializer.Initialize();
 // Map Endpoints
 app.MapProductEndpoints();
 app.MapOrderEndpoints();
+app.MapPaymentEndpoints();
 
 app.Run();

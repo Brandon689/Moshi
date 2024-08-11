@@ -1,7 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using Moshi.MyAnimeList.Models;
 using System.Windows;
-using Moshi.MyAnimeList.Models;
 
 namespace AnimeTracker
 {

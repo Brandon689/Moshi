@@ -45,7 +45,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.AIChatApp", "Moshi.AI
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "moshi.myanimelist.wpf", "moshi.myanimelist.wpf\moshi.myanimelist.wpf.csproj", "{EF066719-6787-455E-9CED-7B58C18AF45B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moshi.MMO", "Moshi.MMO\Moshi.MMO.csproj", "{DF14D79C-FB42-44EA-9811-180EA4CAD2E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.MMO", "Moshi.MMO\Moshi.MMO.csproj", "{DF14D79C-FB42-44EA-9811-180EA4CAD2E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moshi.SAAS", "Moshi.SAAS\Moshi.SAAS.csproj", "{1213CFE6-AA87-401D-BAC6-5B06078025A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -137,6 +139,10 @@ Global
 		{DF14D79C-FB42-44EA-9811-180EA4CAD2E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF14D79C-FB42-44EA-9811-180EA4CAD2E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF14D79C-FB42-44EA-9811-180EA4CAD2E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1213CFE6-AA87-401D-BAC6-5B06078025A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1213CFE6-AA87-401D-BAC6-5B06078025A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1213CFE6-AA87-401D-BAC6-5B06078025A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1213CFE6-AA87-401D-BAC6-5B06078025A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

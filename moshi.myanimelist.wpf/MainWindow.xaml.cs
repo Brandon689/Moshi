@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows;
-using Moshi.MyAnimeList.Models;
+﻿using System.Windows;
 
 namespace AnimeTracker
 {

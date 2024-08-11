@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using Moshi.MyAnimeList.Models;
 
 namespace AnimeTracker
 {

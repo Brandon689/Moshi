@@ -31,4 +31,9 @@ public class OrderService
     {
         return _repository.AddOrderItemAsync(orderItem);
     }
+
+    public async Task UpdateOrderPaymentStatusAsync(int orderId, string paymentStatus)
+    {
+        await _repository.UpdateOrderPaymentStatusAsync(orderId, paymentStatus);
+    }
 }

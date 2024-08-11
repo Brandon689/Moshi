@@ -1,4 +1,3 @@
-using JikanDotNet;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Data.Sqlite;
 using Moshi.MyAnimeList;

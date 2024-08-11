@@ -1,6 +1,5 @@
 ﻿using Dapper;
 using Microsoft.Data.Sqlite;
-using Moshi.MyAnimeList.Models;
 
 namespace Moshi.MyAnimeList;
 
