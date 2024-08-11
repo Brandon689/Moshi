@@ -1,6 +1,17 @@
 ﻿using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
+using System;
+using System.Collections.Generic;
+using System.Text.Json;
+using System.IO;
+using System.Linq;
+
+class LeaderboardEntry
+{
+    public string PlayerName { get; set; }
+    public float Time { get; set; }
+}
 
 class Game
 {
@@ -19,12 +30,22 @@ class Game
     private const int LEVEL_HEIGHT = 20;
     private Random random;
     private bool gameWon = false;
+    private Clock gameClock;
+    private float elapsedTime = 0f;
+    private Font font;
+    private string playerName;
+    private List<LeaderboardEntry> leaderboard;
+    private const string LeaderboardFile = "leaderboard.json";
+    private bool isEnteringName = true;
 
     public Game()
     {
-        window = new RenderWindow(new VideoMode(800, 600), "2D Platformer");
+        window = new RenderWindow(new VideoMode(800, 600), "Mario-style Platformer");
         window.SetFramerateLimit(60);
 
+        font = new Font("Roboto-Regular.ttf");
+        LoadLeaderboard();
+        playerName = "";
         player = new RectangleShape(new Vector2f(TILE_SIZE, TILE_SIZE));
         player.FillColor = Color.Red;
         player.Position = new Vector2f(TILE_SIZE, LEVEL_HEIGHT * TILE_SIZE - TILE_SIZE * 2);
@@ -40,10 +61,11 @@ class Game
         gameView = new View(new FloatRect(0, 0, 800, 600));
         window.SetView(gameView);
 
-        // Create the flag
         flag = new RectangleShape(new Vector2f(TILE_SIZE, TILE_SIZE * 3));
         flag.FillColor = Color.Yellow;
         flag.Position = new Vector2f((LEVEL_WIDTH - 2) * TILE_SIZE, (LEVEL_HEIGHT - 4) * TILE_SIZE);
+
+        gameClock = new Clock();
     }
 
     private void CreateLevel()
@@ -113,14 +135,44 @@ class Game
         while (window.IsOpen)
         {
             window.DispatchEvents();
-            window.Closed += (sender, e) => window.Close();
-
-            if (!gameWon)
+            if (window.HasFocus())  // Only process input when window is focused
             {
-                HandleInput();
-                Update();
+                if (isEnteringName)
+                {
+                    HandleNameInput();
+                }
+                else if (!gameWon)
+                {
+                    HandleInput();
+                    Update();
+                    elapsedTime = gameClock.ElapsedTime.AsSeconds();
+                }
             }
             Render();
+        }
+    }
+
+    private void HandleNameInput()
+    {
+        window.KeyPressed -= OnKeyPressed;  // Remove previous event handler if exists
+        window.KeyPressed += OnKeyPressed;  // Add the event handler
+    }
+
+    private void OnKeyPressed(object sender, KeyEventArgs e)
+    {
+        if (e.Code == Keyboard.Key.Enter && !string.IsNullOrWhiteSpace(playerName))
+        {
+            isEnteringName = false;
+            gameClock.Restart();
+            window.KeyPressed -= OnKeyPressed;  // Remove the event handler
+        }
+        else if (e.Code == Keyboard.Key.Backspace && playerName.Length > 0)
+        {
+            playerName = playerName.Substring(0, playerName.Length - 1);
+        }
+        else if (playerName.Length < 20 && ((e.Code >= Keyboard.Key.A && e.Code <= Keyboard.Key.Z) || e.Code == Keyboard.Key.Space))
+        {
+            playerName += e.Code == Keyboard.Key.Space ? " " : e.Code.ToString();
         }
     }
 
@@ -186,6 +238,7 @@ class Game
         if (player.GetGlobalBounds().Intersects(flag.GetGlobalBounds()))
         {
             gameWon = true;
+            AddToLeaderboard();
         }
 
         // Update camera view to center on player
@@ -203,26 +256,104 @@ class Game
     {
         window.Clear(Color.Cyan);
 
-        foreach (var platform in platforms)
-            window.Draw(platform);
-
-        foreach (var obstacle in obstacles)
-            window.Draw(obstacle);
-
-        window.Draw(flag);
-        window.Draw(player);
-
-        if (gameWon)
+        if (isEnteringName)
         {
-            Font font = new Font("Roboto-Regular.ttf"); // Make sure you have this font file or change to an available font
-            Text winText = new Text("You Win!", font, 50);
-            winText.Position = new Vector2f(gameView.Center.X - winText.GetGlobalBounds().Width / 2,
-                                            gameView.Center.Y - winText.GetGlobalBounds().Height / 2);
-            winText.FillColor = Color.Black;
-            window.Draw(winText);
+            RenderNameInput();
+        }
+        else
+        {
+            foreach (var platform in platforms)
+                window.Draw(platform);
+
+            foreach (var obstacle in obstacles)
+                window.Draw(obstacle);
+
+            window.Draw(flag);
+            window.Draw(player);
+
+            // Draw timer
+            Text timerText = new Text(FormatTime(elapsedTime), font, 20);
+            timerText.Position = new Vector2f(gameView.Center.X - 380, gameView.Center.Y - 280);
+            timerText.FillColor = Color.Black;
+            window.Draw(timerText);
+
+            if (gameWon)
+            {
+                RenderLeaderboard();
+            }
         }
 
         window.Display();
+    }
+
+    private void RenderNameInput()
+    {
+        Text namePrompt = new Text("Enter your name:", font, 30);
+        namePrompt.Position = new Vector2f(400 - namePrompt.GetGlobalBounds().Width / 2, 250);
+        window.Draw(namePrompt);
+
+        Text nameText = new Text(playerName, font, 30);
+        nameText.Position = new Vector2f(400 - nameText.GetGlobalBounds().Width / 2, 300);
+        window.Draw(nameText);
+    }
+
+    private void RenderLeaderboard()
+    {
+        RectangleShape background = new RectangleShape(new Vector2f(400, 400));
+        background.FillColor = new Color(0, 0, 0, 200);
+        background.Position = new Vector2f(gameView.Center.X - 200, gameView.Center.Y - 200);
+        window.Draw(background);
+
+        Text leaderboardTitle = new Text("Leaderboard", font, 30);
+        leaderboardTitle.Position = new Vector2f(gameView.Center.X - leaderboardTitle.GetGlobalBounds().Width / 2, gameView.Center.Y - 180);
+        leaderboardTitle.FillColor = Color.White;
+        window.Draw(leaderboardTitle);
+
+        for (int i = 0; i < Math.Min(leaderboard.Count, 10); i++)
+        {
+            Text entry = new Text($"{i + 1}. {leaderboard[i].PlayerName}: {FormatTime(leaderboard[i].Time)}", font, 20);
+            entry.Position = new Vector2f(gameView.Center.X - 180, gameView.Center.Y - 130 + i * 30);
+            entry.FillColor = Color.White;
+            window.Draw(entry);
+        }
+    }
+
+    private string FormatTime(float seconds)
+    {
+        int minutes = (int)(seconds / 60);
+        int remainingSeconds = (int)(seconds % 60);
+        int milliseconds = (int)((seconds - (int)seconds) * 100);
+        return $"{minutes:00}:{remainingSeconds:00}.{milliseconds:00}";
+    }
+
+    private void LoadLeaderboard()
+    {
+        if (File.Exists(LeaderboardFile))
+        {
+            string json = File.ReadAllText(LeaderboardFile);
+            leaderboard = JsonSerializer.Deserialize<List<LeaderboardEntry>>(json);
+        }
+        else
+        {
+            leaderboard = new List<LeaderboardEntry>();
+        }
+    }
+
+    private void SaveLeaderboard()
+    {
+        string json = JsonSerializer.Serialize(leaderboard);
+        File.WriteAllText(LeaderboardFile, json);
+    }
+
+    private void AddToLeaderboard()
+    {
+        leaderboard.Add(new LeaderboardEntry { PlayerName = playerName, Time = elapsedTime });
+        leaderboard = leaderboard.OrderBy(e => e.Time).ToList();
+        if (leaderboard.Count > 10)
+        {
+            leaderboard.RemoveAt(10);
+        }
+        SaveLeaderboard();
     }
 }
 
