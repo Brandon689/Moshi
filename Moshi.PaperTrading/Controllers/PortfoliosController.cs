@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moshi.PaperTrading.Models;
-using PaperTradingApp.Services;
-using System.Threading.Tasks;
 
 namespace PaperTradingApp.Controllers
 {

@@ -56,7 +56,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.PaperTrading", "Moshi
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "moshi.papertrading.react", "moshi.papertrading.react\moshi.papertrading.react.esproj", "{D50A7469-CF5F-4D70-A185-75B7824F7F47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moshi.SAAS", "Moshi.SAAS\Moshi.SAAS.csproj", "{D1D1B82E-28CE-4C81-AB69-F98B0EF436E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.SAAS", "Moshi.SAAS\Moshi.SAAS.csproj", "{D1D1B82E-28CE-4C81-AB69-F98B0EF436E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moshi.MyMusic", "Moshi.MyMusic\Moshi.MyMusic.csproj", "{EB365908-316B-4C57-A268-A7B54FFFC081}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -166,6 +168,10 @@ Global
 		{D1D1B82E-28CE-4C81-AB69-F98B0EF436E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1D1B82E-28CE-4C81-AB69-F98B0EF436E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1D1B82E-28CE-4C81-AB69-F98B0EF436E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB365908-316B-4C57-A268-A7B54FFFC081}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB365908-316B-4C57-A268-A7B54FFFC081}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB365908-316B-4C57-A268-A7B54FFFC081}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB365908-316B-4C57-A268-A7B54FFFC081}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

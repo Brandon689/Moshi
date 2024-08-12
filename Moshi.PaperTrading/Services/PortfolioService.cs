@@ -1,8 +1,5 @@
-﻿using System;
+﻿using Moshi.PaperTrading.Models;
 using System.Collections.Concurrent;
-using System.Threading.Tasks;
-using Moshi.PaperTrading.Models;
-using Moshi.PaperTrading.Services;
 
 namespace PaperTradingApp.Services
 {
