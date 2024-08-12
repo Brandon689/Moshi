@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Data.Sqlite;
-using Moshi.MyAnimeList;
+using Moshi.MyAnimeList.Data;
 using Moshi.MyAnimeList.Models;
+using Moshi.MyAnimeList.Services;
 using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,19 @@ builder.Services.AddSingleton<AnimeDatabase>(sp =>
     var dbPath = builder.Configuration.GetValue<string>("DatabasePath") ?? "anime.db";
     return new AnimeDatabase($"Data Source={dbPath}");
 });
+
+builder.Services.AddSingleton<JikanDatabaseInitializer>(sp =>
+{
+    var dbPath = builder.Configuration.GetValue<string>("JikanDatabasePath") ?? "jikan-anime.db";
+    return new JikanDatabaseInitializer($"Data Source={dbPath}");
+});
+builder.Services.AddSingleton<JikanService>(sp =>
+{
+    var dbPath = builder.Configuration.GetValue<string>("JikanDatabasePath") ?? "jikan-anime.db";
+    return new JikanService($"Data Source={dbPath}");
+});
+
+
 
 // Register SqliteConnection as a scoped service
 builder.Services.AddScoped<SqliteConnection>(sp =>
@@ -49,6 +63,23 @@ app.UseCors("AllowAll");
 
 // Define API endpoints
 app.MapGet("/", () => "Welcome to the Anime Database API!");
+
+
+app.MapGet("/jikananime/{id}", async (int id, JikanService jikanService) =>
+{
+    try
+    {
+        var anime = await jikanService.GetAnime(id);
+        return Results.Ok(anime);
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"An error occurred while fetching anime: {ex.Message}");
+    }
+})
+.WithName("GetAnime")
+.WithOpenApi();
+
 
 app.MapPost("/import", async (AnimeDatabase db, IConfiguration config) =>
 {

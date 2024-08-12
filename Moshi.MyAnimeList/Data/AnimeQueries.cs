@@ -1,4 +1,4 @@
-﻿namespace Moshi.MyAnimeList;
+﻿namespace Moshi.MyAnimeList.Data;
 
 using Dapper;
 using Microsoft.Data.Sqlite;

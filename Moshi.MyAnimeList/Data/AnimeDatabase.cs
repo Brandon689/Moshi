@@ -2,7 +2,7 @@
 using Microsoft.Data.Sqlite;
 using System.Text.Json;
 
-namespace Moshi.MyAnimeList;
+namespace Moshi.MyAnimeList.Data;
 
 public class AnimeDatabase
 {
@@ -71,7 +71,7 @@ public class AnimeDatabase
                             .Select(a => new
                             {
                                 AnimeTitle = a.Title,
-                                Season = a.AnimeSeason.Season,
+                                a.AnimeSeason.Season,
                                 Year = a.AnimeSeason.Year.HasValue ? (object)a.AnimeSeason.Year.Value : DBNull.Value
                             })
                             .Distinct() // Add this to remove duplicates
@@ -300,7 +300,7 @@ public class AnimeDatabase
             .Select(a => new
             {
                 AnimeTitle = a.Title,
-                Season = a.AnimeSeason.Season,
+                a.AnimeSeason.Season,
                 Year = a.AnimeSeason.Year.HasValue ? (object)a.AnimeSeason.Year.Value : DBNull.Value
             });
         connection.Execute("INSERT INTO TempSeasons (AnimeTitle, Season, Year) VALUES (@AnimeTitle, @Season, @Year)", seasons);

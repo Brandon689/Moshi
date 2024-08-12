@@ -1,0 +1,6 @@
+@Moshi.PaperTrading_HostAddress = http://localhost:5097
+
+GET {{Moshi.PaperTrading_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

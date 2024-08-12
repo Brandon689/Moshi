@@ -12,9 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="player.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Roboto-Regular.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

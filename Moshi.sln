@@ -24,6 +24,9 @@ EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "moshi.forums.react", "Frontends\moshi.forums.react\moshi.forums.react.esproj", "{FD5BBD89-D73F-46FF-A172-CA3151265632}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{E763AA3F-C650-48DE-B950-786223C75EFB}"
+	ProjectSection(SolutionItems) = preProject
+		EmailJS.html = EmailJS.html
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupaBaseDemo", "SupaBaseDemo\SupaBaseDemo.csproj", "{0389D33D-C5E1-4EDD-BEE3-ED0A622EA509}"
 EndProject
@@ -47,9 +50,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "moshi.myanimelist.wpf", "mo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.MMO", "Moshi.MMO\Moshi.MMO.csproj", "{DF14D79C-FB42-44EA-9811-180EA4CAD2E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moshi.SAAS", "Moshi.SAAS\Moshi.SAAS.csproj", "{1213CFE6-AA87-401D-BAC6-5B06078025A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.SFMLGame", "Moshi.SFMLGame\Moshi.SFMLGame.csproj", "{00863632-2794-445C-AC64-5C867911D27E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moshi.SFMLGame", "Moshi.SFMLGame\Moshi.SFMLGame.csproj", "{00863632-2794-445C-AC64-5C867911D27E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.PaperTrading", "Moshi.PaperTrading\Moshi.PaperTrading.csproj", "{1856DEFA-7789-402D-BCDF-ACEAE96E9AB3}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "moshi.papertrading.react", "moshi.papertrading.react\moshi.papertrading.react.esproj", "{D50A7469-CF5F-4D70-A185-75B7824F7F47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moshi.SAAS", "Moshi.SAAS\Moshi.SAAS.csproj", "{D1D1B82E-28CE-4C81-AB69-F98B0EF436E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -141,14 +148,24 @@ Global
 		{DF14D79C-FB42-44EA-9811-180EA4CAD2E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF14D79C-FB42-44EA-9811-180EA4CAD2E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF14D79C-FB42-44EA-9811-180EA4CAD2E8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1213CFE6-AA87-401D-BAC6-5B06078025A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1213CFE6-AA87-401D-BAC6-5B06078025A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1213CFE6-AA87-401D-BAC6-5B06078025A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1213CFE6-AA87-401D-BAC6-5B06078025A2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{00863632-2794-445C-AC64-5C867911D27E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{00863632-2794-445C-AC64-5C867911D27E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00863632-2794-445C-AC64-5C867911D27E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00863632-2794-445C-AC64-5C867911D27E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1856DEFA-7789-402D-BCDF-ACEAE96E9AB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1856DEFA-7789-402D-BCDF-ACEAE96E9AB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1856DEFA-7789-402D-BCDF-ACEAE96E9AB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1856DEFA-7789-402D-BCDF-ACEAE96E9AB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D50A7469-CF5F-4D70-A185-75B7824F7F47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D50A7469-CF5F-4D70-A185-75B7824F7F47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D50A7469-CF5F-4D70-A185-75B7824F7F47}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D50A7469-CF5F-4D70-A185-75B7824F7F47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D50A7469-CF5F-4D70-A185-75B7824F7F47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D50A7469-CF5F-4D70-A185-75B7824F7F47}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{D1D1B82E-28CE-4C81-AB69-F98B0EF436E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1D1B82E-28CE-4C81-AB69-F98B0EF436E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1D1B82E-28CE-4C81-AB69-F98B0EF436E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1D1B82E-28CE-4C81-AB69-F98B0EF436E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -161,6 +178,7 @@ Global
 		{ACEC05B5-F893-40DE-9BE2-183C0E32E641} = {E763AA3F-C650-48DE-B950-786223C75EFB}
 		{EF066719-6787-455E-9CED-7B58C18AF45B} = {9BE595FB-436E-43FF-90EF-669C21504FF3}
 		{00863632-2794-445C-AC64-5C867911D27E} = {9BE595FB-436E-43FF-90EF-669C21504FF3}
+		{D50A7469-CF5F-4D70-A185-75B7824F7F47} = {9BE595FB-436E-43FF-90EF-669C21504FF3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5931C01C-4D46-42FD-B0F8-3D2431823527}

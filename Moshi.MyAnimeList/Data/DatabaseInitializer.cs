@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using Microsoft.Data.Sqlite;
 
-namespace Moshi.MyAnimeList;
+namespace Moshi.MyAnimeList.Data;
 
 public class DatabaseInitializer
 {

@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using Microsoft.Data.Sqlite;
 
-namespace Moshi.MyAnimeList;
+namespace Moshi.MyAnimeList.Data;
 
 public class AnimeInserter
 {
@@ -52,7 +52,7 @@ public class AnimeInserter
 
             var seasonParams = new
             {
-                Season = anime.AnimeSeason.Season,
+                anime.AnimeSeason.Season,
                 Year = anime.AnimeSeason.Year.HasValue ? (object)anime.AnimeSeason.Year.Value : DBNull.Value
             };
 
