@@ -31,10 +31,40 @@ public class PolygonClient
         return await SendRequestAsync(url);
     }
 
+    public async Task<string> GetPreviousCloseAsync(string ticker, bool adjusted = true)
+    {
+        var url = $"{BaseUrl}/v2/aggs/ticker/{ticker}/prev?adjusted={adjusted}";
+        return await SendRequestAsync(url);
+    }
+
+    public async Task<string> GetTradesAsync(string ticker, int limit = 10)
+    {
+        var url = $"{BaseUrl}/v3/trades/{ticker}?limit={limit}";
+        return await SendRequestAsync(url);
+    }
+
     private async Task<string> SendRequestAsync(string url)
     {
         var response = await _httpClient.GetAsync(url);
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadAsStringAsync();
+    }
+
+    public async Task<string> GetLastTradeAsync(string ticker)
+    {
+        var url = $"{BaseUrl}/v2/last/trade/{ticker}";
+        return await SendRequestAsync(url);
+    }
+
+    public async Task<string> GetQuotesAsync(string ticker, int limit = 10)
+    {
+        var url = $"{BaseUrl}/v3/quotes/{ticker}?limit={limit}";
+        return await SendRequestAsync(url);
+    }
+
+    public async Task<string> GetLastQuoteAsync(string ticker)
+    {
+        var url = $"{BaseUrl}/v2/last/nbbo/{ticker}";
+        return await SendRequestAsync(url);
     }
 }

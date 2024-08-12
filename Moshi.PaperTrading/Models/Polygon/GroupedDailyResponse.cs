@@ -13,7 +13,7 @@ public class GroupedDailyResponse
     public int QueryCount { get; set; }
 
     [JsonPropertyName("results")]
-    public GroupedDailyResult[] Results { get; set; }
+    public OHLC[] Results { get; set; }
 
     [JsonPropertyName("resultsCount")]
     public int ResultsCount { get; set; }

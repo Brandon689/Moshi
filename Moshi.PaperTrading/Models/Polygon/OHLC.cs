@@ -2,7 +2,7 @@
 
 namespace Moshi.PaperTrading.Models.Polygon;
 
-public class GroupedDailyResult
+public class OHLC
 {
     //[JsonPropertyName("T")]
     public string T { get; set; }
@@ -22,7 +22,7 @@ public class GroupedDailyResult
     [JsonPropertyName("o")]
     public decimal O { get; set; }
 
-    [JsonPropertyName("t")]
+    //[JsonPropertyName("t")]
     public long t { get; set; }
 
     [JsonPropertyName("v")]

@@ -32,6 +32,36 @@ public class PolygonService
         var json = await _client.GetDailyOpenCloseAsync(ticker, date);
         return JsonSerializer.Deserialize<DailyOpenCloseResponse>(json);
     }
+
+    public async Task<PreviousCloseResponse> GetPreviousCloseAsync(string ticker, bool adjusted = true)
+    {
+        var json = await _client.GetPreviousCloseAsync(ticker, adjusted);
+        return JsonSerializer.Deserialize<PreviousCloseResponse>(json);
+    }
+
+    public async Task<TradesResponse> GetTradesAsync(string ticker, int limit = 10)
+    {
+        var json = await _client.GetTradesAsync(ticker, limit);
+        return JsonSerializer.Deserialize<TradesResponse>(json);
+    }
+
+    public async Task<LastTradeResponse> GetLastTradeAsync(string ticker)
+    {
+        var json = await _client.GetLastTradeAsync(ticker);
+        return JsonSerializer.Deserialize<LastTradeResponse>(json);
+    }
+
+    public async Task<QuotesResponse> GetQuotesAsync(string ticker, int limit = 10)
+    {
+        var json = await _client.GetQuotesAsync(ticker, limit);
+        return JsonSerializer.Deserialize<QuotesResponse>(json);
+    }
+
+    public async Task<LastQuoteResponse> GetLastQuoteAsync(string ticker)
+    {
+        var json = await _client.GetLastQuoteAsync(ticker);
+        return JsonSerializer.Deserialize<LastQuoteResponse>(json);
+    }
 }
 
 public class PolygonOptions

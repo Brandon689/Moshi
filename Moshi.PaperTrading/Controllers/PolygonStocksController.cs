@@ -64,4 +64,79 @@ public class PolygonStocksController : ControllerBase
             return StatusCode(500, "An error occurred while processing your request.");
         }
     }
+
+    [HttpGet("previous-close/{ticker}")]
+    public async Task<ActionResult<PreviousCloseResponse>> GetPreviousClose(string ticker, [FromQuery] bool adjusted = true)
+    {
+        try
+        {
+            var result = await _polygonService.GetPreviousCloseAsync(ticker, adjusted);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            // Log the exception
+            return StatusCode(500, "An error occurred while processing your request.");
+        }
+    }
+
+    [HttpGet("trades/{ticker}")]
+    public async Task<ActionResult<TradesResponse>> GetTrades(string ticker, [FromQuery] int limit = 10)
+    {
+        try
+        {
+            var result = await _polygonService.GetTradesAsync(ticker, limit);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            // Log the exception
+            return StatusCode(500, "An error occurred while processing your request.");
+        }
+    }
+
+    [HttpGet("last-trade/{ticker}")]
+    public async Task<ActionResult<LastTradeResponse>> GetLastTrade(string ticker)
+    {
+        try
+        {
+            var result = await _polygonService.GetLastTradeAsync(ticker);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            // Log the exception
+            return StatusCode(500, "An error occurred while processing your request.");
+        }
+    }
+
+    [HttpGet("quotes/{ticker}")]
+    public async Task<ActionResult<QuotesResponse>> GetQuotes(string ticker, [FromQuery] int limit = 10)
+    {
+        try
+        {
+            var result = await _polygonService.GetQuotesAsync(ticker, limit);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            // Log the exception
+            return StatusCode(500, "An error occurred while processing your request.");
+        }
+    }
+
+    [HttpGet("last-quote/{ticker}")]
+    public async Task<ActionResult<LastQuoteResponse>> GetLastQuote(string ticker)
+    {
+        try
+        {
+            var result = await _polygonService.GetLastQuoteAsync(ticker);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            // Log the exception
+            return StatusCode(500, "An error occurred while processing your request.");
+        }
+    }
 }

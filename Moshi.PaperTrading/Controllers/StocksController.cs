@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moshi.PaperTrading.Models;
+using Moshi.PaperTrading.Models.Polygon;
 using Moshi.PaperTrading.Services;
 
 namespace Moshi.PaperTrading.Controllers;
