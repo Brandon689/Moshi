@@ -4,15 +4,17 @@ A set of templates of common web applications, using a ASP CRUD API. And fronten
 * Blog App (React)
 * Forums App (React)
 * Booking system (HTML JQuery)
+* SFML Platformer Game
+* Astro SAAS
 
 ## Integration Examples
 * Dapper Sqlite
 * SupaBase
 * Auth0
 * JWT tokens
-
+* Stripe Payments
+  
 # todo
-* booking system
 * game achievements server
 * Music library management
 * Appointment scheduling systems
