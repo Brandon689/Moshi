@@ -40,9 +40,3 @@ public class GameHub : Hub
         }
     }
 }
-
-public class PlayerInfo
-{
-    public int X { get; set; }
-    public int Y { get; set; }
-}

@@ -1,4 +1,4 @@
-namespace Moshi.MyMusic;
+namespace Moshi.Shopify;
 
 public class WeatherForecast
 {

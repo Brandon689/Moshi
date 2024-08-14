@@ -1,0 +1,6 @@
+@Moshi.Pokédex_HostAddress = http://localhost:5074
+
+###GET {{Moshi.Pokédex_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

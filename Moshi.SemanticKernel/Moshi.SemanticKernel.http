@@ -1,0 +1,6 @@
+@Moshi.SemanticKernel_HostAddress = http://localhost:5280
+
+###GET {{Moshi.SemanticKernel_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
