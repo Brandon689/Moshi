@@ -1,4 +1,4 @@
-namespace Moshi.SemanticKernal;
+namespace Moshi.JobBoard;
 
 public class WeatherForecast
 {

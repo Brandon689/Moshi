@@ -1,6 +1,0 @@
-@Moshi.SemanticKernal_HostAddress = http://localhost:5274
-
-GET {{Moshi.SemanticKernal_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

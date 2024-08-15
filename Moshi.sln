@@ -72,17 +72,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.Shopify", "Moshi.Shop
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.QandA", "Moshi.QandA\Moshi.QandA.csproj", "{23C77857-CBC2-4C67-AA02-735EE9A7A07B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moshi.Pokédex", "Moshi.Pokédex\Moshi.Pokédex.csproj", "{F594525A-CB05-4C96-B29A-BE54D578E459}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.Pokédex", "Moshi.Pokédex\Moshi.Pokédex.csproj", "{F594525A-CB05-4C96-B29A-BE54D578E459}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moshi.SemanticKernel", "Moshi.SemanticKernel\Moshi.SemanticKernel.csproj", "{9A3D8EF1-F6E0-4288-A176-80776E48F8F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.SemanticKernel", "Moshi.SemanticKernel\Moshi.SemanticKernel.csproj", "{9A3D8EF1-F6E0-4288-A176-80776E48F8F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "semantickerneltest", "Tests\semantickerneltest\semantickerneltest.csproj", "{CDE75E4B-2E2F-4B08-8FB5-039BCECA6790}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "semantickerneltest", "Tests\semantickerneltest\semantickerneltest.csproj", "{CDE75E4B-2E2F-4B08-8FB5-039BCECA6790}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokeApiNet", "ThirdParty\PokeApiNet\PokeApiNet.csproj", "{FB5626D4-39C5-4311-A825-0B8CCF1B0F51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokeApiNet", "ThirdParty\PokeApiNet\PokeApiNet.csproj", "{FB5626D4-39C5-4311-A825-0B8CCF1B0F51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokeApiTest", "Tests\PokeApiTest\PokeApiTest.csproj", "{8BE903F9-ED10-45FD-B7D0-AA7BA572AD68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokeApiTest", "Tests\PokeApiTest\PokeApiTest.csproj", "{8BE903F9-ED10-45FD-B7D0-AA7BA572AD68}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThirdParty", "ThirdParty", "{B30A998D-2D5D-4E91-873E-8A00B47BA42B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moshi.JobBoard", "Moshi.JobBoard\Moshi.JobBoard.csproj", "{8FBCB819-4EC2-49C4-95FE-44E2921FA0C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -236,6 +238,10 @@ Global
 		{8BE903F9-ED10-45FD-B7D0-AA7BA572AD68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BE903F9-ED10-45FD-B7D0-AA7BA572AD68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BE903F9-ED10-45FD-B7D0-AA7BA572AD68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FBCB819-4EC2-49C4-95FE-44E2921FA0C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FBCB819-4EC2-49C4-95FE-44E2921FA0C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FBCB819-4EC2-49C4-95FE-44E2921FA0C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FBCB819-4EC2-49C4-95FE-44E2921FA0C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
