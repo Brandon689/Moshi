@@ -1,0 +1,6 @@
+@Moshi.SubtitlesSite_HostAddress = http://localhost:5072
+
+GET {{Moshi.SubtitlesSite_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

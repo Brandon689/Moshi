@@ -35,6 +35,6 @@ public class JikanDatabaseInitializer
                 Year INTEGER
             );";
             connection.Execute(sql);
-        }       
+        }
     }
 }

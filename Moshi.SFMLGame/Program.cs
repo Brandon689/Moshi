@@ -1,11 +1,7 @@
 ﻿using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
-using System;
-using System.Collections.Generic;
 using System.Text.Json;
-using System.IO;
-using System.Linq;
 
 class LeaderboardEntry
 {

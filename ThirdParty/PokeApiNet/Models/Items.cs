@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace PokeApiNet
+﻿namespace PokeApiNet
 {
     /// <summary>
     /// An item is an object in the games which the player can

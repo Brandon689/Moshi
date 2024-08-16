@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace PokeApiNet
+﻿namespace PokeApiNet
 {
     /// <summary>
     /// Locations that can be visited within the games. Locations make

@@ -1,6 +1,5 @@
-﻿using JikanDotNet;
+﻿using Dapper;
 using Microsoft.Data.Sqlite;
-using Dapper;
 using Moshi.MyAnimeList.JikanClients;
 using Moshi.MyAnimeList.Models;
 

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace PokeApiNet
+﻿namespace PokeApiNet
 {
     /// <summary>
     /// Evolution chains are essentially family trees. They start with

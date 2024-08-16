@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace PokeApiNet
+﻿namespace PokeApiNet
 {
     /// <summary>
     /// Methods by which the player might can encounter Pokémon

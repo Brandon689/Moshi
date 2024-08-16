@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace PokeApiNet
+﻿namespace PokeApiNet
 {
     /// <summary>
     /// Languages for translations of API resource information.

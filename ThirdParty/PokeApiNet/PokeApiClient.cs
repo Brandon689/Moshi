@@ -1,14 +1,8 @@
 ﻿using PokeApiNet.Cache;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace PokeApiNet
 {
@@ -481,7 +475,7 @@ namespace PokeApiNet
             {
                 queryParameters.Add(nameof(limit), limit.Value.ToString());
             }
-            
+
             if (offset.HasValue)
             {
                 queryParameters.Add(nameof(offset), offset.Value.ToString());
