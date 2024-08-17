@@ -1,5 +1,4 @@
 ﻿using Moshi.SubtitlesSite.Services;
-using Moshi.SubtitlesSite.Models;
 using SubtitlesSiteMVCFrontend.Views.ViewModels;
 
 namespace SubtitlesSiteMVCFrontend.Services

@@ -134,7 +134,7 @@ public class SubtitleRepository
         return db.Query<Subtitle>(sql, new { Query = $"%{query}%" });
     }
 
-    public bool RateSubtitle(int subtitleId, int userId, int rating)
+    public bool RateSubtitle(int subtitleId, int userId, float rating)
     {
         using var db = CreateConnection();
         var sql = @"INSERT INTO SubtitleRatings (SubtitleId, UserId, Rating, RatingDate) 

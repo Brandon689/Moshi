@@ -141,7 +141,7 @@ public class SubtitlesController : Controller
     // POST: Subtitles/Rate/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Rate(int id, SubtitleRatingModel model)
+    public IActionResult Rate(int id, SubtitleRating model)
     {
         if (ModelState.IsValid)
         {

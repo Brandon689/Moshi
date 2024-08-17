@@ -108,7 +108,7 @@ namespace Moshi.SubtitlesSite.Services
             return success;
         }
 
-        public bool RateSubtitle(int subtitleId, int userId, int rating)
+        public bool RateSubtitle(int subtitleId, int userId, float rating)
         {
             if (rating < 1 || rating > 10)
                 throw new ArgumentException("Rating must be between 1 and 10");
@@ -188,7 +188,7 @@ namespace Moshi.SubtitlesSite.Services
 
 
 
-   
+
         public IEnumerable<(string Username, int UploadCount, DateTime LatestUpload)> GetTopUploaders(int count)
         {
             return _repository.GetTopUploaders(count);

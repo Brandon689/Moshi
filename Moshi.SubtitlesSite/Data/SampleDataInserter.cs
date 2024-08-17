@@ -1,8 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Data.Sqlite;
 using Moshi.SubtitlesSite.Models;
-using System;
-using System.Collections.Generic;
 
 namespace Moshi.SubtitlesSite.Data;
 
