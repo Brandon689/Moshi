@@ -4,45 +4,87 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SubShare</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Movies" asp-action="Index">SubShare</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Movies" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Subtitles" asp-action="Upload">Upload Subtitles</a>
-                        </li>
-                    </ul>
-                </div>
+    <header class="container">
+
+        <div class="header-user-actions">
+            <a href="/">SubShare</a>
+            <div class="user-actions">
+                <a href="#">Log In</a> | <a href="#">Register</a>
             </div>
+            <div class="language-action">
+                <a href="#">Site Language</a>
+            </div>
+        </div>
+        <nav class="centred">
+            <ul class="header-menu">
+                <li><a href="/Search">Search</a></li>
+                <li><a href="#">Upload</a></li>
+                <li><a href="#">Request</a></li>
+                <li><a href="#">Forum</a></li>
+                <li><a href="#">Blog</a></li>
+            </ul>
         </nav>
+        <div class="search-bar">
+            <input type="text" size="30" maxlength="250" autocomplete="off" placeholder="Title, IMDB URL or drop file...">
+            <button>Search</button>
+        </div>
+@*         <nav class="header-layer">
+        <a href="@Url.Action("Index", "Movies")">SubShare</a>
+        <div id="navMenu">
+            <ul>
+                <li>
+                    <a href="@Url.Action("Index", "Movies")">Home</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Upload", "Subtitles")">Upload Subtitles</a>
+                </li>
+            </ul>
+        </div>
+    </nav> *@
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        <main role="main">@RenderBody()</main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - SubShare - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="container">
+        <div class="upfooter">
+            <a title="subtitles" href="/en/search/sublanguageid-all">New subtitles</a>
+            <a title="subtitles - a" href="/en/search/sublanguageid-all/moviename-a">A</a>
+            <a title="subtitles - b" href="/en/search/sublanguageid-all/moviename-b">B</a>
+            <a title="subtitles - c" href="/en/search/sublanguageid-all/moviename-c">C</a>
+            <a title="subtitles - d" href="/en/search/sublanguageid-all/moviename-d">D</a>
+            <a title="subtitles - e" href="/en/search/sublanguageid-all/moviename-e">E</a>
+            <a title="subtitles - f" href="/en/search/sublanguageid-all/moviename-f">F</a>
+            <a title="subtitles - g" href="/en/search/sublanguageid-all/moviename-g">G</a>
+            <a title="subtitles - h" href="/en/search/sublanguageid-all/moviename-h">H</a>
+            <a title="subtitles - i" href="/en/search/sublanguageid-all/moviename-i">I</a>
+            <a title="subtitles - j" href="/en/search/sublanguageid-all/moviename-j">J</a>
+            <a title="subtitles - k" href="/en/search/sublanguageid-all/moviename-k">K</a>
+            <a title="subtitles - l" href="/en/search/sublanguageid-all/moviename-l">L</a>
+            <a title="subtitles - m" href="/en/search/sublanguageid-all/moviename-m">M</a>
+            <a title="subtitles - n" href="/en/search/sublanguageid-all/moviename-n">N</a>
+            <a title="subtitles - o" href="/en/search/sublanguageid-all/moviename-o">O</a>
+            <a title="subtitles - p" href="/en/search/sublanguageid-all/moviename-p">P</a>
+            <a title="subtitles - q" href="/en/search/sublanguageid-all/moviename-q">Q</a>
+            <a title="subtitles - r" href="/en/search/sublanguageid-all/moviename-r">R</a>
+            <a title="subtitles - s" href="/en/search/sublanguageid-all/moviename-s">S</a>
+            <a title="subtitles - t" href="/en/search/sublanguageid-all/moviename-t">T</a>
+            <a title="subtitles - u" href="/en/search/sublanguageid-all/moviename-u">U</a>
+            <a title="subtitles - v" href="/en/search/sublanguageid-all/moviename-v">V</a>
+            <a title="subtitles - w" href="/en/search/sublanguageid-all/moviename-w">W</a>
+            <a title="subtitles - x" href="/en/search/sublanguageid-all/moviename-x">X</a>
+            <a title="subtitles - y" href="/en/search/sublanguageid-all/moviename-y">Y</a>
+            <a title="subtitles - z" href="/en/search/sublanguageid-all/moviename-z">Z</a>
+            <a title="subtitles - %23" href="/en/search/sublanguageid-all/moviename-%23">#</a>
+        </div>
+        <div>
+            &copy; 2024 - SubShare - <a href="@Url.Action("Privacy", "Home")">Privacy</a>
         </div>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

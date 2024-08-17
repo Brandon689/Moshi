@@ -5,47 +5,42 @@
 }
 
 <div class="container">
-    <header>
-        <h1>Your Subtitle Site</h1>
-        <div class="user-actions">
-            <a href="#">Log In</a> | <a href="#">Register</a>
-        </div>
-        <div class="search-bar">
-            <input type="text" placeholder="Search subtitles...">
-            <button>Search</button>
-        </div>
-    </header>
 
-    <nav>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Upload</a></li>
-            <li><a href="#">Request</a></li>
-            <li><a href="#">Forum</a></li>
-            <li><a href="#">Blog</a></li>
-        </ul>
-    </nav>
-    <main>
-        <partial name="_SubtitleList" model="Model.NewSubtitles" />
-                <section class="new-subtitles">
-        <h2>New Subtitles</h2>
-        <partial name="_SubtitleList" model="Model.NewSubtitles" />
+    <main class="home-grid">
+        @* <section class="new-subtitles">
+            <partial name="_SubtitleList" model="Model.NewSubtitles" />
+        </section> *@
+        <section class="new-subtitles">
+            <fieldset>
+                <legend class="legend">
+                    <h2 class="home-grid-h">
+                        <a href="#">New Subtitles</a>
+                    </h2>
+                </legend>
+                <partial name="_SubtitleList" model="Model.NewSubtitles" />
+            </fieldset>
         </section>
-
         <section class="featured-subtitles">
-        <h2>Featured Subtitles</h2>
-        <partial name="_SubtitleList" model="Model.FeaturedSubtitles" />
+            <fieldset>
+                <legend class="legend">
+                    <h2 class="home-grid-h">
+                        <a href="#">Featured Subtitles</a>
+                    </h2>
+                </legend>
+                <partial name="_SubtitleList" model="Model.FeaturedSubtitles" />
+            </fieldset>
         </section>
-
         <section class="statistics">
-        <div class="most-downloaded">
-        <h3>Weekly Most Downloaded</h3>
-        <partial name="_SubtitleList" model="Model.MostDownloaded" />
-        </div>
+            <div class="most-downloaded">
+                <fieldset>
+                    <legend class="legend">
+                        <h2 class="home-grid-h">
+                            <a href="#">Weekly Most Downloaded</a>
+                        </h2>
+                    </legend>
+                    <partial name="_SubtitleList" model="Model.MostDownloaded" />
+                </fieldset>
+            </div>
         </section>
     </main>
-
-    <footer>
-        <!-- Add footer content -->
-    </footer>
 </div>

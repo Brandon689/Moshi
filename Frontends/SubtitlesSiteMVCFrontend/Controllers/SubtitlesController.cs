@@ -3,6 +3,7 @@ namespace SubtitlesSiteMVCFrontend.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Moshi.SubtitlesSite.Models;
 using Moshi.SubtitlesSite.Services;
+using SubtitlesSiteMVCFrontend.Views.ViewModels;
 using System;
 using System.Threading.Tasks;
 
@@ -48,15 +49,43 @@ public class SubtitlesController : Controller
     }
 
     // GET: Subtitles/Details/5
+    //public IActionResult Details(int id)
+    //{
+    //    var subtitle = _subtitleService.GetSubtitleById(id);
+    //    if (subtitle == null)
+    //    {
+    //        return NotFound();
+    //    }
+    //    return View(subtitle);
+    //}
     public IActionResult Details(int id)
     {
-        var subtitle = _subtitleService.GetSubtitleById(id);
-        if (subtitle == null)
+        var movie = _moviesService.GetMovieById(id);
+        if (movie == null)
         {
             return NotFound();
         }
-        return View(subtitle);
+
+        var comments = _subtitleService.GetCommentsWithUsernames(id);
+        var commentViews = comments.Select(c => new SubtitleCommentView
+        {
+            Comment = c.Comment,
+            UserName = c.Username,
+            CommentDate = c.CommentDate
+        });
+
+        var viewModel = new MovieDetailsViewModel
+        {
+            Movie = movie,
+            Subtitles = _subtitleService.GetSubtitlesByMovieId(id),
+            AlternativeTitles = _moviesService.GetAlternativeTitles(id),
+            MovieLinks = _moviesService.GetMovieLinks(id),
+            Comments = commentViews
+        };
+
+        return View(viewModel);
     }
+
 
     // GET: Subtitles/Edit/5
     public IActionResult Edit(int id)

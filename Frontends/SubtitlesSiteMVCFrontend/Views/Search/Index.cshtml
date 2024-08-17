@@ -1,13 +1,13 @@
-﻿@model IEnumerable<Moshi.SubtitlesSite.Models.Movie>
+﻿@model IEnumerable<SubtitlesSiteMVCFrontend.Views.ViewModels.SubtitleViewModel>
 
 @{
-    ViewData["Title"] = "Subtitle Downloads";
+    ViewData["Title"] = "Search Subtitles";
 }
 
-<div class="container">
-    <h1 class="text-center my-4">Subtitle Downloads</h1>
+<div class="container-fluid">
+    <h2 class="text-center my-4">Search Subtitles</h2>
 
-    <div class="row mb-4">
+    <div class="row mb-3">
         <div class="col-md-6 offset-md-3">
             <form asp-action="Search" method="get" class="input-group">
                 <input type="text" name="query" class="form-control" placeholder="Search for movies, TV shows, or subtitles...">
@@ -21,27 +21,48 @@
     <div class="alphabet-index text-center mb-3">
         @for (char c = 'A'; c <= 'Z'; c++)
         {
-            <a asp-action="Search" asp-route-letter="@c" class="btn btn-sm @(ViewBag.CurrentLetter == c ? "btn-primary" : "btn-outline-primary")">@c</a>
+            <a asp-action="Index" asp-route-letter="@c" class="btn btn-sm @(ViewBag.CurrentLetter == c ? "btn-primary" : "btn-outline-primary")">@c</a>
         }
-        <a asp-action="Search" asp-route-letter="0" class="btn btn-sm @(ViewBag.CurrentLetter == '0' ? "btn-primary" : "btn-outline-primary")">0-9</a>
+        <a asp-action="Index" asp-route-letter="0" class="btn btn-sm @(ViewBag.CurrentLetter == '0' ? "btn-primary" : "btn-outline-primary")">0-9</a>
     </div>
 
-    <div class="row">
-        @foreach (var movie in Model)
-        {
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="@(string.IsNullOrEmpty(movie.PosterUrl) ? "/images/default-poster.jpg" : movie.PosterUrl)" class="card-img-top" alt="@movie.Title Poster">
-                    <div class="card-body">
-                        <h5 class="card-title">@movie.Title (@movie.Year)</h5>
-                        <p class="card-text">@movie.Genre</p>
-                        <p class="card-text">
-                            <small class="text-muted">IMDb: @movie.ImdbRating</small>
-                        </p>
-                        <a asp-action="Details" asp-route-id="@movie.MovieId" class="btn btn-primary">View Subtitles</a>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
+    <table class="table table-sm table-hover">
+        <thead>
+            <tr>
+                <th>Movie name</th>
+                <th>#CD</th>
+                <th>Uploaded</th>
+                <th>Rating</th>
+                <th>Comments</th>
+                <th>Downloaded</th>
+                <th>Movie rating</th>
+                <th>Uploader</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a href="Subtitles/Details/@item.SubtitleId">
+                            <strong>@item.MovieTitle (@item.MovieYear)</strong>
+                        </a>
+                        <br/>
+                        @item.SubtitleName<br/>
+                        @* <small>@item.ReleaseInfo</small><br/> *@
+                        <a href="@item.WatchOnlineLink">Watch online</a> |
+                        <a asp-action="Download" asp-route-id="@item.SubtitleId">Download</a> |
+                        <a href="@item.SubtitleSearcherLink">Subtitles Searcher</a>
+                    </td>
+                    <td>@item.CdCount CD</td>
+                    <td>@item.UploadDate.ToString("dd/MM/yyyy")</td>
+                    <td>@item.SubtitleRating.ToString("F1")</td>
+                    <td>@item.CommentCount</td>
+                    <td>@item.Downloads</td>
+                    <td>@item.MovieRating.ToString("F1")</td>
+                    <td>@item.UploaderName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

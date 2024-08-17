@@ -2,21 +2,27 @@
 
 <table class="table">
     <thead>
-        <tr>
+        <tr class="head">
             <th>Movie</th>
-            <th>Uploader</th>
-            <th>Downloads</th>
-            <th>Rating</th>
+            <th>User</th>
+            <th>
+                <img width="16" height="16" src="/img/saveicon.gif" title="Downloaded" alt="Downloaded">
+                </th>
+            <th>
+                <img width="16" height="16" src="img/imdb_small.gif" title="Movie rating" alt="Movie rating">
+            </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@item.MovieTitle</td>
+            <tr class="tb-row">
+                <td class="cell-one">
+                    <a href="Subtitles/Details/@item.SubtitleId">@item.MovieTitle</a>
+            </td>
                 <td>@item.Username</td>
-                <td>@item.Downloads</td>
-                <td>@item.ImdbRating</td>
+                <td class="cell-num">@item.Downloads</td>
+                <td class="cell-num">@item.ImdbRating</td>
             </tr>
         }
     </tbody>
