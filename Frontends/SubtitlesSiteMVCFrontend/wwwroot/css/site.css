@@ -56,9 +56,7 @@ fieldset {
 table {
     width: 100%;
 }
-th {
-    font-weight: 400;
-}
+
 .home-grid-h {
     font-size: 12px;
     font-weight: 400;
@@ -73,6 +71,7 @@ body {
 }
 .head {
     background: #d8d8d8;
+    font-size: 11px;
 }
 .tb-row {
     cursor: pointer;

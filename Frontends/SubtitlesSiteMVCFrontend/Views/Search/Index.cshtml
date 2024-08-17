@@ -28,7 +28,7 @@
 
     <table class="table table-sm table-hover">
         <thead>
-            <tr>
+            <tr class="head">
                 <th>Movie name</th>
                 <th>#CD</th>
                 <th>Uploaded</th>
@@ -42,7 +42,7 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
+                <tr class="tb-row">
                     <td>
                         <a href="Subtitles/Details/@item.SubtitleId">
                             <strong>@item.MovieTitle (@item.MovieYear)</strong>

@@ -62,6 +62,7 @@ public class DatabaseInitializer
                 PasswordHash TEXT NOT NULL,
                 RegistrationDate TEXT NOT NULL,
                 LastLoginDate TEXT,
+                Country TEXT,
                 IsAdmin BOOLEAN DEFAULT 0
             )");
 
@@ -139,6 +140,17 @@ public class DatabaseInitializer
                 FOREIGN KEY (SubtitleId) REFERENCES Subtitles(SubtitleId),
                 FOREIGN KEY (UserId) REFERENCES Users(UserId)
             )");
+
+        connection.Execute(@"
+            CREATE TABLE IF NOT EXISTS ProfileComments (
+            CommentId INTEGER PRIMARY KEY AUTOINCREMENT,
+            UserId INTEGER NOT NULL,
+            CommenterId INTEGER NOT NULL,
+            CommentText TEXT NOT NULL,
+            CommentDate TEXT NOT NULL,
+            FOREIGN KEY (UserId) REFERENCES Users(UserId),
+            FOREIGN KEY (CommenterId) REFERENCES Users(UserId)
+        );");
 
         // UserBadges table
         connection.Execute(@"

@@ -1,0 +1,52 @@
+﻿@model SubtitlesSiteMVCFrontend.Views.ViewModels.ProfileViewModel
+
+@{
+    ViewData["Title"] = $"Profile for user: {Model.Username}";
+}
+
+<h1>Profile for user: @Model.Username</h1>
+
+<div class="profile-info">
+    <p><strong>Username:</strong> @Model.Username</p>
+    <p><strong>Badges:</strong></p>
+    <ul>
+        @foreach (var badge in Model.Badges)
+        {
+            <li>
+                [@badge.BadgeName]
+                @if (badge.AwardDate != null)
+                {
+                    <span> - @badge.AwardDate.ToString("ddd dd MMM HH:mm:ss yyyy")</span>
+                }
+            </li>
+        }
+    </ul>
+    <p><strong>Registered on:</strong> @Model.RegisteredDate.ToString("ddd dd MMM HH:mm:ss yyyy") / @Model.RegisteredCountry</p>
+    <p><strong>Last login:</strong> @Model.LastLoginDate.ToString("ddd dd MMM HH:mm:ss yyyy")</p>
+    <p><strong>Uploaded subtitles:</strong> @Model.UploadedSubtitlesCount</p>
+</div>
+
+<h2>Comments</h2>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <form asp-action="AddComment" method="post">
+        <input type="hidden" name="userId" value="@Model.UserId" />
+        <textarea name="comment" rows="4" cols="50" required></textarea>
+        <button type="submit">Add Comment</button>
+    </form>
+}
+else
+{
+    <p>Log-in to post comments.</p>
+}
+
+<div class="comments">
+    @foreach (var comment in Model.Comments)
+    {
+        <div class="comment">
+            <p><strong>@comment.CommenterUsername</strong> @comment.CommentDate.ToString("yyyy-MM-dd HH:mm:ss")</p>
+            <p>@comment.CommentText</p>
+        </div>
+    }
+</div>

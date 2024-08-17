@@ -10,6 +10,7 @@ builder.Services.AddScoped<SubtitleParserService>();
 builder.Services.AddScoped<MoviesService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<SubtitleRepository>();
+builder.Services.AddScoped<MovieRepository>();
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddSingleton<DatabaseInitializer>();
 builder.Services.AddEndpointsApiExplorer();

@@ -4,8 +4,6 @@ using SubtitlesSiteMVCFrontend.Views.ViewModels;
 
 namespace SubtitlesSiteMVCFrontend.Controllers;
 
-
-
 public class HomeController : Controller
 {
     private readonly SubtitleService _subtitleService;
@@ -29,7 +27,7 @@ public class HomeController : Controller
             MostDownloaded = _subtitleService.GetMostDownloadedSubtitles(5).ToList(),
             //RequestedSubtitles = _subtitleService.GetMostRequestedSubtitles(5).ToList(),
             LatestComments = _subtitleService.GetLatestComments(5).ToList(),
-            PopularMovies = _moviesService.GetPopularMovies(10).ToList()
+            PopularMovies = _moviesService.GetPopularMovies(4).ToList()
         };
 
         return View(viewModel);
