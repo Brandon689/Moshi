@@ -1,5 +1,5 @@
-﻿using Moshi.SubtitlesSite.Models;
-using SubtitlesSite.Data;
+﻿using Moshi.SubtitlesSite.Data;
+using Moshi.SubtitlesSite.Models;
 
 namespace Moshi.SubtitlesSite.Services
 {
@@ -14,7 +14,12 @@ namespace Moshi.SubtitlesSite.Services
             _uploadPath = Path.Combine(env.ContentRootPath, "Uploads");
         }
 
-        public async Task<int> UploadSubtitle(SubtitleUploadModel model)
+        public Subtitle GetSubtitleById(int id)
+        {
+            return _repository.GetSubtitleById(id);
+        }
+
+        public async Task<int> UploadSubtitle(SubtitleUpload model)
         {
             var originalFileName = model.File.FileName;
             var storageFileName = Path.GetRandomFileName() + Path.GetExtension(originalFileName);
@@ -29,13 +34,18 @@ namespace Moshi.SubtitlesSite.Services
 
             var subtitle = new Subtitle
             {
-                ShowId = model.ShowId,
+                MovieId = model.MovieId,
+                UserId = model.UserId, // Assuming you've added this to the model
                 Language = model.Language,
                 Format = model.Format,
+                ReleaseInfo = model.ReleaseInfo, // New field
                 StorageFileName = storageFileName,
                 OriginalFileName = originalFileName,
                 UploadDate = DateTime.UtcNow,
-                Downloads = 0
+                Downloads = 0,
+                FPS = model.FPS, // New field
+                NumDiscs = model.NumDiscs, // New field
+                Notes = model.Notes // New field
             };
 
             return _repository.CreateSubtitle(subtitle);
@@ -64,7 +74,7 @@ namespace Moshi.SubtitlesSite.Services
             return (filePath, contentType, subtitle.OriginalFileName);
         }
 
-        public bool UpdateSubtitle(int id, SubtitleUpdateModel model)
+        public bool UpdateSubtitle(int id, SubtitleUpdate model)
         {
             var subtitle = _repository.GetSubtitleById(id);
             if (subtitle == null)
@@ -72,6 +82,10 @@ namespace Moshi.SubtitlesSite.Services
 
             subtitle.Language = model.Language;
             subtitle.Format = model.Format;
+            subtitle.ReleaseInfo = model.ReleaseInfo;
+            subtitle.FPS = model.FPS;
+            subtitle.NumDiscs = model.NumDiscs;
+            subtitle.Notes = model.Notes;
 
             return _repository.UpdateSubtitle(subtitle);
         }
@@ -94,21 +108,21 @@ namespace Moshi.SubtitlesSite.Services
             return success;
         }
 
-        public bool RateSubtitle(int id, int rating)
+        public bool RateSubtitle(int subtitleId, int userId, int rating)
         {
-            if (rating < 1 || rating > 5)
-                throw new ArgumentException("Rating must be between 1 and 5");
+            if (rating < 1 || rating > 10)
+                throw new ArgumentException("Rating must be between 1 and 10");
 
-            var subtitle = _repository.GetSubtitleById(id);
+            var subtitle = _repository.GetSubtitleById(subtitleId);
             if (subtitle == null)
                 throw new KeyNotFoundException("Subtitle not found.");
 
-            return _repository.RateSubtitle(id, rating);
+            return _repository.RateSubtitle(subtitleId, userId, rating);
         }
 
-        public IEnumerable<Subtitle> GetSubtitlesByShowId(int showId)
+        public IEnumerable<Subtitle> GetSubtitlesByMovieId(int movieId)
         {
-            return _repository.GetSubtitlesByShowId(showId);
+            return _repository.GetSubtitlesByMovieId(movieId);
         }
 
         public IEnumerable<Subtitle> SearchSubtitles(string query)
@@ -120,5 +134,77 @@ namespace Moshi.SubtitlesSite.Services
         {
             return _repository.GetTopRatedSubtitles(limit);
         }
+
+        public bool AddComment(SubtitleComment model)
+        {
+            var comment = new SubtitleComment
+            {
+                SubtitleId = model.SubtitleId,
+                UserId = model.UserId,
+                Comment = model.Comment,
+                CommentDate = DateTime.UtcNow
+            };
+            return _repository.AddSubtitleComment(comment);
+        }
+
+        public IEnumerable<SubtitleComment> GetComments(int subtitleId)
+        {
+            return _repository.GetSubtitleComments(subtitleId);
+        }
+
+        public IEnumerable<SubtitleCommentWithUsername> GetCommentsWithUsernames(int movieId)
+        {
+            var commentsWithUsernames = _repository.GetCommentsWithUsernames(movieId);
+            return commentsWithUsernames;
+        }
+
+        public int GetCommentsCount(int subtitleId)
+        {
+            return _repository.GetSubtitleCommentCount(subtitleId);
+        }
+
+        public double GetAverageRating(int subtitleId)
+        {
+            return _repository.GetAverageRating(subtitleId);
+        }
+
+
+
+        public IEnumerable<SubtitleWithMovieDetails> GetNewSubtitles(int count)
+        {
+            return _repository.GetSubtitlesWithMovieDetails(count, "UploadDate");
+        }
+
+        public IEnumerable<SubtitleWithMovieDetails> GetMostDownloadedSubtitles(int count)
+        {
+            return _repository.GetSubtitlesWithMovieDetails(count, "Downloads");
+        }
+
+        public IEnumerable<SubtitleWithMovieDetails> GetFeaturedSubtitles(int count)
+        {
+            // Assuming you want to feature top-rated subtitles
+            return _repository.GetSubtitlesWithMovieDetails(count, "ImdbRating");
+        }
+
+
+
+   
+        public IEnumerable<(string Username, int UploadCount, DateTime LatestUpload)> GetTopUploaders(int count)
+        {
+            return _repository.GetTopUploaders(count);
+        }
+
+
+        //public IEnumerable<(string MovieName, int RequestCount, DateTime LatestRequestDate)> GetMostRequestedSubtitles(int count)
+        //{
+        //    return _repository.GetMostRequestedSubtitles(count);
+        //}
+
+        public IEnumerable<SubtitleCommentWithUsername> GetLatestComments(int count)
+        {
+            return _repository.GetLatestComments(count);
+        }
+
+
     }
 }

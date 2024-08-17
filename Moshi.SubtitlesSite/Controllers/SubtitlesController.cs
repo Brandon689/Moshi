@@ -16,7 +16,7 @@ namespace Moshi.SubtitlesSite.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadSubtitle([FromForm] SubtitleUploadModel model)
+        public async Task<IActionResult> UploadSubtitle([FromForm] SubtitleUpload model)
         {
             if (model.File == null || model.File.Length == 0)
                 return BadRequest("No file uploaded");
@@ -55,11 +55,11 @@ namespace Moshi.SubtitlesSite.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetSubtitles(int showId)
+        public IActionResult GetSubtitles(int movieId)
         {
             try
             {
-                var subtitles = _subtitleService.GetSubtitlesByShowId(showId);
+                var subtitles = _subtitleService.GetSubtitlesByMovieId(movieId);
                 return Ok(subtitles);
             }
             catch (Exception ex)
@@ -69,7 +69,7 @@ namespace Moshi.SubtitlesSite.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateSubtitle(int id, [FromBody] SubtitleUpdateModel model)
+        public IActionResult UpdateSubtitle(int id, [FromBody] SubtitleUpdate model)
         {
             try
             {
@@ -130,7 +130,7 @@ namespace Moshi.SubtitlesSite.Controllers
         {
             try
             {
-                var success = _subtitleService.RateSubtitle(id, model.Rating);
+                var success = _subtitleService.RateSubtitle(id, model.UserId, model.Rating);
                 if (!success)
                     return StatusCode(500, "Failed to rate the subtitle");
                 return NoContent();
@@ -162,5 +162,50 @@ namespace Moshi.SubtitlesSite.Controllers
                 return StatusCode(500, $"An error occurred while retrieving top-rated subtitles: {ex.Message}");
             }
         }
+
+        [HttpPost("{id}/comments")]
+        public IActionResult AddComment(int id, [FromBody] SubtitleComment model)
+        {
+            try
+            {
+                model.SubtitleId = id;
+                var success = _subtitleService.AddComment(model);
+                if (!success)
+                    return StatusCode(500, "Failed to add the comment");
+                return CreatedAtAction(nameof(GetComments), new { id }, model);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound("Subtitle not found.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while adding the comment: {ex.Message}");
+            }
+        }
+
+        [HttpGet("{id}/comments")]
+        public IActionResult GetComments(int id)
+        {
+            try
+            {
+                var comments = _subtitleService.GetComments(id);
+                return Ok(comments);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound("Subtitle not found.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while retrieving comments: {ex.Message}");
+            }
+        }
+    }
+
+    public class SubtitleRatingModel
+    {
+        public int UserId { get; set; }
+        public int Rating { get; set; }
     }
 }

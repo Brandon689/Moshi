@@ -1,6 +1,11 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using Dapper;
+using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Configuration;
+using System;
+using System.IO;
+using System.Linq;
 
-namespace SubtitlesSite.Data;
+namespace Moshi.SubtitlesSite.Data;
 
 public class DatabaseInitializer
 {
@@ -19,6 +24,9 @@ public class DatabaseInitializer
     {
         CreateDatabaseIfNotExists();
         CreateTablesIfNotExist();
+
+        var sampleDataInserter = new SampleDataInserter(_connectionString);
+        sampleDataInserter.InsertSampleData();
     }
 
     private void CreateDatabaseIfNotExists()
@@ -39,11 +47,8 @@ public class DatabaseInitializer
 
         if (!File.Exists(databasePath))
         {
-            using (var connection = new SqliteConnection(_connectionString))
-            {
-                connection.Open();
-                // The database file will be created by opening the connection
-            }
+            using var connection = new SqliteConnection(_connectionString);
+            connection.Open();
         }
     }
 
@@ -52,54 +57,111 @@ public class DatabaseInitializer
         using var connection = new SqliteConnection(_connectionString);
         connection.Open();
 
-        // Create Shows table with new columns
-        var createShowsTableCommand = connection.CreateCommand();
-        createShowsTableCommand.CommandText = @"
-        CREATE TABLE IF NOT EXISTS Shows (
-            Id INTEGER PRIMARY KEY AUTOINCREMENT,
-            Title TEXT NOT NULL,
-            Year INTEGER NOT NULL,
-            Type TEXT NOT NULL,
-            Description TEXT,
-            Genre TEXT,
-            Director TEXT,
-            Cast TEXT,
-            NumberOfSeasons INTEGER,
-            NumberOfEpisodes INTEGER,
-            Language TEXT,
-            Country TEXT,
-            Rating REAL,
-            PosterUrl TEXT,
-            DateAdded TEXT NOT NULL,
-            LastUpdated TEXT
-        )";
-        createShowsTableCommand.ExecuteNonQuery();
+        // Users table
+        connection.Execute(@"
+            CREATE TABLE IF NOT EXISTS Users (
+                UserId INTEGER PRIMARY KEY AUTOINCREMENT,
+                Username TEXT NOT NULL UNIQUE,
+                Email TEXT NOT NULL UNIQUE,
+                PasswordHash TEXT NOT NULL,
+                RegistrationDate TEXT NOT NULL,
+                LastLoginDate TEXT,
+                IsAdmin BOOLEAN DEFAULT 0
+            )");
 
-        // Create Subtitles table
-        var createSubtitlesTableCommand = connection.CreateCommand();
-        createSubtitlesTableCommand.CommandText = @"
+        // Movies table
+        connection.Execute(@"
+            CREATE TABLE IF NOT EXISTS Movies (
+                MovieId INTEGER PRIMARY KEY AUTOINCREMENT,
+                ImdbId TEXT UNIQUE,
+                Title TEXT NOT NULL,
+                OriginalTitle TEXT,
+                Year INTEGER NOT NULL,
+                Synopsis TEXT,
+                Genre TEXT,
+                Director TEXT,
+                Writers TEXT,
+                Cast TEXT,
+                Duration INTEGER,
+                Language TEXT,
+                Country TEXT,
+                ImdbRating REAL,
+                PosterUrl TEXT,
+                DateAdded TEXT NOT NULL,
+                LastUpdated TEXT
+            )");
+
+        // AlternativeTitles table
+        connection.Execute(@"
+            CREATE TABLE IF NOT EXISTS AlternativeTitles (
+                AlternativeTitleId INTEGER PRIMARY KEY AUTOINCREMENT,
+                MovieId INTEGER NOT NULL,
+                Title TEXT NOT NULL,
+                FOREIGN KEY (MovieId) REFERENCES Movies(MovieId)
+            )");
+
+        // Subtitles table
+        connection.Execute(@"
             CREATE TABLE IF NOT EXISTS Subtitles (
-                Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                ShowId INTEGER NOT NULL,
+                SubtitleId INTEGER PRIMARY KEY AUTOINCREMENT,
+                MovieId INTEGER NOT NULL,
+                UserId INTEGER NOT NULL,
                 Language TEXT NOT NULL,
                 Format TEXT NOT NULL,
+                ReleaseInfo TEXT,
                 StorageFileName TEXT NOT NULL,
                 OriginalFileName TEXT NOT NULL,
                 UploadDate TEXT NOT NULL,
                 Downloads INTEGER NOT NULL DEFAULT 0,
-                FOREIGN KEY (ShowId) REFERENCES Shows(Id)
-            )";
-        createSubtitlesTableCommand.ExecuteNonQuery();
+                FPS REAL,
+                NumDiscs INTEGER DEFAULT 1,
+                Notes TEXT,
+                FOREIGN KEY (MovieId) REFERENCES Movies(MovieId),
+                FOREIGN KEY (UserId) REFERENCES Users(UserId)
+            )");
 
-        // Create SubtitleRatings table
-        var createSubtitleRatingsTableCommand = connection.CreateCommand();
-        createSubtitleRatingsTableCommand.CommandText = @"
-        CREATE TABLE IF NOT EXISTS SubtitleRatings (
-            Id INTEGER PRIMARY KEY AUTOINCREMENT,
-            SubtitleId INTEGER NOT NULL,
-            Rating INTEGER NOT NULL,
-            FOREIGN KEY (SubtitleId) REFERENCES Subtitles(Id)
-        )";
-        createSubtitleRatingsTableCommand.ExecuteNonQuery();
+        // SubtitleRatings table
+        connection.Execute(@"
+            CREATE TABLE IF NOT EXISTS SubtitleRatings (
+                RatingId INTEGER PRIMARY KEY AUTOINCREMENT,
+                SubtitleId INTEGER NOT NULL,
+                UserId INTEGER NOT NULL,
+                Rating INTEGER NOT NULL CHECK (Rating BETWEEN 1 AND 10),
+                RatingDate TEXT NOT NULL,
+                FOREIGN KEY (SubtitleId) REFERENCES Subtitles(SubtitleId),
+                FOREIGN KEY (UserId) REFERENCES Users(UserId)
+            )");
+
+        // SubtitleComments table
+        connection.Execute(@"
+            CREATE TABLE IF NOT EXISTS SubtitleComments (
+                CommentId INTEGER PRIMARY KEY AUTOINCREMENT,
+                SubtitleId INTEGER NOT NULL,
+                UserId INTEGER NOT NULL,
+                Comment TEXT NOT NULL,
+                CommentDate TEXT NOT NULL,
+                FOREIGN KEY (SubtitleId) REFERENCES Subtitles(SubtitleId),
+                FOREIGN KEY (UserId) REFERENCES Users(UserId)
+            )");
+
+        // UserBadges table
+        connection.Execute(@"
+            CREATE TABLE IF NOT EXISTS UserBadges (
+                BadgeId INTEGER PRIMARY KEY AUTOINCREMENT,
+                UserId INTEGER NOT NULL,
+                BadgeName TEXT NOT NULL,
+                AwardDate TEXT NOT NULL,
+                FOREIGN KEY (UserId) REFERENCES Users(UserId)
+            )");
+
+        // MovieLinks table
+        connection.Execute(@"
+            CREATE TABLE IF NOT EXISTS MovieLinks (
+                LinkId INTEGER PRIMARY KEY AUTOINCREMENT,
+                MovieId INTEGER NOT NULL,
+                LinkType TEXT NOT NULL,
+                Url TEXT NOT NULL,
+                FOREIGN KEY (MovieId) REFERENCES Movies(MovieId)
+            )");
     }
 }

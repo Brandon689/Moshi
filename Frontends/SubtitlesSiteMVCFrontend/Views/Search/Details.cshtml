@@ -1,0 +1,104 @@
+﻿@model SubtitlesSiteMVCFrontend.Views.ViewModels.MovieDetailsViewModel
+
+@{
+    ViewData["Title"] = Model.Movie.Title;
+}
+
+<div class="movie-details">
+    <h1>@Model.Movie.Title</h1>
+
+    <div class="row">
+        <div class="col-md-4">
+            <img src="@Model.Movie.PosterUrl" alt="@Model.Movie.Title Poster" class="img-fluid" />
+        </div>
+        <div class="col-md-8">
+            <p><strong>Year:</strong> @Model.Movie.Year</p>
+            <p><strong>Director:</strong> @Model.Movie.Director</p>
+            <p><strong>Genre:</strong> @Model.Movie.Genre</p>
+            <p><strong>IMDB Rating:</strong> @Model.Movie.ImdbRating</p>
+            <p><strong>Synopsis:</strong> @Model.Movie.Synopsis</p>
+
+            @if (Model.AlternativeTitles.Any())
+            {
+                <h3>Alternative Titles</h3>
+                <ul>
+                    @foreach (var title in Model.AlternativeTitles)
+                    {
+                        <li>@title.Title</li>
+                    }
+                </ul>
+            }
+
+            @if (Model.MovieLinks.Any())
+            {
+                <h3>External Links</h3>
+                <ul>
+                    @foreach (var link in Model.MovieLinks)
+                    {
+                        <li><a href="@link.Url" target="_blank">@link.LinkType</a></li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+
+    <h2>Subtitles</h2>
+    @if (Model.Subtitles.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Language</th>
+                    <th>Format</th>
+                    <th>Downloads</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var subtitle in Model.Subtitles)
+                {
+                    <tr>
+                        <td>@subtitle.Language</td>
+                        <td>@subtitle.Format</td>
+                        <td>@subtitle.Downloads</td>
+                        <td>
+                            <a href="@Url.Action("Download", "Subtitle", new { id = subtitle.SubtitleId })" class="btn btn-primary btn-sm">Download</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No subtitles available for this movie.</p>
+    }
+
+    <h2>Comments</h2>
+    @if (Model.Comments != null && Model.Comments.Any())
+    {
+        <div class="comments-section">
+            @foreach (var comment in Model.Comments)
+            {
+                <div class="comment">
+                    <p><strong>@comment.UserName</strong> - @comment.CommentDate.ToString("dd MMM yyyy HH:mm")</p>
+                    <p>@comment.Comment</p>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>No comments yet. Be the first to comment!</p>
+    }
+
+    <!-- Add a form for posting new comments here -->
+    <form asp-action="AddComment" asp-controller="Movie" method="post">
+        <input type="hidden" name="MovieId" value="@Model.Movie.MovieId" />
+        <div class="form-group">
+            <label for="comment">Your Comment:</label>
+            <textarea name="Comment" id="comment" class="form-control" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Post Comment</button>
+    </form>
+</div>

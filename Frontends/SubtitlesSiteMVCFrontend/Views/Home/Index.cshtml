@@ -1,8 +1,51 @@
-﻿@{
+﻿@model SubtitlesSiteMVCFrontend.Views.ViewModels.HomePageViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <header>
+        <h1>Your Subtitle Site</h1>
+        <div class="user-actions">
+            <a href="#">Log In</a> | <a href="#">Register</a>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search subtitles...">
+            <button>Search</button>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Upload</a></li>
+            <li><a href="#">Request</a></li>
+            <li><a href="#">Forum</a></li>
+            <li><a href="#">Blog</a></li>
+        </ul>
+    </nav>
+    <main>
+        <partial name="_SubtitleList" model="Model.NewSubtitles" />
+                <section class="new-subtitles">
+        <h2>New Subtitles</h2>
+        <partial name="_SubtitleList" model="Model.NewSubtitles" />
+        </section>
+
+        <section class="featured-subtitles">
+        <h2>Featured Subtitles</h2>
+        <partial name="_SubtitleList" model="Model.FeaturedSubtitles" />
+        </section>
+
+        <section class="statistics">
+        <div class="most-downloaded">
+        <h3>Weekly Most Downloaded</h3>
+        <partial name="_SubtitleList" model="Model.MostDownloaded" />
+        </div>
+        </section>
+    </main>
+
+    <footer>
+        <!-- Add footer content -->
+    </footer>
 </div>

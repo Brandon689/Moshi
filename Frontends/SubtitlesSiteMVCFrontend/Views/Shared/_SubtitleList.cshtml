@@ -1,0 +1,23 @@
+﻿@model List<Moshi.SubtitlesSite.Models.SubtitleWithMovieDetails>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Movie</th>
+            <th>Uploader</th>
+            <th>Downloads</th>
+            <th>Rating</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MovieTitle</td>
+                <td>@item.Username</td>
+                <td>@item.Downloads</td>
+                <td>@item.ImdbRating</td>
+            </tr>
+        }
+    </tbody>
+</table>

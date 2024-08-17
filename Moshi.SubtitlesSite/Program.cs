@@ -1,14 +1,17 @@
+using Moshi.SubtitlesSite.Data;
 using Moshi.SubtitlesSite.Services;
-using SubtitlesSite.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<SubtitleService>();
 builder.Services.AddScoped<SubtitleParserService>();
-builder.Services.AddScoped<ShowsService>();
+builder.Services.AddScoped<MoviesService>();
+builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<SubtitleRepository>();
+builder.Services.AddScoped<UserRepository>();
 builder.Services.AddSingleton<DatabaseInitializer>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -26,6 +29,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();

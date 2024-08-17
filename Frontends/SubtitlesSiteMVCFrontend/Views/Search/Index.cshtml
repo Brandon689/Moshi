@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Moshi.SubtitlesSite.Models.Movie>
+
+@{
+    ViewData["Title"] = "Subtitle Downloads";
+}
+
+<div class="container">
+    <h1 class="text-center my-4">Subtitle Downloads</h1>
+
+    <div class="row mb-4">
+        <div class="col-md-6 offset-md-3">
+            <form asp-action="Search" method="get" class="input-group">
+                <input type="text" name="query" class="form-control" placeholder="Search for movies, TV shows, or subtitles...">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="alphabet-index text-center mb-3">
+        @for (char c = 'A'; c <= 'Z'; c++)
+        {
+            <a asp-action="Search" asp-route-letter="@c" class="btn btn-sm @(ViewBag.CurrentLetter == c ? "btn-primary" : "btn-outline-primary")">@c</a>
+        }
+        <a asp-action="Search" asp-route-letter="0" class="btn btn-sm @(ViewBag.CurrentLetter == '0' ? "btn-primary" : "btn-outline-primary")">0-9</a>
+    </div>
+
+    <div class="row">
+        @foreach (var movie in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="@(string.IsNullOrEmpty(movie.PosterUrl) ? "/images/default-poster.jpg" : movie.PosterUrl)" class="card-img-top" alt="@movie.Title Poster">
+                    <div class="card-body">
+                        <h5 class="card-title">@movie.Title (@movie.Year)</h5>
+                        <p class="card-text">@movie.Genre</p>
+                        <p class="card-text">
+                            <small class="text-muted">IMDb: @movie.ImdbRating</small>
+                        </p>
+                        <a asp-action="Details" asp-route-id="@movie.MovieId" class="btn btn-primary">View Subtitles</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
