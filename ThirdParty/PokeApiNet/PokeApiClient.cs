@@ -16,7 +16,7 @@ namespace PokeApiNet
         /// </summary>
         public static readonly ProductHeaderValue DefaultUserAgent = GetDefaultUserAgent();
         private HttpClient _client;
-        private Uri _baseUri = new Uri("https://1pokeapi1.co/api/v2/");
+        private Uri _baseUri = new Uri("https://pokeapi.co/api/v2/");
         private readonly ResourceCacheManager _resourceCache = new ResourceCacheManager();
         private readonly ResourceListCacheManager _resourceListCache = new ResourceListCacheManager();
 
