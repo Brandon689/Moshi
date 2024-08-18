@@ -186,14 +186,10 @@ namespace Moshi.SubtitlesSite.Services
             return _repository.GetSubtitlesWithMovieDetails(count, "ImdbRating");
         }
 
-
-
-
-        public IEnumerable<(string Username, int UploadCount, DateTime LatestUpload)> GetTopUploaders(int count)
+        public IEnumerable<UploaderStats> GetTopUploaders(int count)
         {
             return _repository.GetTopUploaders(count);
         }
-
 
         //public IEnumerable<(string MovieName, int RequestCount, DateTime LatestRequestDate)> GetMostRequestedSubtitles(int count)
         //{
@@ -204,7 +200,5 @@ namespace Moshi.SubtitlesSite.Services
         {
             return _repository.GetLatestComments(count);
         }
-
-
     }
 }

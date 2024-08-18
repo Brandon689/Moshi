@@ -171,5 +171,20 @@ public class DatabaseInitializer
                 Url TEXT NOT NULL,
                 FOREIGN KEY (MovieId) REFERENCES Movies(MovieId)
             )");
+        // SubtitleRequests table
+        connection.Execute(@"
+        CREATE TABLE IF NOT EXISTS SubtitleRequests (
+            RequestId INTEGER PRIMARY KEY AUTOINCREMENT,
+            MovieName TEXT NOT NULL,
+            Year INTEGER NOT NULL,
+            LatestSubtitleLanguage TEXT,
+            Rating REAL,
+            LatestUploadDate TEXT,
+            SubtitleCount INTEGER DEFAULT 0,
+            RequestDate TEXT NOT NULL,
+            UserId INTEGER NOT NULL,
+            Status TEXT NOT NULL DEFAULT 'Open',
+            FOREIGN KEY (UserId) REFERENCES Users(UserId)
+        )");
     }
 }

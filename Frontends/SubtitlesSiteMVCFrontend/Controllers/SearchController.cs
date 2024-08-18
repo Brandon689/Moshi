@@ -5,6 +5,7 @@ using Moshi.SubtitlesSite.Models;
 using Moshi.SubtitlesSite.Services;
 using SubtitlesSiteMVCFrontend.Views.ViewModels;
 
+[Route("search")]
 public class SearchController : Controller
 {
     private readonly MoviesService _moviesService;
@@ -18,7 +19,8 @@ public class SearchController : Controller
         _userService = userService;
     }
 
-    // GET: Movies/Search
+    [HttpGet("")]
+    [HttpGet("index")]
     public IActionResult Index(string query, char? letter)
     {
         IEnumerable<Movie> movies;
@@ -64,14 +66,8 @@ public class SearchController : Controller
         ViewBag.CurrentLetter = letter;
         return View(subtitleViewModels);
     }
-    // GET: Movies
-    //public IActionResult Index()
-    //{
-    //    var movies = _moviesService.GetAllMovies();
-    //    return View(movies);
-    //}
 
-    // GET: Movies/Create
+    [HttpGet("create")]
     public IActionResult Create()
     {
         return View();

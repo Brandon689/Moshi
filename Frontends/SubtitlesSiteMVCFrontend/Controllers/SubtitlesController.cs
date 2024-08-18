@@ -7,6 +7,7 @@ using SubtitlesSiteMVCFrontend.Views.ViewModels;
 using System;
 using System.Threading.Tasks;
 
+[Route("subtitles")]
 public class SubtitlesController : Controller
 {
     private readonly SubtitleService _subtitleService;
@@ -20,49 +21,13 @@ public class SubtitlesController : Controller
         _moviesService = moviesService;
     }
 
-    // GET: Subtitles/Upload
-    public IActionResult Upload()
-    {
-        ViewBag.Movies = _moviesService.GetAllMovies();
-        return View();
-    }
-
-    // POST: Subtitles/Upload
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Upload(SubtitleUpload model)
-    {
-        if (ModelState.IsValid)
-        {
-            try
-            {
-                var id = await _subtitleService.UploadSubtitle(model);
-                return RedirectToAction(nameof(Details), new { id });
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", "Error uploading subtitle: " + ex.Message);
-            }
-        }
-        ViewBag.Movies = _moviesService.GetAllMovies();
-        return View(model);
-    }
-
-    // GET: Subtitles/Details/5
-    //public IActionResult Details(int id)
-    //{
-    //    var subtitle = _subtitleService.GetSubtitleById(id);
-    //    if (subtitle == null)
-    //    {
-    //        return NotFound();
-    //    }
-    //    return View(subtitle);
-    //}
+    [HttpGet("Details/{id}")]
     public IActionResult Details(int id)
     {
         var movie = _moviesService.GetMovieById(id);
         if (movie == null)
         {
+            Console.WriteLine("dkddd");
             return NotFound();
         }
 
@@ -86,8 +51,27 @@ public class SubtitlesController : Controller
         return View(viewModel);
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Upload(SubtitleUpload model)
+    {
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                var id = await _subtitleService.UploadSubtitle(model);
+                return RedirectToAction(nameof(Details), new { id });
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Error uploading subtitle: " + ex.Message);
+            }
+        }
+        ViewBag.Movies = _moviesService.GetAllMovies();
+        return View(model);
+    }
 
-    // GET: Subtitles/Edit/5
+    [HttpGet("edit/{id}")]
     public IActionResult Edit(int id)
     {
         var subtitle = _subtitleService.GetSubtitleById(id);
@@ -98,7 +82,6 @@ public class SubtitlesController : Controller
         return View(subtitle);
     }
 
-    // POST: Subtitles/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Edit(int id, SubtitleUpdate model)
@@ -125,7 +108,6 @@ public class SubtitlesController : Controller
         return View(model);
     }
 
-    // POST: Subtitles/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public IActionResult DeleteConfirmed(int id)
@@ -149,7 +131,6 @@ public class SubtitlesController : Controller
         return RedirectToAction(nameof(Details), new { id });
     }
 
-    // GET: Subtitles/Download/5
     public IActionResult Download(int id)
     {
         try
@@ -167,7 +148,6 @@ public class SubtitlesController : Controller
         }
     }
 
-    // POST: Subtitles/Rate/5
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Rate(int id, SubtitleRating model)
@@ -194,7 +174,6 @@ public class SubtitlesController : Controller
         return RedirectToAction(nameof(Details), new { id });
     }
 
-    // GET: Subtitles/Search
     public IActionResult Search(string query, char? letter)
     {
         IEnumerable<Movie> movies;
@@ -215,93 +194,93 @@ public class SubtitlesController : Controller
         return View("Index", movies);
     }
 
-    // GET: Subtitles/TopRated
-    public IActionResult TopRated(int limit = 10)
-    {
-        var subtitles = _subtitleService.GetTopRatedSubtitles(limit);
-        return View(subtitles);
-    }
+    //// GET: Subtitles/TopRated
+    //public IActionResult TopRated(int limit = 10)
+    //{
+    //    var subtitles = _subtitleService.GetTopRatedSubtitles(limit);
+    //    return View(subtitles);
+    //}
 
-    // GET: Subtitles/Parse/5
-    public IActionResult Parse(int id)
-    {
-        try
-        {
-            var subtitle = _subtitleService.GetSubtitleById(id);
-            if (subtitle == null)
-            {
-                return NotFound("Subtitle not found.");
-            }
+    //// GET: Subtitles/Parse/5
+    //public IActionResult Parse(int id)
+    //{
+    //    try
+    //    {
+    //        var subtitle = _subtitleService.GetSubtitleById(id);
+    //        if (subtitle == null)
+    //        {
+    //            return NotFound("Subtitle not found.");
+    //        }
 
-            var (filePath, _, _) = _subtitleService.PrepareSubtitleDownload(id);
+    //        var (filePath, _, _) = _subtitleService.PrepareSubtitleDownload(id);
 
-            if (!System.IO.File.Exists(filePath))
-            {
-                return NotFound("Subtitle file not found.");
-            }
+    //        if (!System.IO.File.Exists(filePath))
+    //        {
+    //            return NotFound("Subtitle file not found.");
+    //        }
 
-            var jsonContent = _subtitleParserService.ParseSubtitleToJson(filePath);
+    //        var jsonContent = _subtitleParserService.ParseSubtitleToJson(filePath);
 
-            return Content(jsonContent, "application/json");
-        }
-        catch (KeyNotFoundException ex)
-        {
-            return NotFound(ex.Message);
-        }
-        catch (FileNotFoundException ex)
-        {
-            return NotFound(ex.Message);
-        }
-        catch (Exception ex)
-        {
-            // Log the exception here
-            return StatusCode(500, "An error occurred while parsing the subtitle.");
-        }
-    }
+    //        return Content(jsonContent, "application/json");
+    //    }
+    //    catch (KeyNotFoundException ex)
+    //    {
+    //        return NotFound(ex.Message);
+    //    }
+    //    catch (FileNotFoundException ex)
+    //    {
+    //        return NotFound(ex.Message);
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        // Log the exception here
+    //        return StatusCode(500, "An error occurred while parsing the subtitle.");
+    //    }
+    //}
 
-    // POST: Subtitles/AddComment/5
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult AddComment(int id, SubtitleComment model)
-    {
-        if (ModelState.IsValid)
-        {
-            try
-            {
-                model.SubtitleId = id;
-                var success = _subtitleService.AddComment(model);
-                if (success)
-                {
-                    return RedirectToAction(nameof(Details), new { id });
-                }
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound();
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", "Error adding comment: " + ex.Message);
-            }
-        }
-        return RedirectToAction(nameof(Details), new { id });
-    }
+    //// POST: Subtitles/AddComment/5
+    //[HttpPost]
+    //[ValidateAntiForgeryToken]
+    //public IActionResult AddComment(int id, SubtitleComment model)
+    //{
+    //    if (ModelState.IsValid)
+    //    {
+    //        try
+    //        {
+    //            model.SubtitleId = id;
+    //            var success = _subtitleService.AddComment(model);
+    //            if (success)
+    //            {
+    //                return RedirectToAction(nameof(Details), new { id });
+    //            }
+    //        }
+    //        catch (KeyNotFoundException)
+    //        {
+    //            return NotFound();
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            ModelState.AddModelError("", "Error adding comment: " + ex.Message);
+    //        }
+    //    }
+    //    return RedirectToAction(nameof(Details), new { id });
+    //}
 
-    // GET: Subtitles/GetComments/5
-    public IActionResult GetComments(int id)
-    {
-        try
-        {
-            var comments = _subtitleService.GetComments(id);
-            return PartialView("_Comments", comments);
-        }
-        catch (KeyNotFoundException)
-        {
-            return NotFound();
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, "An error occurred while retrieving comments.");
-        }
-    }
+    //// GET: Subtitles/GetComments/5
+    //public IActionResult GetComments(int id)
+    //{
+    //    try
+    //    {
+    //        var comments = _subtitleService.GetComments(id);
+    //        return PartialView("_Comments", comments);
+    //    }
+    //    catch (KeyNotFoundException)
+    //    {
+    //        return NotFound();
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        return StatusCode(500, "An error occurred while retrieving comments.");
+    //    }
+    //}
 }

@@ -1,10 +1,53 @@
 ﻿@model List<Moshi.SubtitlesSite.Models.SubtitleWithMovieDetails>
+@{
+    string GetLanguageCode(string language)
+    {
+        if (string.IsNullOrWhiteSpace(language))
+            return "unknown";
 
+        switch (language.Trim().ToLowerInvariant())
+        {
+            case "english": return "en";
+            case "spanish": case "español": return "es";
+            case "french": case "français": return "fr";
+            case "german": case "deutsch": return "de";
+            case "italian": case "italiano": return "it";
+            case "portuguese": case "português": return "pt";
+            case "dutch": case "nederlands": return "nl";
+            case "russian": case "русский": return "ru";
+            case "chinese": case "中文": return "zh";
+            case "japanese": case "日本語": return "ja";
+            case "korean": case "한국어": return "ko";
+            case "arabic": case "العربية": return "ar";
+            case "hindi": case "हिन्दी": return "hi";
+            case "bengali": case "বাংলা": return "bn";
+            case "polish": case "polski": return "pl";
+            case "turkish": case "türkçe": return "tr";
+            case "swedish": case "svenska": return "sv";
+            case "danish": case "dansk": return "da";
+            case "finnish": case "suomi": return "fi";
+            case "norwegian": case "norsk": return "no";
+            case "greek": case "ελληνικά": return "el";
+            case "czech": case "čeština": return "cs";
+            case "hungarian": case "magyar": return "hu";
+            case "romanian": case "română": return "ro";
+            case "thai": case "ไทย": return "th";
+            case "vietnamese": case "tiếng việt": return "vi";
+            case "indonesian": case "bahasa indonesia": return "id";
+            case "hebrew": case "עברית": return "he";
+            case "ukrainian": case "українська": return "uk";
+            case "malay": case "bahasa melayu": return "ms";
+            // Add more languages as needed
+            default: return "unknown";
+        }
+    }
+}
 <table class="table">
     <thead>
         <tr class="head">
             <th>Movie</th>
             <th>User</th>
+            <th></th>
             <th>
                 <img width="16" height="16" src="/img/saveicon.gif" title="Downloaded" alt="Downloaded">
                 </th>
@@ -19,8 +62,14 @@
             <tr class="tb-row">
                 <td class="cell-one">
                     <a href="Subtitles/Details/@item.SubtitleId">@item.MovieTitle</a>
-            </td>
+                </td>
                 <td>@item.Username</td>
+                <td>
+                    @{
+                        var languageCode = GetLanguageCode(item.Language);
+                    }
+                    <div class="flag @item.Language"></div>
+                </td>
                 <td class="cell-num">@item.Downloads</td>
                 <td class="cell-num">@item.ImdbRating</td>
             </tr>

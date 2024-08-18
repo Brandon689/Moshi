@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Moshi.SubtitlesSite.Models.SubtitleRequest>
+
+<table class="table">
+    <thead>
+        <tr class="head">
+            <th>Movie Name</th>
+            <th>Year</th>
+            <th>Rating</th>
+            <th>Latest Language</th>
+            <th>Latest Upload</th>
+            <th>Subtitle Count</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="tb-row">
+                <td class="cell-one">
+                    <a href="/request/detail/@item.Id">
+                        @item.MovieName
+                    </a>
+                </td>
+                <td class="cell-num">@item.Year</td>
+                <td class="cell-num">@item.Rating.ToString("F1")</td>
+                <td class="cell-one">@item.LatestSubtitleLanguage</td>
+                <td class="cell-num">@item.LatestUploadDate.ToString("yyyy-MM-dd")</td>
+                <td class="cell-num">@item.SubtitleCount</td>
+            </tr>
+        }
+    </tbody>
+</table>

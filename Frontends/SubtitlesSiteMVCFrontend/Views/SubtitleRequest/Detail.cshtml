@@ -1,0 +1,23 @@
+﻿@model Moshi.SubtitlesSite.Models.SubtitleRequest
+
+@{
+    ViewData["Title"] = "Subtitle Request Details";
+}
+
+<h2>Subtitle Request Details</h2>
+
+<div class="card">
+    <div class="card-body">
+        <h3 class="card-title">@Model.MovieName (@Model.Year)</h3>
+        <p class="card-text"><strong>ID:</strong> @Model.Id</p>
+        <p class="card-text"><strong>Rating:</strong> @Model.Rating.ToString("F1")</p>
+        <p class="card-text"><strong>Latest Upload Date:</strong> @Model.LatestUploadDate.ToShortDateString()</p>
+        <p class="card-text"><strong>Latest Subtitle Language:</strong> @Model.LatestSubtitleLanguage</p>
+        <p class="card-text"><strong>Subtitle Count:</strong> @Model.SubtitleCount</p>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Index" asp-controller="Home" class="btn btn-secondary">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+</div>

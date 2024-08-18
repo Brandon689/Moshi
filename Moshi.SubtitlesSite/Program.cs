@@ -8,14 +8,15 @@ builder.Services.AddScoped<SubtitleService>();
 builder.Services.AddScoped<SubtitleParserService>();
 builder.Services.AddScoped<MoviesService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<SubtitleRequestService>();
 builder.Services.AddScoped<SubtitleRepository>();
 builder.Services.AddScoped<MovieRepository>();
 builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<SubtitleRequestRepository>();
 builder.Services.AddSingleton<DatabaseInitializer>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())

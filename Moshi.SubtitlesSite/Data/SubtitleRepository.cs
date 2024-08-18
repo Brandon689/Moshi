@@ -96,7 +96,7 @@ public class SubtitleRepository
                 ORDER BY AverageRating DESC
                 LIMIT @Limit";
         return db.Query<Subtitle>(sql, new { Limit = limit });
-    } 
+    }
 
     public IEnumerable<SubtitleComment> GetSubtitleComments(int subtitleId)
     {
@@ -146,7 +146,7 @@ public class SubtitleRepository
         }
 
         var sql = $@"
-        SELECT s.SubtitleId, m.Title AS MovieTitle, u.Username, s.Downloads, m.ImdbRating
+        SELECT s.SubtitleId, m.Title AS MovieTitle, u.Username, s.Downloads, s.Language, m.ImdbRating
         FROM Subtitles s
         JOIN Movies m ON s.MovieId = m.MovieId
         JOIN Users u ON s.UserId = u.UserId
@@ -190,16 +190,16 @@ public class SubtitleRepository
             new { Count = count });
     }
 
-    public IEnumerable<(string Username, int UploadCount, DateTime LatestUpload)> GetTopUploaders(int count)
+    public IEnumerable<UploaderStats> GetTopUploaders(int count)
     {
         using var db = CreateConnection();
-        return db.Query<(string, int, DateTime)>(@"
-            SELECT u.Username, COUNT(s.SubtitleId) AS UploadCount, MAX(s.UploadDate) AS LatestUpload
-            FROM Users u
-            JOIN Subtitles s ON u.UserId = s.UserId
-            GROUP BY u.UserId
-            ORDER BY UploadCount DESC
-            LIMIT @Count",
+        return db.Query<UploaderStats>(@"
+        SELECT u.Username, u.UserId, COUNT(s.SubtitleId) AS UploadCount, MAX(s.UploadDate) AS LatestUpload
+        FROM Users u
+        JOIN Subtitles s ON u.UserId = s.UserId
+        GROUP BY u.UserId
+        ORDER BY UploadCount DESC
+        LIMIT @Count",
             new { Count = count });
     }
 

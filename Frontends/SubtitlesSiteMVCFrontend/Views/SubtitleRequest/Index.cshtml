@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Moshi.SubtitlesSite.Models.SubtitleRequest>
+
+@{
+    ViewData["Title"] = "Subtitle Requests";
+}
+
+<h2>Subtitle Requests</h2>
+
+<p>
+    <a asp-controller="SubtitleRequest" asp-action="Create">Create New Request</a>
+</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Movie Name</th>
+            <th>Year</th>
+            <th>Rating</th>
+            <th>Latest Upload Date</th>
+            <th>Latest Language</th>
+            <th>Subtitle Count</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.MovieName</td>
+                <td>@item.Year</td>
+                <td>@item.Rating.ToString("F1")</td>
+                <td>@item.LatestUploadDate.ToShortDateString()</td>
+                <td>@item.LatestSubtitleLanguage</td>
+                <td>@item.SubtitleCount</td>
+                <td>
+                    <a asp-controller="SubtitleRequest" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a asp-controller="SubtitleRequest" asp-action="Detail" asp-route-id="@item.Id">Detail</a>
+                    <a asp-controller="SubtitleRequest" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

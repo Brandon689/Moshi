@@ -34,8 +34,36 @@ public class SampleDataInserter
         InsertSubtitleRatings(connection, users);
         InsertSubtitleComments(connection, users);
         InsertUserBadges(connection, users);
-
+        InsertSubtitleRequests(connection, movies);
         Console.WriteLine("Sample data inserted successfully.");
+    }
+
+    private void InsertSubtitleRequests(SqliteConnection connection, List<Movie> movies)
+    {
+        var random = new Random();
+        var languages = new[] { "English", "Spanish", "French", "German", "Italian", "Dutch", "Polish" };
+
+        foreach (var movie in movies.Take(10))
+        {
+            var request = new SubtitleRequest
+            {
+                MovieName = movie.Title,
+                Year = movie.Year,
+                Rating = (float)Math.Round(random.NextDouble() * 5 + 5, 1),
+                LatestUploadDate = DateTime.UtcNow.AddDays(-random.Next(1, 30)),
+                RequestDate = DateTime.UtcNow.AddDays(-random.Next(1, 120)),
+                LatestSubtitleLanguage = languages[random.Next(languages.Length)],
+                SubtitleCount = random.Next(1, 10),
+                UserId = 1
+            };
+
+            connection.Execute(@"
+                INSERT INTO SubtitleRequests (MovieName, Year, Rating, LatestUploadDate, RequestDate, LatestSubtitleLanguage, SubtitleCount, UserId)
+                VALUES (@MovieName, @Year, @Rating, @LatestUploadDate, @RequestDate, @LatestSubtitleLanguage, @SubtitleCount, @UserId)",
+                request);
+        }
+
+        Console.WriteLine("Sample subtitle requests inserted.");
     }
 
     private List<User> InsertUsers(SqliteConnection connection)
@@ -92,21 +120,51 @@ public class SampleDataInserter
 
     private void InsertSubtitles(SqliteConnection connection, List<User> users, List<Movie> movies)
     {
-        var subtitles = new List<Subtitle>
+        var random = new Random();
+        var languages = new[] { "en", "es", "fr", "de", "it", "ja", "zh", "ru", "ar", "pt", "ko", "hi", "nl", "sv", "pl" };
+        var formats = new[] { "SRT", "SUB", "ASS", "VTT" };
+
+        var subtitles = new List<Subtitle>();
+
+        foreach (var movie in movies)
         {
-            new Subtitle { MovieId = movies[0].MovieId, UserId = users[0].UserId, Language = "English", Format = "SRT", ReleaseInfo = "Frozen.II.2019.720p.BluRay.x264-YOL0W", StorageFileName = "frozen_ii_en.srt", OriginalFileName = "Frozen.II.2019.720p.BluRay.x264-YOL0W.srt", UploadDate = DateTime.UtcNow, Downloads = 10, FPS = 23.976 },
-            new Subtitle { MovieId = movies[1].MovieId, UserId = users[1].UserId, Language = "Spanish", Format = "SRT", ReleaseInfo = "Inception.2010.1080p.BluRay.x264-SPARKS", StorageFileName = "inception_es.srt", OriginalFileName = "Inception.2010.1080p.BluRay.x264-SPARKS.srt", UploadDate = DateTime.UtcNow.AddDays(-5), Downloads = 25, FPS = 24 },
-            new Subtitle { MovieId = movies[2].MovieId, UserId = users[2].UserId, Language = "French", Format = "SUB", ReleaseInfo = "Pulp.Fiction.1994.Remastered.1080p.BluRay.x264-LEVERAGE", StorageFileName = "pulp_fiction_fr.sub", OriginalFileName = "Pulp.Fiction.1994.Remastered.1080p.BluRay.x264-LEVERAGE.sub", UploadDate = DateTime.UtcNow.AddDays(-10), Downloads = 15, FPS = 23.976 },
-        };
+            int subtitleCount = 1;
+            for (int i = 0; i < subtitleCount; i++)
+            {
+                var user = users[random.Next(users.Count)];
+                var language = languages[random.Next(languages.Length)];
+                var format = formats[random.Next(formats.Length)];
+                var fps = new[] { 23.976, 24, 25, 29.97, 30 }[random.Next(5)];
+                var resolution = new[] { "720p", "1080p", "2160p" }[random.Next(3)];
+                var source = new[] { "BluRay", "WEB-DL", "HDTV" }[random.Next(3)];
+                var group = new[] { "SPARKS", "RARBG", "YTS", "YIFY", "FGT", "ETRG" }[random.Next(6)];
+
+                subtitles.Add(new Subtitle
+                {
+                    MovieId = movie.MovieId,
+                    UserId = user.UserId,
+                    Language = language,
+                    Format = format,
+                    ReleaseInfo = $"{movie.Title.Replace(" ", ".")}.{movie.Year}.{resolution}.{source}.x264-{group}",
+                    StorageFileName = $"{movie.Title.ToLower().Replace(" ", "_")}_{language}.{format.ToLower()}",
+                    OriginalFileName = $"{movie.Title.Replace(" ", ".")}.{movie.Year}.{language}.{format}",
+                    UploadDate = DateTime.UtcNow.AddDays(-random.Next(365)), // Random date within the last year
+                    Downloads = random.Next(1000),
+                    FPS = fps
+                });
+            }
+        }
 
         foreach (var subtitle in subtitles)
         {
             subtitle.SubtitleId = connection.ExecuteScalar<int>(@"
-                INSERT INTO Subtitles (MovieId, UserId, Language, Format, ReleaseInfo, StorageFileName, OriginalFileName, UploadDate, Downloads, FPS)
-                VALUES (@MovieId, @UserId, @Language, @Format, @ReleaseInfo, @StorageFileName, @OriginalFileName, @UploadDate, @Downloads, @FPS);
-                SELECT last_insert_rowid();", subtitle);
+            INSERT INTO Subtitles (MovieId, UserId, Language, Format, ReleaseInfo, StorageFileName, OriginalFileName, UploadDate, Downloads, FPS)
+            VALUES (@MovieId, @UserId, @Language, @Format, @ReleaseInfo, @StorageFileName, @OriginalFileName, @UploadDate, @Downloads, @FPS);
+            SELECT last_insert_rowid();", subtitle);
         }
     }
+
+
 
     private void InsertAlternativeTitles(SqliteConnection connection, List<Movie> movies)
     {

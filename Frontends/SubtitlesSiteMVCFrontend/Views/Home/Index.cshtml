@@ -31,16 +31,34 @@
             </fieldset>
         </section>
         <section class="statistics">
-            <div class="most-downloaded">
                 <fieldset>
                     <legend class="legend">
                         <h2 class="home-grid-h">
-                            <a href="#">Weekly Most Downloaded</a>
+                        <a href="#">Top Uploaders</a>
                         </h2>
                     </legend>
-                    <partial name="_SubtitleList" model="Model.MostDownloaded" />
+                    <partial name="_UploaderList" model="Model.TopUploaders" />
                 </fieldset>
-            </div>
+        </section>
+        <section class="statistics">
+            <fieldset>
+                <legend class="legend">
+                    <h2 class="home-grid-h">
+                        <a href="#">Weekly Most Downloaded</a>
+                    </h2>
+                </legend>
+                <partial name="_SubtitleList" model="Model.MostDownloaded" />
+            </fieldset>
+        </section>
+        <section class="statistics">
+            <fieldset>
+                <legend class="legend">
+                    <h2 class="home-grid-h">
+                        <a href="#">Requested subtitles</a>
+                    </h2>
+                </legend>
+                <partial name="_RequestList" model="Model.RequestedSubtitles" />
+            </fieldset>
         </section>
     </main>
 </div>

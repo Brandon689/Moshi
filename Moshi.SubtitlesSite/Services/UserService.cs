@@ -1,7 +1,5 @@
 ﻿using Moshi.SubtitlesSite.Data;
 using Moshi.SubtitlesSite.Models;
-using System;
-using System.Collections.Generic;
 
 namespace Moshi.SubtitlesSite.Services;
 

@@ -7,14 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="schema.sql" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="schema.sql" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Dapper" Version="2.1.35" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />

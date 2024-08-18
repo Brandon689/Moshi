@@ -1,8 +1,8 @@
-﻿@model List<SubtitlesSiteMVCFrontend.Views.ViewModels.UploaderStats>
+﻿@model List<Moshi.SubtitlesSite.Models.UploaderStats>
 
 <table class="table">
     <thead>
-        <tr>
+        <tr class="head">
             <th>Username</th>
             <th>Upload Count</th>
             <th>Latest Upload</th>
@@ -11,10 +11,14 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@item.Username</td>
-                <td>@item.UploadCount</td>
-                <td>@item.LatestUpload.ToString("yyyy-MM-dd")</td>
+            <tr class="tb-row">
+                <td class="cell-one">
+                    <a href="/Profile/@item.UserId">
+                        @item.Username
+                    </a>
+                </td>
+                <td class="cell-num">@item.UploadCount</td>
+                <td class="cell-num">@item.LatestUpload.ToString("yyyy-MM-dd")</td>
             </tr>
         }
     </tbody>
