@@ -44,12 +44,11 @@
             {
                 <tr class="tb-row">
                     <td>
-                        <a href="Subtitles/Details/@item.SubtitleId">
+                        <a href="/Subtitles/Details/@item.SubtitleId">
                             <strong>@item.MovieTitle (@item.MovieYear)</strong>
                         </a>
                         <br/>
                         @item.SubtitleName<br/>
-                        @* <small>@item.ReleaseInfo</small><br/> *@
                         <a href="@item.WatchOnlineLink">Watch online</a> |
                         <a asp-action="Download" asp-route-id="@item.SubtitleId">Download</a> |
                         <a href="@item.SubtitleSearcherLink">Subtitles Searcher</a>

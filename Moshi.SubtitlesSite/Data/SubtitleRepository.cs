@@ -126,6 +126,20 @@ public class SubtitleRepository
         return rowsAffected > 0;
     }
 
+    public IEnumerable<SubtitleWithMovieDetails> GetSubtitlesWithDetailsByMovieId(int movieId, int count)
+    {
+        using var db = CreateConnection();
+        var sql = $@"
+        SELECT s.SubtitleId, m.Title AS MovieTitle, u.Username, s.Downloads, s.Language, m.ImdbRating
+        FROM Subtitles s
+        JOIN Movies m ON s.MovieId = m.MovieId
+        JOIN Users u ON s.UserId = u.UserId
+        WHERE s.MovieId = @MovieId
+        ORDER BY uploaddate DESC
+        LIMIT @Count";
+        return db.Query<SubtitleWithMovieDetails>(sql, new { MovieId = movieId, Count = count });
+    }
+
     public IEnumerable<SubtitleWithMovieDetails> GetSubtitlesWithMovieDetails(int count, string orderBy = "UploadDate")
     {
         using var db = CreateConnection();

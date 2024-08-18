@@ -71,6 +71,7 @@ table {
     display: inline;
 }
 body {
+    font-size: 14px;
     font: .7em Arial,sans-serif;
     font-size: 0.8em;
     line-height: normal;
@@ -148,4 +149,22 @@ td {
 }
 .it {
     background-position: -378px 0;
+}
+.movie-details {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 0 0 10px;
+    color: #454545;
+    background: #f4f4f4;
+    margin-top: 10px;
+}
+
+
+.sub-detail-title {
+    text-align: center;
+    font: 700 1em Arial,Sans-Serif;
+    color: #185da0;
+}
+.sub-detail-title a {
+    text-decoration: none;
 }

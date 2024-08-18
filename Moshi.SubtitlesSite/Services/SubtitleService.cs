@@ -120,6 +120,11 @@ namespace Moshi.SubtitlesSite.Services
             return _repository.RateSubtitle(subtitleId, userId, rating);
         }
 
+        public IEnumerable<SubtitleWithMovieDetails> GetSubtitlesWithDetailsByMovieId(int movieId, int count)
+        {
+            return _repository.GetSubtitlesWithDetailsByMovieId(movieId, count);
+        }
+
         public IEnumerable<Subtitle> GetSubtitlesByMovieId(int movieId)
         {
             return _repository.GetSubtitlesByMovieId(movieId);

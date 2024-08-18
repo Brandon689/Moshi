@@ -37,7 +37,6 @@
             case "hebrew": case "עברית": return "he";
             case "ukrainian": case "українська": return "uk";
             case "malay": case "bahasa melayu": return "ms";
-            // Add more languages as needed
             default: return "unknown";
         }
     }
@@ -65,9 +64,6 @@
                 </td>
                 <td>@item.Username</td>
                 <td>
-                    @{
-                        var languageCode = GetLanguageCode(item.Language);
-                    }
                     <div class="flag @item.Language"></div>
                 </td>
                 <td class="cell-num">@item.Downloads</td>

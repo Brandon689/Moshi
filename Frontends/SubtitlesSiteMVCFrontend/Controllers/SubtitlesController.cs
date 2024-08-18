@@ -38,11 +38,11 @@ public class SubtitlesController : Controller
             UserName = c.Username,
             CommentDate = c.CommentDate
         });
-
+  
         var viewModel = new MovieDetailsViewModel
         {
             Movie = movie,
-            Subtitles = _subtitleService.GetSubtitlesByMovieId(id),
+            Subtitles = _subtitleService.GetSubtitlesWithDetailsByMovieId(id, 20),
             AlternativeTitles = _moviesService.GetAlternativeTitles(id),
             MovieLinks = _moviesService.GetMovieLinks(id),
             Comments = commentViews
