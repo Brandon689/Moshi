@@ -20,6 +20,7 @@ namespace Moshi.Pokédex.Services
 
         private PokemonDto MapToPokemonDto(Pokemon pokemon)
         {
+            Console.WriteLine(pokemon.Abilities);
             return new PokemonDto
             {
                 Id = pokemon.Id,
