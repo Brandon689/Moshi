@@ -29,8 +29,17 @@ namespace Moshi.MyMusic.Controllers
         public async Task<ActionResult<IEnumerable<PodcastEpisode>>> GetPodcastEpisodes()
         {
             using var connection = CreateConnection();
-            var episodes = await connection.QueryAsync<PodcastEpisode>(
-                "SELECT * FROM podcast_episodes ORDER BY release_date DESC");
+            var episodes = await connection.QueryAsync<PodcastEpisode>(@"
+                SELECT 
+                    episode_id AS EpisodeId, 
+                    podcast_id AS PodcastId, 
+                    title AS Title, 
+                    description AS Description, 
+                    duration AS Duration, 
+                    release_date AS ReleaseDate, 
+                    audio_file_path AS AudioFilePath
+                FROM podcast_episodes 
+                ORDER BY release_date DESC");
             return Ok(episodes);
         }
 
@@ -39,8 +48,17 @@ namespace Moshi.MyMusic.Controllers
         public async Task<ActionResult<PodcastEpisode>> GetPodcastEpisode(int id)
         {
             using var connection = CreateConnection();
-            var episode = await connection.QuerySingleOrDefaultAsync<PodcastEpisode>(
-                "SELECT * FROM podcast_episodes WHERE episode_id = @Id", new { Id = id });
+            var episode = await connection.QuerySingleOrDefaultAsync<PodcastEpisode>(@"
+                SELECT 
+                    episode_id AS EpisodeId, 
+                    podcast_id AS PodcastId, 
+                    title AS Title, 
+                    description AS Description, 
+                    duration AS Duration, 
+                    release_date AS ReleaseDate, 
+                    audio_file_path AS AudioFilePath
+                FROM podcast_episodes 
+                WHERE episode_id = @Id", new { Id = id });
 
             if (episode == null)
             {
@@ -55,9 +73,10 @@ namespace Moshi.MyMusic.Controllers
         public async Task<ActionResult<PodcastEpisode>> CreatePodcastEpisode(PodcastEpisode episode)
         {
             using var connection = CreateConnection();
-            var sql = @"INSERT INTO podcast_episodes (podcast_id, title, description, duration, release_date, audio_file_path)
-                        VALUES (@PodcastId, @Title, @Description, @Duration, @ReleaseDate, @AudioFilePath);
-                        SELECT last_insert_rowid();";
+            var sql = @"
+                INSERT INTO podcast_episodes (podcast_id, title, description, duration, release_date, audio_file_path)
+                VALUES (@PodcastId, @Title, @Description, @Duration, @ReleaseDate, @AudioFilePath);
+                SELECT last_insert_rowid();";
 
             var id = await connection.ExecuteScalarAsync<int>(sql, episode);
             episode.EpisodeId = id;
@@ -75,10 +94,11 @@ namespace Moshi.MyMusic.Controllers
             }
 
             using var connection = CreateConnection();
-            var sql = @"UPDATE podcast_episodes 
-                        SET podcast_id = @PodcastId, title = @Title, description = @Description, 
-                            duration = @Duration, release_date = @ReleaseDate, audio_file_path = @AudioFilePath
-                        WHERE episode_id = @EpisodeId";
+            var sql = @"
+                UPDATE podcast_episodes 
+                SET podcast_id = @PodcastId, title = @Title, description = @Description, 
+                    duration = @Duration, release_date = @ReleaseDate, audio_file_path = @AudioFilePath
+                WHERE episode_id = @EpisodeId";
 
             var affected = await connection.ExecuteAsync(sql, episode);
 
@@ -111,9 +131,18 @@ namespace Moshi.MyMusic.Controllers
         public async Task<ActionResult<IEnumerable<PodcastEpisode>>> GetEpisodesByPodcast(int podcastId)
         {
             using var connection = CreateConnection();
-            var sql = @"SELECT * FROM podcast_episodes 
-                        WHERE podcast_id = @PodcastId 
-                        ORDER BY release_date DESC";
+            var sql = @"
+                SELECT 
+                    episode_id AS EpisodeId, 
+                    podcast_id AS PodcastId, 
+                    title AS Title, 
+                    description AS Description, 
+                    duration AS Duration, 
+                    release_date AS ReleaseDate, 
+                    audio_file_path AS AudioFilePath
+                FROM podcast_episodes 
+                WHERE podcast_id = @PodcastId 
+                ORDER BY release_date DESC";
 
             var episodes = await connection.QueryAsync<PodcastEpisode>(sql, new { PodcastId = podcastId });
 
@@ -125,11 +154,20 @@ namespace Moshi.MyMusic.Controllers
         public async Task<ActionResult<IEnumerable<dynamic>>> GetRecentEpisodes(int limit = 10)
         {
             using var connection = CreateConnection();
-            var sql = @"SELECT pe.*, p.title AS podcast_title
-                        FROM podcast_episodes pe
-                        JOIN podcasts p ON pe.podcast_id = p.podcast_id
-                        ORDER BY pe.release_date DESC
-                        LIMIT @Limit";
+            var sql = @"
+                SELECT 
+                    pe.episode_id AS EpisodeId, 
+                    pe.podcast_id AS PodcastId, 
+                    pe.title AS Title, 
+                    pe.description AS Description, 
+                    pe.duration AS Duration, 
+                    pe.release_date AS ReleaseDate, 
+                    pe.audio_file_path AS AudioFilePath,
+                    p.title AS PodcastTitle
+                FROM podcast_episodes pe
+                JOIN podcasts p ON pe.podcast_id = p.podcast_id
+                ORDER BY pe.release_date DESC
+                LIMIT @Limit";
 
             var recentEpisodes = await connection.QueryAsync(sql, new { Limit = limit });
 
@@ -141,11 +179,20 @@ namespace Moshi.MyMusic.Controllers
         public async Task<ActionResult<IEnumerable<dynamic>>> SearchPodcastEpisodes(string query)
         {
             using var connection = CreateConnection();
-            var sql = @"SELECT pe.*, p.title AS podcast_title
-                        FROM podcast_episodes pe
-                        JOIN podcasts p ON pe.podcast_id = p.podcast_id
-                        WHERE pe.title LIKE @Query OR pe.description LIKE @Query
-                        ORDER BY pe.release_date DESC";
+            var sql = @"
+                SELECT 
+                    pe.episode_id AS EpisodeId, 
+                    pe.podcast_id AS PodcastId, 
+                    pe.title AS Title, 
+                    pe.description AS Description, 
+                    pe.duration AS Duration, 
+                    pe.release_date AS ReleaseDate, 
+                    pe.audio_file_path AS AudioFilePath,
+                    p.title AS PodcastTitle
+                FROM podcast_episodes pe
+                JOIN podcasts p ON pe.podcast_id = p.podcast_id
+                WHERE pe.title LIKE @Query OR pe.description LIKE @Query
+                ORDER BY pe.release_date DESC";
 
             var episodes = await connection.QueryAsync(sql, new { Query = $"%{query}%" });
 
@@ -157,8 +204,9 @@ namespace Moshi.MyMusic.Controllers
         public async Task<IActionResult> RecordEpisodeListen(int id, [FromBody] int userId)
         {
             using var connection = CreateConnection();
-            var sql = @"INSERT INTO podcast_episode_listens (user_id, episode_id, listened_at)
-                        VALUES (@UserId, @EpisodeId, @ListenedAt)";
+            var sql = @"
+                INSERT INTO podcast_episode_listens (user_id, episode_id, listened_at)
+                VALUES (@UserId, @EpisodeId, @ListenedAt)";
 
             await connection.ExecuteAsync(sql, new { UserId = userId, EpisodeId = id, ListenedAt = DateTime.UtcNow });
 
@@ -170,13 +218,23 @@ namespace Moshi.MyMusic.Controllers
         public async Task<ActionResult<IEnumerable<dynamic>>> GetPopularEpisodes(int limit = 10)
         {
             using var connection = CreateConnection();
-            var sql = @"SELECT pe.*, p.title AS podcast_title, COUNT(pel.user_id) AS listen_count
-                        FROM podcast_episodes pe
-                        JOIN podcasts p ON pe.podcast_id = p.podcast_id
-                        LEFT JOIN podcast_episode_listens pel ON pe.episode_id = pel.episode_id
-                        GROUP BY pe.episode_id
-                        ORDER BY listen_count DESC
-                        LIMIT @Limit";
+            var sql = @"
+                SELECT 
+                    pe.episode_id AS EpisodeId, 
+                    pe.podcast_id AS PodcastId, 
+                    pe.title AS Title, 
+                    pe.description AS Description, 
+                    pe.duration AS Duration, 
+                    pe.release_date AS ReleaseDate, 
+                    pe.audio_file_path AS AudioFilePath,
+                    p.title AS PodcastTitle, 
+                    COUNT(pel.user_id) AS ListenCount
+                FROM podcast_episodes pe
+                JOIN podcasts p ON pe.podcast_id = p.podcast_id
+                LEFT JOIN podcast_episode_listens pel ON pe.episode_id = pel.episode_id
+                GROUP BY pe.episode_id
+                ORDER BY ListenCount DESC
+                LIMIT @Limit";
 
             var popularEpisodes = await connection.QueryAsync(sql, new { Limit = limit });
 

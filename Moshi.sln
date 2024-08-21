@@ -84,11 +84,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThirdParty", "ThirdParty", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.JobBoard", "Moshi.JobBoard\Moshi.JobBoard.csproj", "{8FBCB819-4EC2-49C4-95FE-44E2921FA0C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moshi.SubtitlesSite", "Moshi.SubtitlesSite\Moshi.SubtitlesSite.csproj", "{32391BA2-DC90-4977-AC1A-CF43C63E566C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moshi.SubtitlesSite", "Moshi.SubtitlesSite\Moshi.SubtitlesSite.csproj", "{32391BA2-DC90-4977-AC1A-CF43C63E566C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubtitlesSiteMVCFrontend", "Frontends\SubtitlesSiteMVCFrontend\SubtitlesSiteMVCFrontend.csproj", "{EBE09D6C-7B3C-49E7-B374-C8908CA93321}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SubtitlesSiteMVCFrontend", "Frontends\SubtitlesSiteMVCFrontend\SubtitlesSiteMVCFrontend.csproj", "{EBE09D6C-7B3C-49E7-B374-C8908CA93321}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "moshi.papertrading.react", "Frontends\moshi.papertrading.react\moshi.papertrading.react.esproj", "{4FEA1E16-8767-4212-8E3C-66C1646230D7}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "moshi.mymusic.react", "Frontends\moshi.mymusic.react\moshi.mymusic.react.esproj", "{0FEF7804-7FA6-4E16-A1AC-B281BFBF237E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moshi.LEGO_Catalog", "Moshi.LEGO_Catalog\Moshi.LEGO_Catalog.csproj", "{BECB5DFC-3500-431D-8764-4853D8FE3E61}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "moshi.lego_catalog.react", "Frontends\moshi.lego_catalog.react\moshi.lego_catalog.react.esproj", "{EB2AD750-2215-4209-A7BD-4A8F4C64565A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -254,6 +260,22 @@ Global
 		{4FEA1E16-8767-4212-8E3C-66C1646230D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FEA1E16-8767-4212-8E3C-66C1646230D7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4FEA1E16-8767-4212-8E3C-66C1646230D7}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{0FEF7804-7FA6-4E16-A1AC-B281BFBF237E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FEF7804-7FA6-4E16-A1AC-B281BFBF237E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FEF7804-7FA6-4E16-A1AC-B281BFBF237E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{0FEF7804-7FA6-4E16-A1AC-B281BFBF237E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FEF7804-7FA6-4E16-A1AC-B281BFBF237E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FEF7804-7FA6-4E16-A1AC-B281BFBF237E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{BECB5DFC-3500-431D-8764-4853D8FE3E61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BECB5DFC-3500-431D-8764-4853D8FE3E61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BECB5DFC-3500-431D-8764-4853D8FE3E61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BECB5DFC-3500-431D-8764-4853D8FE3E61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB2AD750-2215-4209-A7BD-4A8F4C64565A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB2AD750-2215-4209-A7BD-4A8F4C64565A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB2AD750-2215-4209-A7BD-4A8F4C64565A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{EB2AD750-2215-4209-A7BD-4A8F4C64565A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB2AD750-2215-4209-A7BD-4A8F4C64565A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB2AD750-2215-4209-A7BD-4A8F4C64565A}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -273,6 +295,8 @@ Global
 		{8BE903F9-ED10-45FD-B7D0-AA7BA572AD68} = {8C0FBFCB-09C0-4AB5-AE21-1E608305E4BF}
 		{EBE09D6C-7B3C-49E7-B374-C8908CA93321} = {9BE595FB-436E-43FF-90EF-669C21504FF3}
 		{4FEA1E16-8767-4212-8E3C-66C1646230D7} = {9BE595FB-436E-43FF-90EF-669C21504FF3}
+		{0FEF7804-7FA6-4E16-A1AC-B281BFBF237E} = {9BE595FB-436E-43FF-90EF-669C21504FF3}
+		{EB2AD750-2215-4209-A7BD-4A8F4C64565A} = {9BE595FB-436E-43FF-90EF-669C21504FF3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5931C01C-4D46-42FD-B0F8-3D2431823527}

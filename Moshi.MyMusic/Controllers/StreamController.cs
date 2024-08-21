@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Options;
 using Moshi.MyMusic.Data;
+using Moshi.MyMusic.Models;
 using System.Data;
 
 namespace Moshi.MyMusic.Controllers
@@ -109,16 +110,5 @@ namespace Moshi.MyMusic.Controllers
 
             return NoContent();
         }
-    }
-
-    public class ProgressUpdate
-    {
-        public int UserId { get; set; }
-        public int Progress { get; set; } // in seconds
-    }
-
-    public class AudioConfig
-    {
-        public string BasePath { get; set; }
     }
 }

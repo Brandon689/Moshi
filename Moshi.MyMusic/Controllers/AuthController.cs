@@ -116,24 +116,4 @@ namespace Moshi.MyMusic.Controllers
             return tokenHandler.WriteToken(token);
         }
     }
-
-    public class UserRegistration
-    {
-        public string Username { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public DateTime DateOfBirth { get; set; }
-        public string Country { get; set; }
-    }
-
-    public class UserLogin
-    {
-        public string Username { get; set; }
-        public string Password { get; set; }
-    }
-
-    public class JwtConfig
-    {
-        public string Secret { get; set; }
-    }
 }

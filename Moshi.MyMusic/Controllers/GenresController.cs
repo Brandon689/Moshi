@@ -29,7 +29,12 @@ namespace Moshi.MyMusic.Controllers
         public async Task<ActionResult<IEnumerable<Genre>>> GetGenres()
         {
             using var connection = CreateConnection();
-            var genres = await connection.QueryAsync<Genre>("SELECT * FROM genres ORDER BY name");
+            var genres = await connection.QueryAsync<Genre>(@"
+                SELECT 
+                    genre_id AS GenreId, 
+                    name AS Name 
+                FROM genres 
+                ORDER BY name");
             return Ok(genres);
         }
 
@@ -38,8 +43,12 @@ namespace Moshi.MyMusic.Controllers
         public async Task<ActionResult<Genre>> GetGenre(int id)
         {
             using var connection = CreateConnection();
-            var genre = await connection.QuerySingleOrDefaultAsync<Genre>(
-                "SELECT * FROM genres WHERE genre_id = @Id", new { Id = id });
+            var genre = await connection.QuerySingleOrDefaultAsync<Genre>(@"
+                SELECT 
+                    genre_id AS GenreId, 
+                    name AS Name 
+                FROM genres 
+                WHERE genre_id = @Id", new { Id = id });
 
             if (genre == null)
             {
@@ -54,8 +63,10 @@ namespace Moshi.MyMusic.Controllers
         public async Task<ActionResult<Genre>> CreateGenre(Genre genre)
         {
             using var connection = CreateConnection();
-            var sql = @"INSERT INTO genres (name) VALUES (@Name);
-                        SELECT last_insert_rowid();";
+            var sql = @"
+                INSERT INTO genres (name) 
+                VALUES (@Name);
+                SELECT last_insert_rowid();";
 
             var id = await connection.ExecuteScalarAsync<int>(sql, genre);
             genre.GenreId = id;
@@ -106,13 +117,21 @@ namespace Moshi.MyMusic.Controllers
         public async Task<ActionResult<IEnumerable<dynamic>>> GetSongsByGenre(int id)
         {
             using var connection = CreateConnection();
-            var sql = @"SELECT s.*, a.name AS artist_name
-                        FROM songs s
-                        JOIN song_genres sg ON s.song_id = sg.song_id
-                        JOIN song_artists sa ON s.song_id = sa.song_id
-                        JOIN artists a ON sa.artist_id = a.artist_id
-                        WHERE sg.genre_id = @GenreId
-                        ORDER BY s.title";
+            var sql = @"
+                SELECT 
+                    s.song_id AS SongId, 
+                    s.title AS Title, 
+                    s.duration AS Duration, 
+                    s.track_number AS TrackNumber, 
+                    s.explicit AS Explicit, 
+                    s.audio_file_path AS AudioFilePath,
+                    a.name AS ArtistName
+                FROM songs s
+                JOIN song_genres sg ON s.song_id = sg.song_id
+                JOIN song_artists sa ON s.song_id = sa.song_id
+                JOIN artists a ON sa.artist_id = a.artist_id
+                WHERE sg.genre_id = @GenreId
+                ORDER BY s.title";
 
             var songs = await connection.QueryAsync(sql, new { GenreId = id });
 
@@ -160,13 +179,17 @@ namespace Moshi.MyMusic.Controllers
         public async Task<ActionResult<IEnumerable<dynamic>>> GetPopularGenres(int limit = 10)
         {
             using var connection = CreateConnection();
-            var sql = @"SELECT g.*, COUNT(DISTINCT s.song_id) AS song_count
-                        FROM genres g
-                        JOIN song_genres sg ON g.genre_id = sg.genre_id
-                        JOIN songs s ON sg.song_id = s.song_id
-                        GROUP BY g.genre_id
-                        ORDER BY song_count DESC
-                        LIMIT @Limit";
+            var sql = @"
+                SELECT 
+                    g.genre_id AS GenreId, 
+                    g.name AS Name, 
+                    COUNT(DISTINCT s.song_id) AS SongCount
+                FROM genres g
+                JOIN song_genres sg ON g.genre_id = sg.genre_id
+                JOIN songs s ON sg.song_id = s.song_id
+                GROUP BY g.genre_id
+                ORDER BY SongCount DESC
+                LIMIT @Limit";
 
             var popularGenres = await connection.QueryAsync(sql, new { Limit = limit });
 

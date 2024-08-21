@@ -29,7 +29,16 @@ namespace Moshi.MyMusic.Controllers
         public async Task<ActionResult<IEnumerable<Playlist>>> GetPlaylists()
         {
             using var connection = CreateConnection();
-            var playlists = await connection.QueryAsync<Playlist>("SELECT * FROM playlists");
+            var playlists = await connection.QueryAsync<Playlist>(@"
+                SELECT 
+                    playlist_id AS PlaylistId, 
+                    name AS Name, 
+                    user_id AS UserId, 
+                    description AS Description, 
+                    is_public AS IsPublic, 
+                    created_at AS CreatedAt, 
+                    updated_at AS UpdatedAt 
+                FROM playlists");
             return Ok(playlists);
         }
 
@@ -38,8 +47,17 @@ namespace Moshi.MyMusic.Controllers
         public async Task<ActionResult<Playlist>> GetPlaylist(int id)
         {
             using var connection = CreateConnection();
-            var playlist = await connection.QuerySingleOrDefaultAsync<Playlist>(
-                "SELECT * FROM playlists WHERE playlist_id = @Id", new { Id = id });
+            var playlist = await connection.QuerySingleOrDefaultAsync<Playlist>(@"
+                SELECT 
+                    playlist_id AS PlaylistId, 
+                    name AS Name, 
+                    user_id AS UserId, 
+                    description AS Description, 
+                    is_public AS IsPublic, 
+                    created_at AS CreatedAt, 
+                    updated_at AS UpdatedAt 
+                FROM playlists 
+                WHERE playlist_id = @Id", new { Id = id });
 
             if (playlist == null)
             {
@@ -54,9 +72,10 @@ namespace Moshi.MyMusic.Controllers
         public async Task<ActionResult<Playlist>> CreatePlaylist(Playlist playlist)
         {
             using var connection = CreateConnection();
-            var sql = @"INSERT INTO playlists (name, user_id, description, is_public, created_at, updated_at)
-                        VALUES (@Name, @UserId, @Description, @IsPublic, @CreatedAt, @UpdatedAt);
-                        SELECT last_insert_rowid();";
+            var sql = @"
+                INSERT INTO playlists (name, user_id, description, is_public, created_at, updated_at)
+                VALUES (@Name, @UserId, @Description, @IsPublic, @CreatedAt, @UpdatedAt);
+                SELECT last_insert_rowid();";
 
             playlist.CreatedAt = DateTime.UtcNow;
             playlist.UpdatedAt = playlist.CreatedAt;
@@ -77,9 +96,10 @@ namespace Moshi.MyMusic.Controllers
             }
 
             using var connection = CreateConnection();
-            var sql = @"UPDATE playlists 
-                        SET name = @Name, description = @Description, is_public = @IsPublic, updated_at = @UpdatedAt
-                        WHERE playlist_id = @PlaylistId";
+            var sql = @"
+                UPDATE playlists 
+                SET name = @Name, description = @Description, is_public = @IsPublic, updated_at = @UpdatedAt
+                WHERE playlist_id = @PlaylistId";
 
             playlist.UpdatedAt = DateTime.UtcNow;
 
@@ -114,7 +134,18 @@ namespace Moshi.MyMusic.Controllers
         public async Task<ActionResult<IEnumerable<Playlist>>> GetUserPlaylists(int userId)
         {
             using var connection = CreateConnection();
-            var sql = "SELECT * FROM playlists WHERE user_id = @UserId ORDER BY created_at DESC";
+            var sql = @"
+                SELECT 
+                    playlist_id AS PlaylistId, 
+                    name AS Name, 
+                    user_id AS UserId, 
+                    description AS Description, 
+                    is_public AS IsPublic, 
+                    created_at AS CreatedAt, 
+                    updated_at AS UpdatedAt 
+                FROM playlists 
+                WHERE user_id = @UserId 
+                ORDER BY created_at DESC";
             var playlists = await connection.QueryAsync<Playlist>(sql, new { UserId = userId });
 
             return Ok(playlists);
@@ -125,8 +156,9 @@ namespace Moshi.MyMusic.Controllers
         public async Task<IActionResult> AddSongToPlaylist(int playlistId, [FromBody] int songId)
         {
             using var connection = CreateConnection();
-            var sql = @"INSERT INTO playlist_songs (playlist_id, song_id, position, added_at)
-                        VALUES (@PlaylistId, @SongId, (SELECT COALESCE(MAX(position), 0) + 1 FROM playlist_songs WHERE playlist_id = @PlaylistId), @AddedAt)";
+            var sql = @"
+                INSERT INTO playlist_songs (playlist_id, song_id, position, added_at)
+                VALUES (@PlaylistId, @SongId, (SELECT COALESCE(MAX(position), 0) + 1 FROM playlist_songs WHERE playlist_id = @PlaylistId), @AddedAt)";
 
             var affected = await connection.ExecuteAsync(sql, new { PlaylistId = playlistId, SongId = songId, AddedAt = DateTime.UtcNow });
 
@@ -159,11 +191,20 @@ namespace Moshi.MyMusic.Controllers
         public async Task<ActionResult<IEnumerable<dynamic>>> GetPlaylistSongs(int playlistId)
         {
             using var connection = CreateConnection();
-            var sql = @"SELECT s.*, ps.position, ps.added_at
-                        FROM playlist_songs ps
-                        JOIN songs s ON ps.song_id = s.song_id
-                        WHERE ps.playlist_id = @PlaylistId
-                        ORDER BY ps.position";
+            var sql = @"
+                SELECT 
+                    s.song_id AS SongId, 
+                    s.title AS Title, 
+                    s.duration AS Duration, 
+                    s.track_number AS TrackNumber, 
+                    s.explicit AS Explicit, 
+                    s.audio_file_path AS AudioFilePath,
+                    ps.position AS Position, 
+                    ps.added_at AS AddedAt
+                FROM playlist_songs ps
+                JOIN songs s ON ps.song_id = s.song_id
+                WHERE ps.playlist_id = @PlaylistId
+                ORDER BY ps.position";
 
             var songs = await connection.QueryAsync(sql, new { PlaylistId = playlistId });
 

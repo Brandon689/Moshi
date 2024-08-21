@@ -1,0 +1,6 @@
+@Moshi.LEGO_Catalog_HostAddress = http://localhost:5029
+
+GET {{Moshi.LEGO_Catalog_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

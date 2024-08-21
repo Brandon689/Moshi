@@ -29,7 +29,15 @@ public class ArtistsController : ControllerBase
     public async Task<ActionResult<IEnumerable<Artist>>> GetArtists()
     {
         using var connection = CreateConnection();
-        var artists = await connection.QueryAsync<Artist>("SELECT * FROM artists");
+        var artists = await connection.QueryAsync<Artist>(@"
+            SELECT 
+                artist_id AS ArtistId, 
+                name AS Name, 
+                bio AS Bio, 
+                country AS Country, 
+                formed_year AS FormedYear, 
+                website AS Website 
+            FROM artists");
         return Ok(artists);
     }
 
@@ -38,8 +46,16 @@ public class ArtistsController : ControllerBase
     public async Task<ActionResult<Artist>> GetArtist(int id)
     {
         using var connection = CreateConnection();
-        var artist = await connection.QuerySingleOrDefaultAsync<Artist>(
-            "SELECT * FROM artists WHERE artist_id = @Id", new { Id = id });
+        var artist = await connection.QuerySingleOrDefaultAsync<Artist>(@"
+            SELECT 
+                artist_id AS ArtistId, 
+                name AS Name, 
+                bio AS Bio, 
+                country AS Country, 
+                formed_year AS FormedYear, 
+                website AS Website 
+            FROM artists 
+            WHERE artist_id = @Id", new { Id = id });
 
         if (artist == null)
         {
@@ -54,9 +70,10 @@ public class ArtistsController : ControllerBase
     public async Task<ActionResult<Artist>> PostArtist(Artist artist)
     {
         using var connection = CreateConnection();
-        var sql = @"INSERT INTO artists (name, bio, country, formed_year, website)
-                        VALUES (@Name, @Bio, @Country, @FormedYear, @Website);
-                        SELECT last_insert_rowid();";
+        var sql = @"
+            INSERT INTO artists (name, bio, country, formed_year, website)
+            VALUES (@Name, @Bio, @Country, @FormedYear, @Website);
+            SELECT last_insert_rowid();";
 
         var id = await connection.ExecuteScalarAsync<int>(sql, artist);
         artist.ArtistId = id;
@@ -74,10 +91,11 @@ public class ArtistsController : ControllerBase
         }
 
         using var connection = CreateConnection();
-        var sql = @"UPDATE artists 
-                        SET name = @Name, bio = @Bio, country = @Country, 
-                            formed_year = @FormedYear, website = @Website
-                        WHERE artist_id = @ArtistId";
+        var sql = @"
+            UPDATE artists 
+            SET name = @Name, bio = @Bio, country = @Country, 
+                formed_year = @FormedYear, website = @Website
+            WHERE artist_id = @ArtistId";
 
         var affected = await connection.ExecuteAsync(sql, artist);
 
@@ -110,7 +128,16 @@ public class ArtistsController : ControllerBase
     public async Task<ActionResult<IEnumerable<Artist>>> SearchArtists(string name)
     {
         using var connection = CreateConnection();
-        var sql = "SELECT * FROM artists WHERE name LIKE @Name";
+        var sql = @"
+            SELECT 
+                artist_id AS ArtistId, 
+                name AS Name, 
+                bio AS Bio, 
+                country AS Country, 
+                formed_year AS FormedYear, 
+                website AS Website 
+            FROM artists 
+            WHERE name LIKE @Name";
         var artists = await connection.QueryAsync<Artist>(sql, new { Name = $"%{name}%" });
 
         return Ok(artists);

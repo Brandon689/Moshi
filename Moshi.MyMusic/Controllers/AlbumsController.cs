@@ -29,7 +29,15 @@ public class AlbumsController : ControllerBase
     public async Task<ActionResult<IEnumerable<Album>>> GetAlbums()
     {
         using var connection = CreateConnection();
-        var albums = await connection.QueryAsync<Album>("SELECT * FROM albums");
+        var albums = await connection.QueryAsync<Album>(@"
+        SELECT 
+            album_id AS AlbumId, 
+            title AS Title, 
+            artist_id AS ArtistId, 
+            release_date AS ReleaseDate, 
+            genre AS Genre, 
+            label AS Label 
+        FROM albums");
         return Ok(albums);
     }
 
@@ -38,8 +46,17 @@ public class AlbumsController : ControllerBase
     public async Task<ActionResult<Album>> GetAlbum(int id)
     {
         using var connection = CreateConnection();
-        var album = await connection.QuerySingleOrDefaultAsync<Album>(
-            "SELECT * FROM albums WHERE album_id = @Id", new { Id = id });
+        var album = await connection.QuerySingleOrDefaultAsync<Album>(@"
+        SELECT 
+            album_id AS AlbumId, 
+            title AS Title, 
+            artist_id AS ArtistId, 
+            release_date AS ReleaseDate, 
+            genre AS Genre, 
+            label AS Label 
+        FROM albums 
+        WHERE album_id = @Id",
+            new { Id = id });
 
         if (album == null)
         {

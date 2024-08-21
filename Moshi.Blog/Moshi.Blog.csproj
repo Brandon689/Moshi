@@ -7,11 +7,42 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Swagger.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Swagger.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Swagger.json">
+      <Generator>KiotaCodeGenerator</Generator>
+      <LastGenOutput>Swagger.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Identity" Version="1.11.4" />
     <PackageReference Include="Bogus" Version="35.6.0" />
     <PackageReference Include="Dapper" Version="2.1.35" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.7" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.7" />
+    <PackageReference Include="Microsoft.Kiota.Abstractions" Version="1.9.1" />
+    <PackageReference Include="Microsoft.Kiota.Authentication.Azure" Version="1.1.5" />
+    <PackageReference Include="Microsoft.Kiota.Http.HttpClientLibrary" Version="1.4.2" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Form" Version="1.2.3" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Json" Version="1.3.2" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Multipart" Version="1.1.5" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Text" Version="1.2.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Swagger.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Swagger.json</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>
