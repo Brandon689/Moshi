@@ -1,4 +1,10 @@
+using Moshi.LEGO_Catalog;
 using Moshi.LEGO_Catalog.Services;
+
+Shrek s = new Shrek();
+await s.Moon();
+
+Environment.Exit(0);
 
 var builder = WebApplication.CreateBuilder(args);
 

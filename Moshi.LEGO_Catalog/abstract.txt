@@ -1,0 +1,28 @@
+﻿LEGO Catalog API Overview:
+Base URL: https://localhost:7175
+
+Content Type: All requests and responses use application/json
+
+Endpoints:
+1. Categories: GET /api/catalog/categories, GET /api/catalog/categories/{categoryId}
+2. Colors: GET /api/catalog/colors, GET /api/catalog/colors/{colorId}
+3. ItemTypes: GET /api/catalog/itemtypes
+4. Parts: GET /api/catalog/parts, GET /api/catalog/parts/{partNumber}
+5. Sets: GET /api/catalog/sets, GET /api/catalog/sets/{setNumber}
+6. Minifigures: GET /api/catalog/minifigures, GET /api/catalog/minifigures/{minifigureNumber}
+7. Codes: GET /api/catalog/codes, GET /api/catalog/codes/{itemNo}/{color}
+
+Models:
+1. Category: CategoryID: string, CategoryName: string
+2. Color: ColorID: string, ColorName: string, RGB: string, Type: string, Parts: int?, InSets: int?, Wanted: int?, ForSale: int?, YearFrom: int?, YearTo: int?
+3. ItemType: ItemTypeID: string, ItemTypeName: string
+4. Code: ItemNo: string, Color: string, CodeValue: string
+5. ItemBase (abstract): CategoryID: string, CategoryName: string, Number: string, Name: string, Weight: string
+6. Book : ItemBase: YearReleased: string, Dimensions: string
+7. Catalog : ItemBase: YearReleased: string
+8. Gear : ItemBase: YearReleased: string, Dimensions: string
+9. Instructions : ItemBase: YearReleased: string, Dimensions: string
+10. Minifigure : ItemBase: YearReleased: string
+11. OriginalBox : ItemBase: YearReleased: string, Dimensions: string
+12. Part : ItemBase: AlternateItemNumber: string, Dimensions: string
+13. Set : ItemBase: YearReleased: string, Dimensions: string

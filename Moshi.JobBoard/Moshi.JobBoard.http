@@ -1,6 +1,0 @@
-@Moshi.JobBoard_HostAddress = http://localhost:5168
-
-GET {{Moshi.JobBoard_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

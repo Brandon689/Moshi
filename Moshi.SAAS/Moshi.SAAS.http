@@ -1,6 +1,0 @@
-@Moshi.SAAS_HostAddress = http://localhost:5189
-
-GET {{Moshi.SAAS_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

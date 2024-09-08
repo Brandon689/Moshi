@@ -1,6 +1,0 @@
-@Moshi.ThirdPartyMarketplace_HostAddress = http://localhost:5287
-
-GET {{Moshi.ThirdPartyMarketplace_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

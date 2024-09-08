@@ -7,21 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Swagger.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Swagger.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Swagger.json">
-      <Generator>KiotaCodeGenerator</Generator>
-      <LastGenOutput>Swagger.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Azure.Identity" Version="1.11.4" />
     <PackageReference Include="Bogus" Version="35.6.0" />
     <PackageReference Include="Dapper" Version="2.1.35" />

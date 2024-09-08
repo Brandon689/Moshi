@@ -1,6 +1,0 @@
-@Moshi.Blog_HostAddress = http://localhost:5180
-
-###GET {{Moshi.Blog_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

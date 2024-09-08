@@ -17,9 +17,9 @@ namespace Moshi.LEGO_Catalog.Controllers
 
         // Categories
         [HttpGet("categories")]
-        public async Task<IActionResult> GetAllCategories()
+        public async Task<IActionResult> GetAllCategories([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            var categories = await _catalogService.GetAllCategoriesAsync();
+            var categories = await _catalogService.GetAllCategoriesAsync(page, pageSize);
             return Ok(categories);
         }
 
@@ -34,9 +34,9 @@ namespace Moshi.LEGO_Catalog.Controllers
 
         // Colors
         [HttpGet("colors")]
-        public async Task<IActionResult> GetAllColors()
+        public async Task<IActionResult> GetAllColors([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            var colors = await _catalogService.GetAllColorsAsync();
+            var colors = await _catalogService.GetAllColorsAsync(page, pageSize);
             return Ok(colors);
         }
 
@@ -51,17 +51,17 @@ namespace Moshi.LEGO_Catalog.Controllers
 
         // ItemTypes
         [HttpGet("itemtypes")]
-        public async Task<IActionResult> GetAllItemTypes()
+        public async Task<IActionResult> GetAllItemTypes([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            var itemTypes = await _catalogService.GetAllItemTypesAsync();
+            var itemTypes = await _catalogService.GetAllItemTypesAsync(page, pageSize);
             return Ok(itemTypes);
         }
 
         // Parts
         [HttpGet("parts")]
-        public async Task<IActionResult> GetAllParts()
+        public async Task<IActionResult> GetAllParts([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            var parts = await _catalogService.GetAllPartsAsync();
+            var parts = await _catalogService.GetAllPartsAsync(page, pageSize);
             return Ok(parts);
         }
 
@@ -76,9 +76,9 @@ namespace Moshi.LEGO_Catalog.Controllers
 
         // Sets
         [HttpGet("sets")]
-        public async Task<IActionResult> GetAllSets()
+        public async Task<IActionResult> GetAllSets([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            var sets = await _catalogService.GetAllSetsAsync();
+            var sets = await _catalogService.GetAllSetsAsync(page, pageSize);
             return Ok(sets);
         }
 
@@ -93,9 +93,9 @@ namespace Moshi.LEGO_Catalog.Controllers
 
         // Minifigures
         [HttpGet("minifigures")]
-        public async Task<IActionResult> GetAllMinifigures()
+        public async Task<IActionResult> GetAllMinifigures([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            var minifigures = await _catalogService.GetAllMinifiguresAsync();
+            var minifigures = await _catalogService.GetAllMinifiguresAsync(page, pageSize);
             return Ok(minifigures);
         }
 
@@ -110,9 +110,9 @@ namespace Moshi.LEGO_Catalog.Controllers
 
         // Codes
         [HttpGet("codes")]
-        public async Task<IActionResult> GetAllCodes()
+        public async Task<IActionResult> GetAllCodes([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            var codes = await _catalogService.GetAllCodesAsync();
+            var codes = await _catalogService.GetAllCodesAsync(page, pageSize);
             return Ok(codes);
         }
 

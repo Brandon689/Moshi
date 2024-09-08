@@ -5,14 +5,12 @@ using Moshi.Blog.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Moshi Blog API", Version = "v1" });
 });
 
-// Add CORS services
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", builder =>
@@ -23,10 +21,8 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Configure SQLite
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=blog.db";
 
-// Register services
 builder.Services.AddSingleton<DatabaseInitializer>(sp => new DatabaseInitializer(connectionString));
 builder.Services.AddSingleton<UserRepository>(sp => new UserRepository(connectionString));
 builder.Services.AddSingleton<PostRepository>(sp => new PostRepository(connectionString));
@@ -40,7 +36,6 @@ builder.Services.AddScoped<CommentService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -60,10 +55,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// Use the CORS policy
 app.UseCors("AllowAll");
-
-// Map API endpoints
 app.MapUserEndpoints();
 app.MapPostEndpoints();
 app.MapCommentEndpoints();

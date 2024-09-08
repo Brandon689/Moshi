@@ -1,6 +1,0 @@
-@Moshi.QandA_HostAddress = http://localhost:5163
-
-GET {{Moshi.QandA_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

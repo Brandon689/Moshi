@@ -1,6 +1,0 @@
-@Moshi.BookingSystem_HostAddress = http://localhost:5033
-
-GET {{Moshi.BookingSystem_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
